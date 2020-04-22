@@ -792,7 +792,7 @@ h6 {
 }
 
 .card-body {
-    padding: 2rem
+    padding: 2rem;
 }
 
 .card-title {
@@ -2142,7 +2142,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     position: relative
 }
 
-.product-card__features-list li:before {
+. li:before {
     content: "";
     display: block;
     position: absolute;
@@ -2228,7 +2228,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     bottom: 18px
 }
 
-.product-card--layout--horizontal .product-card__features-list {
+.product-card--layout--horizontal . {
     display: none
 }
 
@@ -2244,7 +2244,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     padding: 0 24px 24px
 }
 
-.product-card--layout--grid .product-card__availability, .product-card--layout--grid .product-card__description, .product-card--layout--grid .product-card__features-list {
+.product-card--layout--grid .product-card__availability, .product-card--layout--grid .product-card__description, .product-card--layout--grid . {
     display: none
 }
 
@@ -6522,7 +6522,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 }
 
 .products-list[data-layout^=grid-] .product-card .product-card__availability, .products-list[data-layout^=grid-] .product-card .product-card__description, .products-list[data-layout^=grid-] .product-card .product-card__features-list {
-    display: none
+    display: block
 }
 
 .products-list[data-layout^=grid-][data-with-features=true] .product-card .product-card__features-list {

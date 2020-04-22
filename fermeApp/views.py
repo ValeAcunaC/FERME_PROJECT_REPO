@@ -8,10 +8,12 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from .models import Usuario, AuthUser
+from .models import *
 
 def index(request):
-    return render(request,'index.html')
+    productos = Producto.objects.all()
+    subcategorias = Subcategoria.objects.all()
+    return render(request,'index.html', {'productos': productos, 'subcategorias': subcategorias})
 
 def loginPage(request):
     if request.user.is_authenticated:
@@ -81,3 +83,6 @@ def perfil(request, pk):
 
     context= {'user':user, 'usuario':usuario}
     return render(request, 'perfil.html',context)
+
+
+

@@ -115,39 +115,16 @@
                                         <div class="filter__container">
                                             <div class="filter-categories">
                                                 <ul class="filter-categories__list">
-                                                    <li class="filter-categories__item filter-categories__item--parent">
-                                                        <a href="#">Materiales de Construcción</a>
+                                                    {% for subcategoria in subcategorias %}
+                                                    <li class="filter-categories__item filter-categories__item--current">
+                                                        <a href="#"> {{ subcategoria.idcategoria }} </a>
                                                         <div class="filter-categories__counter">254</div>
                                                     </li>
-                                                    <li class="filter-categories__item filter-categories__item--parent">
-                                                        <a href="#">Maquinarias y Herramientas</a>
-                                                        <div class="filter-categories__counter">75</div>
-                                                    </li>
-                                                    <!-- tiene clase para destacar la categoria escogida-->
-                                                    <li class="filter-categories__item filter-categories__item--current">
-                                                        <a href="#">Fijaciones y Adhesivos</a>
-                                                        <div class="filter-categories__counter">21</div>
-                                                    </li>
                                                     <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">Seguridad</a>
-                                                        <div class="filter-categories__counter">15</div>
-                                                    </li>
-                                                    <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">Gasfiteria</a>
-                                                        <div class="filter-categories__counter">2</div>
-                                                    </li>
-                                                    <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">Maderas y Tableros</a>
-                                                        <div class="filter-categories__counter">30</div>
-                                                    </li>
-                                                    <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">Electricidad</a>
+                                                        <a href="#">{{ subcategoria.nombresubcategoria }}</a>
                                                         <div class="filter-categories__counter">7</div>
                                                     </li>
-                                                    <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">Techos y Aislantes</a>
-                                                        <div class="filter-categories__counter">5</div>
-                                                    </li>
+                                                {% endfor %}
                                                 </ul>
                                             </div>
                                         </div>
@@ -185,6 +162,7 @@
                                         <div class="filter__container">
                                             <div class="filter-list">
                                                 <div class="filter-list__list">
+                                                {% for producto in productos %}
                                                     <label class="filter-list__item">
                                                         <span class="filter-list__input input-check">
                                                             <span class="input-check__body">
@@ -192,9 +170,9 @@
                                                                 <span class="input-check__box"></span>
                                                             </span>
                                                         </span>
-                                                        <span class="filter-list__title">Wakita </span>
-                                                        <span class="filter-list__counter">7</span>
+                                                        <span class="filter-list__title"> {{ producto.marca }} </span>
                                                     </label>
+                                                    {% endfor %}
                                                     <label class="filter-list__item">
                                                         <span class="filter-list__input input-check">
                                                             <span class="input-check__body">
@@ -309,18 +287,15 @@
                             </div>
                         </div>
                     </div>
+
+
+                    
                     <div class="products-view__list products-list" data-layout="grid-3-sidebar"
                         data-with-features="false">
                         <div class="products-list__body">
+                        {% for i in productos %}
                             <div class="products-list__item">
                                 <div class="product-card">
-                                    <button class="product-card__quickview" type="button">
-                                        <img class="indicator__icon" width="20px" height="20px" src="{% static 'images/logos/view.png' %}">
-                                        <span class="fake-svg-icon"></span>
-                                    </button>
-                                    <div class="product-card__badges-list">
-                                        <div class="product-card__badge product-card__badge--new">Nuevo</div>
-                                    </div>
                                     <div class="product-card__image">
                                         <a href="producto.html">
                                             <img src="{% static 'images/products/product-1.jpg' %}" alt="">
@@ -328,22 +303,23 @@
                                     </div>
                                     <div class="product-card__info">
                                         <div class="product-card__name">
-                                            <a href="producto.html">Electric Planer Brandix KL370090G 300 Watts</a>
+                                            <a href="producto.html"> {{i.nombreproducto}} {{i.marca}}  </a>
                                         </div>
                                         <ul class="product-card__features-list">
-                                            <li>Speed: 750 RPM</li>
-                                            <li>Power Source: Cordless-Electric</li>
-                                            <li>Battery Cell Type: Lithium</li>
-                                            <li>Voltage: 20 Volts</li>
-                                            <li>Battery Capacity: 2 Ah</li>
+                                            <li>Marca: {{i.marca}} </li>
+                                            <li>Categoria: {{i.idsubcategoria}} </li>
                                         </ul>
                                     </div>
                                     <div class="product-card__actions">
-                                        <div class="product-card__availability">
+                                        <div>
                                             Disponibilidad: 
-                                            <span class="text-success">En Stock</span>
+                                            {% if i.stock > i.stockcritico %}
+                                                <span class="text-success">En Stock</span>
+                                            {% else %}
+                                                <span class="text-success">Sin Stock</span>
+                                            {% endif %}
                                         </div>
-                                        <div class="product-card__prices">$749.00</div>
+                                        <div class="product-card__prices"> $ {{i.precio}} </div>
                                         <div class="product-card__buttons">
                                             <button class="btn btn-primary product-card__addtocart" type="button">
                                                 Añadir al Carrito
@@ -356,10 +332,13 @@
                                     </div>
                                 </div>
                             </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                            <!--
                             <div class="products-list__item">
                                 <div class="product-card">
                                     <button class="product-card__quickview" type="button">
-                                        <!--agregar-->
                                         <img class="indicator__icon" width="20px" height="20px" src="{% static 'images/logos/view.png' %">
                                         <span class="fake-svg-icon"></span>
                                     </button>
@@ -623,14 +602,19 @@
                                 </div>
                             </div>
                             <div class="products-list__item">
-                                <div class="product-card"><button class="product-card__quickview"
-                                        type="button"><img class="indicator__icon" width="20px" height="20px" src="{% static 'images/logos/view.png' %}">
-                                        <span class="fake-svg-icon"></span></button>
-                                    <div class="product-card__image"><a href="producto.html"><img
-                                                src="{% static 'images/products/product-12.jpg' %}" alt=""></a></div>
+                                <div class="product-card">
+                                    <button class="product-card__quickview" type="button">
+                                        <img class="indicator__icon" width="20px" height="20px" src="{% static 'images/logos/view.png' %}">
+                                        <span class="fake-svg-icon"></span>
+                                    </button>
+                                    <div class="product-card__image">
+                                        <a href="producto.html">
+                                        <img src="{% static 'images/products/product-12.jpg' %}" alt=""></a>
+                                    </div>
                                     <div class="product-card__info">
-                                        <div class="product-card__name"><a href="producto.html">Ash's
-                                                Chainsaw 3.5kW</a></div>
+                                        <div class="product-card__name">
+                                            <a href="producto.html">Ash's Chainsaw 3.5kW</a>
+                                        </div>
                                         <ul class="product-card__features-list">
                                             <li>Speed: 750 RPM</li>
                                             <li>Power Source: Cordless-Electric</li>
@@ -680,6 +664,7 @@
                             </li>
                         </ul>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
