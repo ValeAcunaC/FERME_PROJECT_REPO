@@ -39,7 +39,7 @@
                         <form method="POST" name="datos" autocomplete="false">
                             {% csrf_token %}
                             <div class="form-group">
-                                {{form.username.label}}
+                                <label>Email</label> 
                                 <div>
                                     {{form.username}}
                                 </div>
@@ -47,7 +47,7 @@
                                 <input type="email" class="form-control" placeholder="Ingrese Email"> {% endcomment %}
                             </div>
                             <div class="form-group">
-                                {{form.password1.label}}
+                                <label>Contraseña</label> 
                                 <div>
                                     {{form.password1}}
                                 </div>
@@ -55,7 +55,7 @@
                                 <input type="password" class="form-control" placeholder="Ingrese Contraseña"> {% endcomment %}
                             </div>
                             <div class="form-group mb-2">
-                                {{form.password2.label}}
+                                <label>Confirmar Contraseña</label> 
                                 <div>
                                     {{form.password2}}
                                 </div>
@@ -69,7 +69,9 @@
                             <div>
                             <button type="submit" class="btn btn-primary mt-4">Registrarse</button>
 
-                            {{form.errors}}
+                            <div class="form-group">
+                                {{form.errors}}
+                            </div>
                         </form>
                     </div>
                 </div>

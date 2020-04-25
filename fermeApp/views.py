@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UsuarioForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -65,9 +65,9 @@ def registerPage(request):
             usuario = Usuario(correo=u.email,user=au)
             usuario.save()
             
-            messages.success(request, 'Cuenta creada con exito para: ' +username)
+            messages.success(request, 'Cuenta creada con exito para: ' +username+', ahora solo falta que llenes tu información personal')
             login(request, u)
-            return redirect('login')
+            return redirect('perfil/'+str(u.id))
 
     context = {'form':form}
     return render(request,'register.html',context)
@@ -79,10 +79,22 @@ def perfil(request, pk):
     if u != pk:
         return redirect('index')
 
-    usuario = Usuario.objects.get(user=user.id)
+    usuario = Usuario.objects.get(user_id=u)
 
-    context= {'user':user, 'usuario':usuario}
+    form = UsuarioForm(instance=usuario)
+    context= {'form':form}
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+
+    
     return render(request, 'perfil.html',context)
 
+def producto(request):
+    # rubro = Rubro.objects.get(idrubro=3)
+    # newProveedor = Proveedor(rutproveedor='7-8',nombreproveedor='proveedor3',telefono=123456789,correo='proveedor3@correo.cl',idrubro=rubro)
+    # newProveedor.save()
+    return render(request,'producto.html')
 
 
