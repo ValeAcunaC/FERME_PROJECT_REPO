@@ -82,13 +82,14 @@ def perfil(request, pk):
     usuario = Usuario.objects.get(user_id=u)
 
     form = UsuarioForm(instance=usuario)
-    context= {'form':form}
+    #context= {'form':form}
     if request.method == 'POST':
         form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
 
     
+    context= {'form':form}        
     return render(request, 'perfil.html',context)
 
 def producto(request):
