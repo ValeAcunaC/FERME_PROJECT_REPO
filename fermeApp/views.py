@@ -81,7 +81,7 @@ def perfil(request, pk):
 
     usuario = Usuario.objects.get(user_id=u)
 
-    form = UsuarioForm(instance=usuario)
+    form = UsuarioForm(instance=user)
     #context= {'form':form}
     if request.method == 'POST':
         form = UsuarioForm(request.POST, instance=usuario)
@@ -98,4 +98,38 @@ def producto(request):
     # newProveedor.save()
     return render(request,'producto.html')
 
+def contacto(request):
+    return render(request,'contacto.html')
 
+def faq(request):
+    return render(request,'faq.html')
+
+def terminosycondiciones(request):
+    return render(request,'terminos-y-condiciones.html')
+
+def nosotros(request):
+    return render(request,'nosotros.html')
+
+def miscompras(request):
+    return render(request,'miscompras.html')
+
+def productos(request):
+    productos = Producto.objects.all()
+    subcategorias = Subcategoria.objects.all()
+    return render(request,'mantenedores/mant-productos.html', {'productos': productos, 'subcategorias': subcategorias})
+
+def categorias(request):
+    categorias = Categoria.objects.all()
+    return render(request,'mantenedores/mant-categorias.html', {'categorias': categorias})
+
+def subcategorias(request):
+    subcategorias = Subcategoria.objects.all()
+    return render(request,'mantenedores/mant-subcategorias.html', {'subcategorias': subcategorias})
+
+def proveedores(request):
+    proveedores = Proveedor.objects.all()
+    return render(request,'mantenedores/mant-proveedores.html', {'proveedores': proveedores})
+
+def ordenes(request):
+    ordenes = Ordencompra.objects.all()
+    return render(request,'mantenedores/mant-ordenes.html', {'ordenes': ordenes})

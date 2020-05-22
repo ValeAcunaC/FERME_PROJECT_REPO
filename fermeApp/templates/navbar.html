@@ -16,55 +16,66 @@
                                     </a>
                                 </li>
                                 {% for group in request.user.groups.all %}
-                                    {% if group.name == 'persona' or group.name == 'empresa' or group.name == 'vendedor'%}
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="shop-grid-3-columns-sidebar.html">
-                                                        <span>Mis Compras</span>
-                                                    </a>
-                                                </li>
+                                    {% if group.name == 'persona' or group.name == 'empresa' %}
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="shop-grid-3-columns-sidebar.html">
+                                                <span>Mis Compras</span>
+                                            </a>
+                                        </li>
                                     {% elif group.name == 'administrador' %}
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="#">
-                                                        <span>Dashboard</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="#">
-                                                        <span>Ordenes de compra</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="#">
-                                                        <span> Mantenedores </span>
-                                                    </a>
-                                                    submenu
-                                                    <div class="nav-links__menu">
-                                                        <ul class="menu menu--layout--classic">
-                                                            <li><a href="#">Usuarios</a></li>
-                                                            <li><a href="#">Productos</a></li>
-                                                            <li><a href="#">Categorias</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="#">
+                                                <span>Dashboard</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="#">
+                                                <span>Ventas</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="#">
+                                                <span>Ordenes de compra</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="#">
+                                                <span> Mantenedores </span>
+                                            </a>
+                                            submenu
+                                            <div class="nav-links__menu">
+                                                <ul class="menu menu--layout--classic">
+                                                    <li><a href="#">Usuarios</a></li>
+                                                    <li><a href="#">Productos</a></li>
+                                                    <li><a href="#">Categorias</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
                                     {% elif group.name == 'vendedor' %}
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="shop-grid-3-columns-sidebar.html">
-                                                        <span>Ordenes de Compra</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-links__item nav-links__item--with-submenu">
-                                                    <a href="#">
-                                                        <span> Mantenedores </span>
-                                                    </a>
-                                                    submenu
-                                                    <div class="nav-links__menu">
-                                                        <ul class="menu menu--layout--classic">
-                                                            <li><a href="#">Usuarios</a></li>
-                                                            <li><a href="#">Productos</a></li>
-                                                            <li><a href="#">Categorias</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="shop-grid-3-columns-sidebar.html">
+                                                <span>Ventas</span>
+                                            </a>
+                                        </li>
+                                    {% elif group.name == 'empleado' %}
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="shop-grid-3-columns-sidebar.html">
+                                                <span>Ordenes de Compra</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-links__item nav-links__item--with-submenu">
+                                            <a href="#">
+                                                <span> Mantenedores </span>
+                                            </a>
+                                            submenu
+                                            <div class="nav-links__menu">
+                                                <ul class="menu menu--layout--classic">
+                                                    <li><a href="#">Usuarios</a></li>
+                                                    <li><a href="#">Productos</a></li>
+                                                    <li><a href="#">Categorias</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
                                     {% endif %}  
                                 {% endfor %}
                             </ul>

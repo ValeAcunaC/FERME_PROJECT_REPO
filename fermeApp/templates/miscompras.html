@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Mis Compras</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">N°</th>
+                    <th class="wishlist__column wishlist__column--product">Fecha</th>
+                    <th class="wishlist__column wishlist__column--product">Cantidad</th>
+                    <th class="wishlist__column wishlist__column--product">Total</th>
+                    <th class="wishlist__column wishlist__column--stock">Estado</th>
+                    <th class="wishlist__column wishlist__column--tocart">Ver Detalle</th>
+                    <th class="wishlist__column wishlist__column--remove"></th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="#" class="wishlist__product-name">999</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="wishlist__product-name">01/01/1900</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">99</td>
+                    <td class="wishlist__column wishlist__column--product">$999.999</td>
+                    <td class="wishlist__column wishlist__column--stock">
+                        <div class="badge badge-success">Estado</div>
+                    </td>
+                    <td class="wishlist__column wishlist__column--tocart">
+                        <button type="button" class="btn btn-primary btn-sm">Ver Detalle</button>
+                    </td>
+                    <td class="wishlist__column wishlist__column--remove">
+                        <button type="button" class="btn btn-light btn-sm btn-svg-icon">
+                            <img width="12px" height="12px" src="{% static 'images/logos/remove.png' %}">
+                        </button>
+                    </td>
+                </tr>
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="#" class="wishlist__product-name">999</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="wishlist__product-name">01/01/1900</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">99</td>
+                    <td class="wishlist__column wishlist__column--product">$999.999</td>
+                    <td class="wishlist__column wishlist__column--stock">
+                        <div class="badge badge-success">Estado</div>
+                    </td>
+                    <td class="wishlist__column wishlist__column--tocart">
+                        <button type="button" class="btn btn-primary btn-sm">Ver Detalle</button>
+                    </td>
+                    <td class="wishlist__column wishlist__column--remove">
+                        <button type="button" class="btn btn-light btn-sm btn-svg-icon">
+                            <img width="12px" height="12px" src="{% static 'images/logos/remove.png' %}">
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

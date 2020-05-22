@@ -7470,7 +7470,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
         width: 1px
     }
     .wishlist__column--price {
-        text-align: right;
+        text-align: left;
         width: 170px;
         padding-left: 90px
     }

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Categorías</h1></div>
+        <button class="btn btn-primary btn-lg">Nueva Categoría</button>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">N°</th>
+                    <th class="wishlist__column wishlist__column--product">Nombre</th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            {% for i in categorias %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="#" class="wishlist__product-name">{{i.idcategoria}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="wishlist__product-name">{{i.nombrecategoria}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <button type="button" class="btn btn-info btn-sm" href="">Modificar</button>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <button type="button" class="btn btn-danger btn-sm" href="">Eliminar</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

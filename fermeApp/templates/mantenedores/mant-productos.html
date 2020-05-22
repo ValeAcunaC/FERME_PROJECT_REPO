@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Productos</h1></div>
+        <button class="btn btn-primary btn-lg">Nuevo Producto</button>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">Código</th>
+                    <th class="wishlist__column wishlist__column--product">Nombre</th>
+                    <th class="wishlist__column wishlist__column--product">Subcategoria</th>
+                    <th class="wishlist__column wishlist__column--product">Marca</th>
+                    <th class="wishlist__column wishlist__column--product">Proveedor</th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            {% for i in productos %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="#" class="wishlist__product-name">{{i.idproducto}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="wishlist__product-name">{{i.nombreproducto}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idsubcategoria}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.marca}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idproveedor}}</td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <button type="button" class="btn btn-info btn-sm" href="">Modificar</button>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <button type="button" class="btn btn-danger btn-sm" href="">Eliminar</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

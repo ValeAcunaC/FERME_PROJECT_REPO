@@ -232,10 +232,10 @@
                     <div class="topbar__container container">
                         <div class="topbar__row">
                             <div class="topbar__item topbar__item--link">
-                                <a class="topbar-link" href="nosotros.html">Nosotros</a>
+                                <a class="topbar-link" href="{% url 'nosotros' %}">Nosotros</a>
                             </div>
                             <div class="topbar__item topbar__item--link">
-                            <a class="topbar-link" href="contacto.html">Contacto</a>
+                            <a class="topbar-link" href="{% url 'contacto' %}">Contacto</a>
                             </div>
                             <div class="topbar__spring"></div>
                             {% if user.is_authenticated %}
@@ -298,7 +298,7 @@
                                     <ul class="footer-contacts__contacts">
                                         <li><i class="footer-contacts__icon fas fa-globe-americas"></i> Calle #3795, Santiago de Chile</li>
                                         <li><i class="footer-contacts__icon far fa-envelope"></i> contacto@ferme.com</li>
-                                        <li><i class="footer-contacts__icon fas fa-mobile-alt"></i> +569 330 900 22, 22 330 99 22</li>
+                                        <li><i class="footer-contacts__icon fas fa-mobile-alt"></i> +569 330 900 22 - 22 330 99 22</li>
                                     </ul>
                                 </div>
                             </div>
@@ -307,16 +307,16 @@
                                     <h5 class="footer-links__title">Información</h5>
                                     <ul class="footer-links__list">
                                         <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Nosotros</a>
+                                            <a href="{% url 'nosotros' %}" class="footer-links__link">Nosotros</a>
                                         </li>
                                         <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Contacto</a>
+                                            <a href="{% url 'contacto' %}" class="footer-links__link">Contacto</a>
                                         </li>
                                         <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Terminos y Condiciones</a>
+                                            <a href="{% url 'terminosycondiciones' %}" class="footer-links__link">Terminos y Condiciones</a>
                                         </li>
                                         <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Preguntas Frecuentes</a>
+                                            <a href="{% url 'faq' %}" class="footer-links__link">Preguntas Frecuentes</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -344,27 +344,27 @@
                                     </div>
                                     <ul class="footer-newsletter__social-links">
                                         <li class="footer-newsletter__social-link footer-newsletter__social-link--facebook">
-                                            <a href="https://themeforest.net/user/kos9" target="_blank">
+                                            <a href="https://facebook.com" target="_blank">
                                                 <i class="fab fa-facebook-f"></i>
                                             </a>
                                         </li>
                                         <li class="footer-newsletter__social-link footer-newsletter__social-link--twitter">
-                                            <a href="https://themeforest.net/user/kos9" target="_blank">
+                                            <a href="https://twitter.com" target="_blank">
                                                 <i class="fab fa-twitter"></i>
                                             </a>
                                         </li>
                                         <li class="footer-newsletter__social-link footer-newsletter__social-link--youtube">
-                                            <a href="https://themeforest.net/user/kos9" target="_blank">
+                                            <a href="https://youtube.com" target="_blank">
                                                 <i class="fab fa-youtube"></i>
                                             </a>
                                         </li>
                                         <li class="footer-newsletter__social-link footer-newsletter__social-link--instagram">
-                                            <a href="https://themeforest.net/user/kos9" target="_blank">
+                                            <a href="https://instagram.com" target="_blank">
                                                 <i class="fab fa-instagram"></i>
                                             </a>
                                         </li>
                                         <li class="footer-newsletter__social-link footer-newsletter__social-link--rss">
-                                            <a href="https://themeforest.net/user/kos9" target="_blank">
+                                            <a href="#" target="_blank">
                                                 <i class="fas fa-rss"></i>
                                             </a>
                                         </li>
