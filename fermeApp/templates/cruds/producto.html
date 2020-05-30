@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<script>
+    function myFunction() {
+        debugger;
+        var sel = document.getElementById("id_idsubcategoria");
+        var separar= sel.options[sel.selectedIndex].text;
+
+        var fecha = document.getElementById('id_fechavencimiento').value;
+        var dia = fecha.substring(0,2);
+        var mes = fecha.substring(3,5);
+        var ano = fecha.substring(6,10);
+
+        if (!isValidDate(mes+'/'+dia+'/'+ano)){
+            return;
+        }
+
+        var proveedor = document.getElementById('id_idproveedor').value;
+        var j = separar.indexOf("-")
+        var cat = separar.substring( j+1, j+4);
+        var sub = separar.substring(0, 3);
+
+        var pro = proveedor.substring(0,3)
+
+        var id = pro+cat+dia+mes+ano+sub;
+        document.getElementById('id_idproducto').value=id;
+        document.getElementById("idForm").submit();
+    }
+    // Validates that the input string is a valid date formatted as "mm/dd/yyyy"
+function isValidDate(dateString)
+{
+    // First check for the pattern
+    if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+        return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("/");
+    var day = parseInt(parts[1], 10);
+    var month = parseInt(parts[0], 10);
+    var year = parseInt(parts[2], 10);
+
+    // Check the ranges of month and year
+    if(year < 1000 || year > 3000 || month == 0 || month > 12)
+        return false;
+
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+    // Adjust for leap years
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    return day > 0 && day <= monthLength[month - 1];
+};
+</script>
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Producto</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form id="idForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Nombre Producto:</label> 
+                <div>
+                    {{form.nombreproducto}}
+                </div>
+                <label>Descripción:</label> 
+                <div>
+                    {{form.descripcion}}
+                </div>
+                <label>Stock:</label> 
+                <div>
+                    {{form.stock}}
+                </div>
+                <label>Stock Crítico:</label> 
+                <div>
+                    {{form.stockcritico}}
+                </div>
+                <label>Precio:</label> 
+                <div>
+                    {{form.precio}}
+                </div>
+                <label>Marca:</label> 
+                <div>
+                    {{form.marca}}
+                </div>
+                <label>Fecha de Vencimiento:</label> 
+                <div>
+                    {{form.fechavencimiento}}
+                </div>
+                <label>Subcategoría:</label> 
+                <div>
+                    {{form.idsubcategoria}}
+                </div>
+                <label>Proveedor:</label> 
+                <div>
+                    {{form.idproveedor}}
+                </div>
+            </div>
+            <button onclick="myFunction()" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

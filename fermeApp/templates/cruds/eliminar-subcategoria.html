@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Eliminar</h1></div>
+        <p>Esta seguro que desea eliminar "{{item}}"</p>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form action="{% url 'eliminar_subcategoria' item.idsubcategoria %}" method="POST">
+            {% csrf_token %}
+            <a class="btn btn-info" href="{% url 'subcategorias' %}">Cancelar</a>
+            <button type="submit" name="Submit" class="btn btn-primary">Eliminar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

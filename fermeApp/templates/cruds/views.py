@@ -17,13 +17,6 @@ def index(request):
     subcategorias = Subcategoria.objects.all()
     return render(request,'index.html', {'productos': productos, 'subcategorias': subcategorias})
 
-def producto(request):
-    # rubro = Rubro.objects.get(idrubro=3)
-    # newProveedor = Proveedor(rutproveedor='7-8',nombreproveedor='proveedor3',telefono=123456789,correo='proveedor3@correo.cl',idrubro=rubro)
-    # newProveedor.save()
-    return render(request,'producto.html')
-
-#account
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -40,7 +33,7 @@ def loginPage(request):
             messages.info(request, 'Email o Contraseña incorrecta')
 
     context = {}
-    return render(request,'account/login.html', context)
+    return render(request,'login.html', context)
 
 def logoutUser(request):
     logout(request)
@@ -79,7 +72,7 @@ def registerPage(request):
             return redirect('perfil/'+str(u.id))
 
     context = {'form':form}
-    return render(request,'account/register.html',context)
+    return render(request,'register.html',context)
 
 def perfil(request, pk):
     user = User.objects.get(id=pk)
@@ -99,27 +92,29 @@ def perfil(request, pk):
 
     
     context= {'form':form}        
-    return render(request, 'account/perfil.html',context)
+    return render(request, 'perfil.html',context)
 
-def miscompras(request):
-    return render(request,'account/miscompras.html')
+def producto(request):
+    # rubro = Rubro.objects.get(idrubro=3)
+    # newProveedor = Proveedor(rutproveedor='7-8',nombreproveedor='proveedor3',telefono=123456789,correo='proveedor3@correo.cl',idrubro=rubro)
+    # newProveedor.save()
+    return render(request,'producto.html')
 
-#pageinfo
 def contacto(request):
-    return render(request,'pageinfo/contacto.html')
+    return render(request,'contacto.html')
 
 def faq(request):
-    return render(request,'pageinfo/faq.html')
+    return render(request,'faq.html')
 
 def terminosycondiciones(request):
-    return render(request,'pageinfo/terminos-y-condiciones.html')
+    return render(request,'terminos-y-condiciones.html')
 
 def nosotros(request):
-    return render(request,'pageinfo/nosotros.html')
+    return render(request,'nosotros.html')
 
+def miscompras(request):
+    return render(request,'miscompras.html')
 
-
-#crud tablas
 def productos(request):
     productos = Producto.objects.all()
     subcategorias = Subcategoria.objects.all()
@@ -140,9 +135,6 @@ def proveedores(request):
 def ordenes(request):
     ordenes = Ordencompra.objects.all()
     return render(request,'cruds/tabla-ordenes.html', {'ordenes': ordenes})
-    
-def usuarios(request):
-    return render(request,'cruds/tabla-usuarios.html')
 
 #crud categoria
 def crearCategoria(request):
@@ -176,7 +168,7 @@ def eliminarCategoria(request, pk):
         return redirect('categorias')
         
     context = {'item':categoria}
-    return render(request,'cruds/eliminar_categoria.html',context)
+    return render(request,'cruds/eliminar-categoria.html',context)
 
 #crud subcategoria
 def crearSubcategoria(request):
@@ -213,7 +205,7 @@ def eliminarSubcategoria(request, pk):
     return render(request,'cruds/eliminar-subcategoria.html',context)
 
 #crud proveedores
-def crearProveedor(request):
+def crearProveedores(request):
     form = ProveedorForm()
     if request.method == 'POST':
         form = ProveedorForm(request.POST)
@@ -224,7 +216,7 @@ def crearProveedor(request):
     context = {'form':form}
     return render(request,'cruds/proveedor.html',context)
 
-def modificarProveedor(request, pk):
+def modificarProveedores(request, pk):
     proveedor = Proveedor.objects.get(idproveedor=pk)
     form = ProveedorForm(instance=proveedor)
 
@@ -237,7 +229,7 @@ def modificarProveedor(request, pk):
     context = {'form':form}
     return render(request,'cruds/proveedor.html',context)
 
-def eliminarProveedor(request, pk):
+def eliminarProveedores(request, pk):
     proveedor = Proveedor.objects.get(idproveedor=pk)
     if request.method == 'POST':
         proveedor.delete()
@@ -246,51 +238,4 @@ def eliminarProveedor(request, pk):
     context = {'item':proveedor}
     return render(request,'cruds/eliminar-proveedor.html',context)
 
-#crud Producto
-def crearProducto(request):
-    form = ProductoForm()
-    if request.method == 'POST':
-        form = ProductoForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('productos')
 
-    context = {'form':form}
-    return render(request,'cruds/producto.html',context)
-
-def modificarProducto(request, pk):
-    producto = Producto.objects.get(idproducto=pk)
-    form = ProductoForm(instance=producto)
-
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
-        if form.is_valid():
-            form.save()
-            return redirect('productos')
-
-    context = {'form':form}
-    return render(request,'cruds/producto.html',context)
-
-def eliminarProducto(request, pk):
-    producto = Producto.objects.get(idproducto=pk)
-    if request.method == 'POST':
-        producto.delete()
-        return redirect('productos')
-        
-    context = {'item':producto}
-    return render(request,'cruds/eliminar-producto.html',context)
-
-
-
-def carro(request):
-    return render(request, 'carro.html')
-
-def ventas(request):
-    ventas = Venta.objects.all()
-    return render(request, 'ventas.html', {'ventas': ventas})
-
-def dashboard(request):
-    num_visits=request.session.get('num_visits',0)
-    num_visits=request.session['num_visits']=num_visits+1
-    context={'num_visits':num_visits,}
-    return render(request, 'dashboard.html', context)

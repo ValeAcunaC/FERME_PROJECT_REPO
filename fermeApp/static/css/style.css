@@ -72,6 +72,10 @@ h6 {
     font-size: 16px
 }
 
+p{
+    text-align: justify;
+}
+
 .document {
     border: 2px solid #f0f0f0;
     border-radius: 2px;
@@ -6214,7 +6218,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
         flex-direction: column;
         right: 8px
     }
-    .product--layout--columnar .product__wishlist-compare>*+* {
+    .product--layout--columnar .product__-compare>*+* {
         margin-top: 2px
     }
     .product--layout--columnar .product__name {
@@ -6268,7 +6272,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
         padding-left: .5rem;
         padding-right: .5rem
     }
-    .product--layout--columnar .product__actions-item--compare, .product--layout--columnar .product__actions-item--wishlist {
+    .product--layout--columnar .product__actions-item--compare, .product--layout--columnar .product__actions-item-- {
         display: none
     }
     .product--layout--columnar .product__availability {
@@ -6994,7 +6998,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
     margin-top: 8px
 }
 
-.products-list[data-layout=list] .product-card .product-card__addtocart, .products-list[data-layout=list] .product-card .product-card__compare, .products-list[data-layout=list] .product-card .product-card__wishlist {
+.products-list[data-layout=list] .product-card .product-card__addtocart, .products-list[data-layout=list] .product-card .product-card__compare, .products-list[data-layout=list] .product-card .product-card__ {
     font-size: .875rem;
     height: calc(1.875rem + 2px);
     line-height: 1.25;

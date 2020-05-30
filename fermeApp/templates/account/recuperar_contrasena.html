@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title">
+            <h1>Recuperar Contraseña</h1>
+        </div>
+    </div>
+</div>
+<div class="block">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 d-flex mt-4 mt-md-0">
+                <div class="card flex-grow-1 mb-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Escriba su direccion de correo con la que se registro para iniciar la recuperacion de contraseña</h3>
+                        <form method="POST" autocomplete="false">
+                            {% csrf_token %}
+                            {{form}}
+                            <br><button type="submit" class="btn btn-primary mt-4">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Proveedor</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Rut Proveedor:</label> 
+                <div>
+                    {{form.rutproveedor}}
+                </div>
+                <label>Nombre Proveedor:</label> 
+                <div>
+                    {{form.nombreproveedor}}
+                </div>
+                <label>Teléfono:</label> 
+                <div>
+                    {{form.telefono}}
+                </div>
+                <label>Correo:</label> 
+                <div>
+                    {{form.correo}}
+                </div>
+                <label>Rubro:</label> 
+                <div>
+                    {{form.idrubro}}
+                </div>
+            </div>
+            <button type="submit" name="Submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

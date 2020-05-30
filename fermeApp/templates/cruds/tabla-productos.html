@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Productos</h1></div>
+        <a class="btn btn-success btn-lg" href="{% url 'crear_producto' %}">
+            Nuevo Producto
+        </a>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">Código</th>
+                    <th class="wishlist__column wishlist__column--product">Nombre</th>
+                    <th class="wishlist__column wishlist__column--product">Subcategoria</th>
+                    <th class="wishlist__column wishlist__column--product">Marca</th>
+                    <th class="wishlist__column wishlist__column--product">Proveedor</th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                    <th class="wishlist__column wishlist__column--product"></th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            {% for i in productos %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="#" class="wishlist__product-name">{{i.idproducto}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="wishlist__product-name">{{i.nombreproducto}}</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idsubcategoria}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.marca}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idproveedor}}</td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="btn btn-info btn-sm" href="{% url 'modificar_producto' i.idproducto %}">Modificar</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_producto' i.idproducto %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

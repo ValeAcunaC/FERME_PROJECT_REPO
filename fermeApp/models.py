@@ -100,7 +100,7 @@ class Categoria(models.Model):
     nombrecategoria = models.CharField(db_column='NombreCategoria', max_length=50)  # Field name made lowercase.
 
     def __str__(self):
-        return f'Id:{self.idcategoria} {self.nombrecategoria}'
+        return f'{self.idcategoria} {self.nombrecategoria}'
 
     class Meta:
         managed = False
@@ -327,7 +327,7 @@ class Subcategoria(models.Model):
     idcategoria = models.ForeignKey(Categoria, models.DO_NOTHING, db_column='IdCategoria')  # Field name made lowercase.
 
     def __str__(self):
-        return f'Id:{self.idsubcategoria} {self.nombresubcategoria}'
+        return f'{self.idsubcategoria} {self.nombresubcategoria}-{self.idcategoria}'
 
     class Meta:
         managed = False

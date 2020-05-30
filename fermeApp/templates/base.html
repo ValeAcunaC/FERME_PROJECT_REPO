@@ -60,7 +60,7 @@
                     {% if user.is_authenticated %}
                         <li class="mobile-links__item" data-collapse-item>
                         <div class="mobile-links__item-title">
-                            <a href="shop-grid-3-columns-sidebar.html" class="mobile-links__item-link">Mi Cuenta</a> 
+                            <a href="#" class="mobile-links__item-link">Mi Cuenta</a> 
                             <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
                                 <img src="{% static 'images/logos/downarrow.png' %}" class="mobile-links__item-arrow" width="12px" height="7px">
                                 </button>
@@ -100,7 +100,7 @@
                     </li>
                     <li class="mobile-links__item" data-collapse-item>
                         <div class="mobile-links__item-title">
-                            <a href="shop-grid-3-columns-sidebar.html" class="mobile-links__item-link">Tienda</a> 
+                            <a href="#" class="mobile-links__item-link">Tienda</a> 
                             <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
                                 <img src="{% static 'images/logos/downarrow.png' %}" class="mobile-links__item-arrow" width="12px" height="7px">
                                 </button>
@@ -109,7 +109,7 @@
                             <ul class="mobile-links mobile-links--level--1">
                                 <li class="mobile-links__item" data-collapse-item>
                                     <div class="mobile-links__item-title">
-                                        <a href="carro.html" class="mobile-links__item-link">Carrito de Compra</a>
+                                        <a href="{% url 'carro' %}" class="mobile-links__item-link">Carrito de Compra</a>
                                     </div>
                                 </li>
                                 <li class="mobile-links__item" data-collapse-item>
@@ -201,7 +201,7 @@
                                     </button>
                                 </div>
                                 <div class="indicator indicator--mobile">
-                                    <a href="carro.html" class="indicator__button">
+                                    <a href="{% url 'carro' %}" class="indicator__button">
                                         <span class="indicator__area">
                                             <img src="{% static 'images/logos/cart.png' %}" width="20px" height="20px">
                                             <span class="indicator__value">3</span>
@@ -293,8 +293,7 @@
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="site-footer__widget footer-contacts">
                                     <h5 class="footer-contacts__title">Contacto</h5>
-                                    <div class="footer-contacts__text">Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Integer in feugiat lorem. Pellentque ac placerat tellus.</div>
+                                    <div class="footer-contacts__text"></div>
                                     <ul class="footer-contacts__contacts">
                                         <li><i class="footer-contacts__icon fas fa-globe-americas"></i> Calle #3795, Santiago de Chile</li>
                                         <li><i class="footer-contacts__icon far fa-envelope"></i> contacto@ferme.com</li>
@@ -313,7 +312,7 @@
                                             <a href="{% url 'contacto' %}" class="footer-links__link">Contacto</a>
                                         </li>
                                         <li class="footer-links__item">
-                                            <a href="{% url 'terminosycondiciones' %}" class="footer-links__link">Terminos y Condiciones</a>
+                                            <a href="{% url 'terminosycondiciones' %}" class="footer-links__link">Términos y Condiciones</a>
                                         </li>
                                         <li class="footer-links__item">
                                             <a href="{% url 'faq' %}" class="footer-links__link">Preguntas Frecuentes</a>

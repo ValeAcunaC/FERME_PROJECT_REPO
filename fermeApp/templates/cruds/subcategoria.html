@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Subcategoría</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Nombre Subcategoría:</label> 
+                <div>
+                    {{form.nombresubcategoria}}
+                </div>
+                <label>Categoría:</label> 
+                <div>
+                    {{form.idcategoria}}
+                </div>
+            </div>
+            <button type="submit" name="Submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

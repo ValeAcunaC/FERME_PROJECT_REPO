@@ -6,7 +6,9 @@
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__title"><h1>Proveedores</h1></div>
-        <button class="btn btn-primary btn-lg">Nuevo Proveedor</button>
+        <a class="btn btn-success btn-lg" href="{% url 'crear_proveedor' %}">
+            Nuevo Proveedor
+        </a>
     </div>
 </div>
 <div class="block">
@@ -36,10 +38,10 @@
                     <td class="wishlist__column wishlist__column--product">{{i.telefono}}</td>
                     <td class="wishlist__column wishlist__column--product">{{i.idrubro}}</td>
                     <td class="wishlist__column wishlist__column--product">
-                        <button type="button" class="btn btn-info btn-sm" href="">Modificar</button>
+                        <a class="btn btn-info btn-sm" href="{% url 'modificar_proveedor' i.idproveedor %}">Modificar</a>
                     </td>
                     <td class="wishlist__column wishlist__column--product">
-                        <button type="button" class="btn btn-danger btn-sm" href="">Eliminar</button>
+                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_proveedor' i.idproveedor %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

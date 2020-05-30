@@ -18,23 +18,23 @@
                                 {% for group in request.user.groups.all %}
                                     {% if group.name == 'persona' or group.name == 'empresa' %}
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="shop-grid-3-columns-sidebar.html">
+                                            <a href="#">
                                                 <span>Mis Compras</span>
                                             </a>
                                         </li>
                                     {% elif group.name == 'administrador' %}
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="#">
+                                            <a href="{% url 'dashboard' %}">
                                                 <span>Dashboard</span>
                                             </a>
                                         </li>
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="#">
+                                            <a href="{% url 'ventas' %}">
                                                 <span>Ventas</span>
                                             </a>
                                         </li>
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="#">
+                                            <a href="{% url 'ordenes' %}">
                                                 <span>Ordenes de compra</span>
                                             </a>
                                         </li>
@@ -42,24 +42,25 @@
                                             <a href="#">
                                                 <span> Mantenedores </span>
                                             </a>
-                                            submenu
                                             <div class="nav-links__menu">
                                                 <ul class="menu menu--layout--classic">
-                                                    <li><a href="#">Usuarios</a></li>
-                                                    <li><a href="#">Productos</a></li>
-                                                    <li><a href="#">Categorias</a></li>
+                                                    <li><a href="{% url 'usuarios' %}">Usuarios</a></li>
+                                                    <li><a href="{% url 'proveedores' %}">Proveedores</a></li>
+                                                    <li><a href="{% url 'productos' %}">Productos</a></li>
+                                                    <li><a href="{% url 'categorias' %}">Categorias</a></li>
+                                                    <li><a href="{% url 'subcategorias' %}">Subcategorias</a></li>
                                                 </ul>
                                             </div>
                                         </li>
                                     {% elif group.name == 'vendedor' %}
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="shop-grid-3-columns-sidebar.html">
+                                            <a href="#">
                                                 <span>Ventas</span>
                                             </a>
                                         </li>
                                     {% elif group.name == 'empleado' %}
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="shop-grid-3-columns-sidebar.html">
+                                            <a href="{% url 'ordenes' %}">
                                                 <span>Ordenes de Compra</span>
                                             </a>
                                         </li>
@@ -70,9 +71,10 @@
                                             submenu
                                             <div class="nav-links__menu">
                                                 <ul class="menu menu--layout--classic">
-                                                    <li><a href="#">Usuarios</a></li>
-                                                    <li><a href="#">Productos</a></li>
-                                                    <li><a href="#">Categorias</a></li>
+                                                    <li><a href="{% url 'proveedores' %}">Proveedores</a></li>
+                                                    <li><a href="{% url 'productos' %}">Productos</a></li>
+                                                    <li><a href="{% url 'categorias' %}">Categorias</a></li>
+                                                    <li><a href="{% url 'subcategorias' %}">Subcategorias</a></li>
                                                 </ul>
                                             </div>
                                         </li>
@@ -100,7 +102,7 @@
                             </div>
                         </div>
                         <div class="indicator indicator--trigger--click">
-                            <a href="carro.html" class="indicator__button">
+                            <a href="{% url 'carro' %}" class="indicator__button">
                                 <span class="indicator__area">
                                     <img width="20px" height="20px" src="{% static 'images/logos/cart.png' %}">
                                     <span class="indicator__value">3</span>
@@ -112,13 +114,13 @@
                                     <div class="dropcart__products-list">
                                         <div class="dropcart__product">
                                             <div class="dropcart__product-image">
-                                                <a href="producto.html">
+                                                <a href="#">
                                                     <img src="{% static 'images/products/product-1.jpg' %}" alt="">
                                                 </a>
                                             </div>
                                             <div class="dropcart__product-info">
                                                 <div class="dropcart__product-name">
-                                                    <a href="producto.html">
+                                                    <a href="#">
                                                         Electric Planer Brandix KL370090G 300 Watts
                                                     </a>
                                                 </div>
@@ -133,13 +135,13 @@
                                         </div>
                                         <div class="dropcart__product">
                                             <div class="dropcart__product-image">
-                                                <a href="producto.html">
+                                                <a href="#">
                                                     <img src="{% static 'images/products/product-2.jpg' %}" alt="">
                                                 </a>
                                             </div>
                                             <div class="dropcart__product-info">
                                                 <div class="dropcart__product-name">
-                                                    <a href="producto.html">
+                                                    <a href="#">
                                                         Undefined Tool IRadix DPS3000SY 2700 watts
                                                     </a>
                                                 </div>
@@ -174,10 +176,10 @@
                                         </table>
                                     </div>
                                     <div class="dropcart__buttons">
-                                        <a class="btn btn-secondary" href="carro.html">
+                                        <a class="btn btn-secondary" href="{% url 'carro' %}">
                                             Ver Carro
                                         </a> 
-                                        <a class="btn btn-primary" href="checkout.html">
+                                        <a class="btn btn-primary" href="">
                                             Checkout
                                         </a>
                                     </div>

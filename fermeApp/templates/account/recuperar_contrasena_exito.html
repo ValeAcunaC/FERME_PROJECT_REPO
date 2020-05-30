@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title">
+            <h1>Contraseña recuperada</h1>
+        </div>
+    </div>
+</div>
+<div class="block">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 d-flex mt-4 mt-md-0">
+                <div class="card flex-grow-1 mb-0">
+                    <div class="card-body">
+                        <h5 class="card-title">Ya puede iniciar sesión usando su nueva contraseña</h3>
+                            <br>                                            
+                            <a class="btn btn-primary" href="{% url 'login' %}">
+                                Iniciar Sesión
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

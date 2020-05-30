@@ -30,9 +30,13 @@
                             </div>
                             <div class="form-group">
                                 <label>Nueva Contraseña</label> 
-                                <input type="password" class="form-control" placeholder="Ingrese Nueva Contraseña"> 
+                                <input type="password" class="form-control" placeholder="Ingrese Nueva Contraseña">
+                            </div>
+                            <div class="form-group">
                                 <label>Confirme Contraseña</label> 
                                 <input type="password" class="form-control" placeholder="Ingrese Nueva Contraseña">  
+                            </div>
+                            <div class="form-group"> 
                                 <small class="form-text text-muted">
                                     <a href="#">¿Has olvidado tu contraseña?</a>
                                 </small>
@@ -47,6 +51,12 @@
                 <div class="card flex-grow-1 mb-0">
                     <div class="card-body">
                         <h3 class="card-title">Información Personal</h3>
+                        <div class="form-group">
+                            <label>Email: {{ user.username }}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Grupo: {{ request.user.groups.name }}</label>
+                        </div>
                         <form method="POST">
                             {% csrf_token %}
                             <!--<div class="form-group">
@@ -74,7 +84,7 @@
                                 <!--<input name="direccion" type="text" class="form-control" placeholder="Ingrese su Dirección">-->
                             </div>
                             <div class="form-group">
-                                <label>Telefono</label>
+                                <label>Teléfono</label>
                                 {{form.telefono}}
                                 <!--<input name="telefono" type="tel" class="form-control" placeholder="Ingrese su Teléfono">-->
                             </div>

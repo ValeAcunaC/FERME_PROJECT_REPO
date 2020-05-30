@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="block">
+    <div class="container">
+        <div class="document">
+            <div class="document__header">
+                <h1 class="document__title">Términos y Condiciones</h1>
+                <div class="document__subtitle">Este acuerdo fue modificado por ultima vez el 26 de mayo del 2020.</div>
+            </div>
+            <div class="document__content typography">
+                <p> El acceso y uso de este sitio web se rige por los Términos y Condiciones descritos a continuación, 
+                    así como por la legislación que se aplique en la República de Chile. En consecuencia, todas las 
+                    visitas y todos los contratos y transacciones que realice el cliente de ferme.cl en este sitio, 
+                    en adelante, el usuario, como asimismo sus efectos jurídicos, quedarán regidos por estas reglas y 
+                    sometidas a esa legislación.</p>
+                <h2>Usuarios</h2>
+                <ol>
+                    <li><strong>Email</strong> — El cliente deberá disponer de un email válido para registrarse en la 
+                        página. Además, acepta el envío de información o contacto a través de éste.</li>
+                    <li><strong>Contraseña</strong> — El cliente es responsable de no compartir su contraseña y acepta 
+                        la recuperación de ésta a través de su email.</li>
+                    <li><strong>Datos personales</strong> — El cliente acepta entregar información relevante a su persona
+                        para concretar compras dentro del sitio.</li>
+                </ol>
+                <h2>Compras</h2>
+                <p> Es necesario que el cliente tenga una cuenta en la página para poder agregar productos al 
+                    carro de compra y así efectuar una compra.</p>
+                <h2>Despachos</h2>
+                <p> El sistema solo gestionará ventas a clientes de la comuna por efectos de despacho.</p>
+                <h2>Pagos</h2>
+                <p> Los pagos al momento de comprar serán efectuados por un sistema externo, en este caso transbank</p>
+                <h2>Recibo</h2>
+                <p> Según lo estipulado en el artículo 53 de la Ley sobre Impuesto a las Ventas y Servicios los 
+                    contribuyentes del Impuesto al Valor Agregado (IVA) no es posible cambiar boleta por factura 
+                    después de emitido el documento.
+                    Por su parte, el vendedor del producto no está obligado luego de realizada la compra a hacer 
+                    el cambio de un documento por otro, ya que su obligación es emitir el documento correcto al 
+                    momento de la entrega real o simbólica de las especies.
+                    Puede obtener mayor información relativa a este tema en el sitio Web del SII, menú Normativa 
+                    y Legislación, opción Resolución Exenta N° 6289, de 1998. </p>
+                <p>Para más información sobre cómo contactarnos, por favor visita nuestra 
+                    <a href="{ url 'contacto' }">página de contacto</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
