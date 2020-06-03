@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from .models import *
 
+from .filters import *
+
 
 
 def index(request):
@@ -22,6 +24,11 @@ def producto(request):
     # newProveedor = Proveedor(rutproveedor='7-8',nombreproveedor='proveedor3',telefono=123456789,correo='proveedor3@correo.cl',idrubro=rubro)
     # newProveedor.save()
     return render(request,'producto.html')
+
+def detalleProducto(request, pk):
+    producto = Producto.objects.get(idproducto=pk)
+    context = {'item':producto}
+    return render(request,'detalle-producto.html',context)
 
 #account
 def loginPage(request):
@@ -123,26 +130,48 @@ def nosotros(request):
 def productos(request):
     productos = Producto.objects.all()
     subcategorias = Subcategoria.objects.all()
-    return render(request,'cruds/tabla-productos.html', {'productos': productos, 'subcategorias': subcategorias})
+
+    myFilter = ProductoFilter(request.GET, queryset=productos)
+    productos = myFilter.qs
+
+    return render(request,'cruds/tabla-productos.html', {'productos': productos, 'subcategorias': subcategorias, 'myFilter':myFilter})
 
 def categorias(request):
     categorias = Categoria.objects.all()
-    return render(request,'cruds/tabla-categorias.html', {'categorias': categorias})
+
+    myFilter = CategoriaFilter(request.GET, queryset=categorias)
+    categorias = myFilter.qs
+
+    return render(request,'cruds/tabla-categorias.html', {'categorias': categorias, 'myFilter':myFilter})
 
 def subcategorias(request):
     subcategorias = Subcategoria.objects.all()
-    return render(request,'cruds/tabla-subcategorias.html', {'subcategorias': subcategorias})
+
+    myFilter = SubcategoriaFilter(request.GET, queryset=subcategorias)
+    subcategorias = myFilter.qs
+
+    return render(request,'cruds/tabla-subcategorias.html', {'subcategorias': subcategorias, 'myFilter':myFilter})
 
 def proveedores(request):
     proveedores = Proveedor.objects.all()
-    return render(request,'cruds/tabla-proveedores.html', {'proveedores': proveedores})
+
+    myFilter = ProveedorFilter(request.GET, queryset=proveedores)
+    proveedores = myFilter.qs
+
+    return render(request,'cruds/tabla-proveedores.html', {'proveedores': proveedores, 'myFilter':myFilter})
 
 def ordenes(request):
     ordenes = Ordencompra.objects.all()
     return render(request,'cruds/tabla-ordenes.html', {'ordenes': ordenes})
     
 def usuarios(request):
-    return render(request,'cruds/tabla-usuarios.html')
+    usuarios = User.objects.filter(is_staff=True)
+    #empleados = User.objects.filter(groups__name='empleado')
+
+    myFilter = UserFilter(request.GET, queryset=usuarios)
+    usuarios = myFilter.qs
+
+    return render(request,'cruds/tabla-usuarios.html', {'usuarios': usuarios, 'myFilter':myFilter})
 
 #crud categoria
 def crearCategoria(request):
@@ -212,6 +241,108 @@ def eliminarSubcategoria(request, pk):
     context = {'item':subcategoria}
     return render(request,'cruds/eliminar-subcategoria.html',context)
 
+#crud usuario
+def crearUsuario(request):
+    form = StaffForm()
+    empleado = False
+    vendedor = False
+    administrador = False
+    if request.method == 'POST':
+        form = StaffForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+
+            u = User.objects.get(username=username)
+            u.email = u.username
+
+            emp = request.POST.get('empleado')
+            g_emp = Group.objects.get(name='empleado')
+            if emp == 'empleado':
+                u.groups.add(g_emp)
+
+            ven = request.POST.get('vendedor')
+            if ven == 'vendedor':
+                g_ven = Group.objects.get(name='vendedor')
+                u.groups.add(g_ven)
+
+            adm = request.POST.get('administrador')
+            if adm == 'administrador':
+                g_adm = Group.objects.get(name='administrador')
+                u.groups.add(g_adm)
+
+            u.save()
+
+            au = AuthUser.objects.get(username=username)
+
+            usuario = Usuario(correo=u.email,user=au)
+            usuario.save()
+
+            return redirect('usuarios')
+
+    context = {'form':form,'empleado':empleado,'vendedor':vendedor,'administrador':administrador}
+    return render(request,'cruds/usuario.html',context)
+
+def modificarUsuario(request, pk):
+    u = User.objects.get(id=pk)
+    form = StaffForm(instance=u)
+    empleado = False
+    vendedor = False
+    administrador = False
+
+    if u.groups.filter(name='empleado').exists():
+        empleado = True
+    if u.groups.filter(name='vendedor').exists():
+        vendedor = True
+    if u.groups.filter(name='administrador').exists():
+        administrador = True
+    
+    if request.method == 'POST':
+        form = StaffForm(request.POST, instance=u)
+        if form.is_valid():
+
+            emp = request.POST.get('empleado')
+            g_emp = Group.objects.get(name='empleado')
+            if emp == 'empleado':
+                u.groups.add(g_emp)
+            else:
+                if empleado:
+                    g_emp.user_set.remove(u)
+
+            ven = request.POST.get('vendedor')
+            g_ven = Group.objects.get(name='vendedor')
+            if ven == 'vendedor':
+                u.groups.add(g_ven)
+            else:
+                if vendedor:
+                    g_ven.user_set.remove(u)
+
+            adm = request.POST.get('administrador')
+            g_adm = Group.objects.get(name='administrador')
+            if adm == 'administrador':
+                u.groups.add(g_adm)
+            else:
+                if administrador:
+                    g_adm.user_set.remove(u)
+                
+            u.save()
+
+            form.save()
+            return redirect('usuarios')
+
+    context = {'form':form,'empleado':empleado,'vendedor':vendedor,'administrador':administrador}
+    return render(request,'cruds/usuario.html',context)
+
+def eliminarUsuario(request, pk):
+    usuario = User.objects.get(id=pk)
+    if request.method == 'POST':
+        usuario.delete()
+        return redirect('usuarios')
+        
+    context = {'item':usuario}
+    return render(request,'cruds/eliminar-usuario.html',context)
+
 #crud proveedores
 def crearProveedor(request):
     form = ProveedorForm()
@@ -279,7 +410,6 @@ def eliminarProducto(request, pk):
         
     context = {'item':producto}
     return render(request,'cruds/eliminar-producto.html',context)
-
 
 
 def carro(request):

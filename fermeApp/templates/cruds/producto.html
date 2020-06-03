@@ -7,6 +7,14 @@
     function myFunction() {
         debugger;
         var sel = document.getElementById("id_idsubcategoria");
+        if(document.getElementById("id_idsubcategoria").selectedIndex == 0){
+            //agregar mensaje
+            return; 
+        }
+        if(document.getElementById("id_idproveedor").selectedIndex == 0){
+            //agregar mensaje
+            return; 
+        }
         var separar= sel.options[sel.selectedIndex].text;
 
         var fecha = document.getElementById('id_fechavencimiento').value;
@@ -15,9 +23,10 @@
         var ano = fecha.substring(6,10);
 
         if (!isValidDate(mes+'/'+dia+'/'+ano)){
+            //agregar mensaje
             return;
         }
-
+        ano = fecha.substring(8,10);
         var proveedor = document.getElementById('id_idproveedor').value;
         var j = separar.indexOf("-")
         var cat = separar.substring( j+1, j+4);

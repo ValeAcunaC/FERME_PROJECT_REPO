@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<script>
+    function myFunction() {
+        debugger;
+        document.getElementById('id_is_staff').value=1;
+        document.getElementById("idForm").submit();
+    }
+    function admin(){
+        document.getElementById('empleado').checked = false;
+        document.getElementById('vendedor').checked = false;
+    }
+    function staff(){
+        document.getElementById('administrador').checked = false;
+    }
+</script>
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Usuario</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form id="idForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <div>
+                    {{form}}
+
+                    <div class="form-group mb-2">
+                        <input onclick="staff()" type="checkbox" id="empleado" name="empleado" value="empleado">
+                        <label for="empleado"> Empleado</label>
+                    <div>
+                    <div class="form-group mb-2">
+                        <input onclick="staff()" type="checkbox" id="vendedor" name="vendedor" value="vendedor">
+                        <label for="vendedor"> Vendedor</label>
+                    <div>
+                    <div class="form-group mb-2">
+                        <input onclick="admin()" type="checkbox" id="administrador" name="administrador" value="administrador">
+                        <label for="administrador"> Administrador</label>
+                    <div>
+                    {% if empleado == True %}
+                        <script>
+                            document.getElementById('empleado').checked = true;
+                        </script>
+                    {% endif %}
+                    {% if vendedor == True %}
+                        <script>
+                            document.getElementById('vendedor').checked = true;
+                        </script>
+                    {% endif %}
+                    {% if administrador == True %}
+                        <script>
+                            document.getElementById('administrador').checked = true;
+                        </script>
+                    {% endif %}
+                </div>
+            </div>
+            <button onclick="myFunction()" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -62,6 +62,16 @@ class ProductoForm(ModelForm):
         model = Producto
         fields = ['idproducto', 'nombreproducto', 'descripcion', 'stock', 'stockcritico', 'precio', 'marca', 'fechavencimiento', 'idsubcategoria', 'idproveedor']
 
+class StaffForm(ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    is_staff = forms.IntegerField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'first_name','last_name', 'is_staff']
+
 
 
         

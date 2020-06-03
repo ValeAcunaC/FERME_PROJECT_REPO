@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            
+        </div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <div class="product product--layout--standard" data-layout="standard">
+            <div class="product__content">
+                <!-- .product__gallery -->
+                <div class="product__gallery">
+                    <div class="product-gallery">
+                        <div class="product-gallery__featured">
+                            <div class="owl-carousel" id="product-image">
+                                <a><img src="{% static 'images/products/product-16.jpg' %}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .product__gallery / end -->
+                <!-- .product__info -->
+                <div class="product__info">
+                    <h1 class="product__name">{{ item.nombreproducto}}</h1>
+                    
+                    <div class="product__description">{{ item.descripcion}}</div>
+                    <ul class="product__meta">
+                        <li class="product__meta-availability">Disponibilidad: 
+                            {% if item.stock > 0 %}
+                                <span class="text-success">En Stock</span>
+                            {% else %}
+                                <span class="text-danger">Sin Stock</span>
+                            {% endif %}
+                        </li>
+                        <li>Marca:{{ item.marca}}</li>
+                        <li>Código: {{ item.idproducto}}</li>
+                    </ul>
+                </div><!-- .product__info / end -->
+                <!-- .product__sidebar -->
+                <div class="product__sidebar">
+                    <div class="product__availability">Disponibilidad: 
+                        {% if item.stock > 0 %}
+                            <span class="text-danger">En Stock</span>
+                        {% else %}
+                            <span class="text-success">Sin Stock</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="product__prices">${{ item.precio}}</div>
+                    <!-- .product__options -->
+                    <form class="product__options">
+                        <div class="form-group product__option">
+                            <label class="product__option-label" for="product-quantity">Cantidad</label>
+                            <div class="product__actions">
+                                <div class="product__actions-item">
+                                    <div class="input-number product__quantity">
+                                        <input id="product-quantity" class="input-number__input form-control form-control-lg"
+                                            type="number" min="1" value="1">
+                                        <div class="input-number__add"></div>
+                                        <div class="input-number__sub"></div>
+                                    </div>
+                                </div>
+                                <div class="product__actions-item product__actions-item--addtocart">
+                                    <button class="btn btn-primary btn-lg">Añadir al Carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- .product__options / end -->
+                </div>
+                <!-- .product__end -->
+            </div>
+        </div>
+        <div class="product-tabs">
+            <div class="product-tabs__content">
+                <div>
+                    <div class="spec">
+                        <h3 class="spec__header">Detalle</h3>
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">Descripción</h4>
+                            <div class="spec__row">
+                                <p>{{ item.descripcion }}.</p>
+                            </div>
+                        </div>
+                        <div class="spec__section">
+                            <h4 class="spec__section-title">Información</h4>
+                            <div class="spec__row">
+                                <div class="spec__name">Nombre</div>
+                                <div class="spec__value">{{ item.nombreproducto }}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Marca</div>
+                                <div class="spec__value">{{ item.marca }}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Precio</div>
+                                <div class="spec__value">{{ item.precio }}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Stock</div>
+                                <div class="spec__value">{{ item.stock }}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Fecha de Vencimiento</div>
+                                <div class="spec__value">{{ item.fechavencimiento }}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Categoría</div>
+                                <div class="spec__value">{{item.idsubcategoria}}</div>
+                            </div>
+                            <div class="spec__row">
+                                <div class="spec__name">Código</div>
+                                <div class="spec__value">{{ item.idproducto }}</div>
+                            </div>
+                        </div>
+                        <div class="spec__disclaimer">Disponibilidad del stock del producto puede tener un desfase de 15 minutos.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

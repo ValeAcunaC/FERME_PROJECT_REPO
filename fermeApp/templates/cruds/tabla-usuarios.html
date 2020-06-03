@@ -6,9 +6,17 @@
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__title"><h1>Usuarios</h1></div>
-        <a class="btn btn-success btn-lg" href="#">
+        <a class="btn btn-success btn-lg" href="{% url 'crear_usuario' %}">
             Nuevo Usuario
         </a>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form method="get">
+            {{myFilter.form}}
+            <button class="btn btn-info btn-sm" type="submit">Filtrar</button>
+        </form>
     </div>
 </div>
 <div class="block">
@@ -27,15 +35,19 @@
             {% for i in usuarios %}
                 <tr class="wishlist__row">
                     <td class="wishlist__column wishlist__column--product">
-                        <a class="wishlist__product-name">{{i.nombre}}</a>
+                        <a class="wishlist__product-name">{{i.first_name}}</a>
                     </td>
                     <td class="wishlist__column wishlist__column--product">{{i.username}}</td>
-                    <td class="wishlist__column wishlist__column--product">{{i.group}}</td>
                     <td class="wishlist__column wishlist__column--product">
-                        <a class="btn btn-info btn-sm" href="#">Modificar</a>
+                        {% for group in i.groups.all %}
+                            {{group.name}}<br>
+                        {% endfor %}
                     </td>
                     <td class="wishlist__column wishlist__column--product">
-                        <a class="btn btn-danger btn-sm" href="#">Eliminar</a>
+                        <a class="btn btn-info btn-sm" href="{% url 'modificar_usuario' i.id %}">Modificar</a>
+                    </td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_usuario' i.id %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
