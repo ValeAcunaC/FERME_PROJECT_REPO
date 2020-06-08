@@ -5,12 +5,13 @@
 {% load static %}
 <div class="page-header">
     <div class="page-header__container container">
-        <div class="page-header__title"><h1>Categorías</h1></div>
+        <div class="page-header__title"><h1></h1></div>
         <a class="btn btn-success btn-lg" href="{% url 'crear_categoria' %}">
             Nueva Categoria
         </a>
     </div>
 </div>
+<!--
 <div class="block">
     <div class="container">
         <form method="get">
@@ -19,8 +20,10 @@
         </form>
     </div>
 </div>
+-->
 <div class="block">
     <div class="container">
+        <!--
         <table class="wishlist">
             <thead class="wishlist__head">
                 <tr class="wishlist__row">
@@ -48,7 +51,55 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
+        </table>-->
+
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-3">
+                <div class="card mb-lg-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Filtrar</h3>
+                        <form method="get">
+                            <div class="form-group">
+                                <label>Nombre: </label>
+                                <div>{{myFilter.form.nombrecategoria}}</div>
+                            </div>
+                            <button class="btn btn-info btn-sm" type="submit">Filtrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-9">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Categorías</h3>
+                        <table class="">
+                            <thead class="wishlist__head">
+                                <tr class="wishlist__row">
+                                    <th class="wishlist__column wishlist__column--product">N°</th>
+                                    <th class="wishlist__column wishlist__column--product">Nombre</th>
+                                    <th class="wishlist__column wishlist__column--product"></th>
+                                    <th class="wishlist__column wishlist__column--product"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="wishlist__body">
+                                {% for i in categorias %}
+                                <tr class="wishlist__row">
+                                    <td class="wishlist__column wishlist__column--product">{{i.idcategoria}}</td>
+                                    <td class="wishlist__column wishlist__column--product">{{i.nombrecategoria}}</td>
+                                    <td class="wishlist__column wishlist__column--product">
+                                        <a class="btn btn-info btn-sm" href="{% url 'modificar_categoria' i.idcategoria %}">Modificar</a>
+                                    </td>
+                                    <td class="wishlist__column wishlist__column--product">
+                                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_categoria' i.idcategoria %}">Eliminar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

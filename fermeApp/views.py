@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from .models import *
-
+from .decorators import *
 from .filters import *
 
 
@@ -19,21 +19,14 @@ def index(request):
     subcategorias = Subcategoria.objects.all()
     return render(request,'index.html', {'productos': productos, 'subcategorias': subcategorias})
 
-def producto(request):
-    # rubro = Rubro.objects.get(idrubro=3)
-    # newProveedor = Proveedor(rutproveedor='7-8',nombreproveedor='proveedor3',telefono=123456789,correo='proveedor3@correo.cl',idrubro=rubro)
-    # newProveedor.save()
-    return render(request,'producto.html')
-
 def detalleProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
     context = {'item':producto}
     return render(request,'detalle-producto.html',context)
 
 #account
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -53,9 +46,8 @@ def logoutUser(request):
     logout(request)
     return redirect('index')
 
+@unauthenticated_user
 def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('index')
 
     form = CreateUserForm()
 
@@ -88,6 +80,7 @@ def registerPage(request):
     context = {'form':form}
     return render(request,'account/register.html',context)
 
+@login_required(login_url='login')
 def perfil(request, pk):
     user = User.objects.get(id=pk)
 
@@ -108,6 +101,8 @@ def perfil(request, pk):
     context= {'form':form}        
     return render(request, 'account/perfil.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
 def miscompras(request):
     return render(request,'account/miscompras.html')
 
@@ -127,6 +122,8 @@ def nosotros(request):
 
 
 #crud tablas
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def productos(request):
     productos = Producto.objects.all()
     subcategorias = Subcategoria.objects.all()
@@ -136,6 +133,8 @@ def productos(request):
 
     return render(request,'cruds/tabla-productos.html', {'productos': productos, 'subcategorias': subcategorias, 'myFilter':myFilter})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def categorias(request):
     categorias = Categoria.objects.all()
 
@@ -144,6 +143,8 @@ def categorias(request):
 
     return render(request,'cruds/tabla-categorias.html', {'categorias': categorias, 'myFilter':myFilter})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def subcategorias(request):
     subcategorias = Subcategoria.objects.all()
 
@@ -152,6 +153,8 @@ def subcategorias(request):
 
     return render(request,'cruds/tabla-subcategorias.html', {'subcategorias': subcategorias, 'myFilter':myFilter})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def proveedores(request):
     proveedores = Proveedor.objects.all()
 
@@ -160,10 +163,14 @@ def proveedores(request):
 
     return render(request,'cruds/tabla-proveedores.html', {'proveedores': proveedores, 'myFilter':myFilter})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def ordenes(request):
     ordenes = Ordencompra.objects.all()
     return render(request,'cruds/tabla-ordenes.html', {'ordenes': ordenes})
     
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador'])
 def usuarios(request):
     usuarios = User.objects.filter(is_staff=True)
     #empleados = User.objects.filter(groups__name='empleado')
@@ -174,6 +181,8 @@ def usuarios(request):
     return render(request,'cruds/tabla-usuarios.html', {'usuarios': usuarios, 'myFilter':myFilter})
 
 #crud categoria
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def crearCategoria(request):
     form = CategoriaForm()
     if request.method == 'POST':
@@ -185,6 +194,8 @@ def crearCategoria(request):
     context = {'form':form}
     return render(request,'cruds/categoria.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def modificarCategoria(request, pk):
     categoria = Categoria.objects.get(idcategoria=pk)
     form = CategoriaForm(instance=categoria)
@@ -198,6 +209,8 @@ def modificarCategoria(request, pk):
     context = {'form':form}
     return render(request,'cruds/categoria.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def eliminarCategoria(request, pk):
     categoria = Categoria.objects.get(idcategoria=pk)
     if request.method == 'POST':
@@ -208,6 +221,8 @@ def eliminarCategoria(request, pk):
     return render(request,'cruds/eliminar_categoria.html',context)
 
 #crud subcategoria
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def crearSubcategoria(request):
     form = SubcategoriaForm()
     if request.method == 'POST':
@@ -219,6 +234,8 @@ def crearSubcategoria(request):
     context = {'form':form}
     return render(request,'cruds/subcategoria.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def modificarSubcategoria(request, pk):
     subcategoria = Subcategoria.objects.get(idsubcategoria=pk)
     form = SubcategoriaForm(instance=subcategoria)
@@ -232,6 +249,8 @@ def modificarSubcategoria(request, pk):
     context = {'form':form}
     return render(request,'cruds/subcategoria.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def eliminarSubcategoria(request, pk):
     subcategoria = Subcategoria.objects.get(idsubcategoria=pk)
     if request.method == 'POST':
@@ -242,6 +261,8 @@ def eliminarSubcategoria(request, pk):
     return render(request,'cruds/eliminar-subcategoria.html',context)
 
 #crud usuario
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador'])
 def crearUsuario(request):
     form = StaffForm()
     empleado = False
@@ -284,6 +305,8 @@ def crearUsuario(request):
     context = {'form':form,'empleado':empleado,'vendedor':vendedor,'administrador':administrador}
     return render(request,'cruds/usuario.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador'])
 def modificarUsuario(request, pk):
     u = User.objects.get(id=pk)
     form = StaffForm(instance=u)
@@ -334,6 +357,8 @@ def modificarUsuario(request, pk):
     context = {'form':form,'empleado':empleado,'vendedor':vendedor,'administrador':administrador}
     return render(request,'cruds/usuario.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador'])
 def eliminarUsuario(request, pk):
     usuario = User.objects.get(id=pk)
     if request.method == 'POST':
@@ -344,6 +369,8 @@ def eliminarUsuario(request, pk):
     return render(request,'cruds/eliminar-usuario.html',context)
 
 #crud proveedores
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def crearProveedor(request):
     form = ProveedorForm()
     if request.method == 'POST':
@@ -355,6 +382,8 @@ def crearProveedor(request):
     context = {'form':form}
     return render(request,'cruds/proveedor.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def modificarProveedor(request, pk):
     proveedor = Proveedor.objects.get(idproveedor=pk)
     form = ProveedorForm(instance=proveedor)
@@ -368,6 +397,8 @@ def modificarProveedor(request, pk):
     context = {'form':form}
     return render(request,'cruds/proveedor.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def eliminarProveedor(request, pk):
     proveedor = Proveedor.objects.get(idproveedor=pk)
     if request.method == 'POST':
@@ -378,6 +409,8 @@ def eliminarProveedor(request, pk):
     return render(request,'cruds/eliminar-proveedor.html',context)
 
 #crud Producto
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def crearProducto(request):
     form = ProductoForm()
     if request.method == 'POST':
@@ -389,6 +422,8 @@ def crearProducto(request):
     context = {'form':form}
     return render(request,'cruds/producto.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def modificarProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
     form = ProductoForm(instance=producto)
@@ -402,6 +437,8 @@ def modificarProducto(request, pk):
     context = {'form':form}
     return render(request,'cruds/producto.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
 def eliminarProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
     if request.method == 'POST':
@@ -411,14 +448,19 @@ def eliminarProducto(request, pk):
     context = {'item':producto}
     return render(request,'cruds/eliminar-producto.html',context)
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
 def carro(request):
     return render(request, 'carro.html')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor'])
 def ventas(request):
     ventas = Venta.objects.all()
     return render(request, 'ventas.html', {'ventas': ventas})
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador'])
 def dashboard(request):
     num_visits=request.session.get('num_visits',0)
     num_visits=request.session['num_visits']=num_visits+1
