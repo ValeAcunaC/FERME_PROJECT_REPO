@@ -354,7 +354,7 @@ class Usuario(models.Model):
     apellido = models.CharField(db_column='Apellido', max_length=50, blank=True, null=True)  # Field name made lowercase.
     telefono = models.IntegerField(db_column='Telefono', blank=True, null=True)  # Field name made lowercase.
     direccion = models.CharField(db_column='Direccion', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='User', blank=True, null=True)  # Field name made lowercase.
+    user = models.ForeignKey(AuthUser, models.CASCADE, db_column='User', blank=True, null=True)  # Field name made lowercase.
     
     def __str__(self):
         return f'{self.correo} {self.nombre} {self.apellido}'

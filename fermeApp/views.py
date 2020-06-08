@@ -172,7 +172,7 @@ def ordenes(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador'])
 def usuarios(request):
-    usuarios = User.objects.filter(is_staff=True)
+    usuarios = User.objects.filter(is_staff=True).filter(is_active=True)
     #empleados = User.objects.filter(groups__name='empleado')
 
     myFilter = UserFilter(request.GET, queryset=usuarios)
@@ -362,7 +362,8 @@ def modificarUsuario(request, pk):
 def eliminarUsuario(request, pk):
     usuario = User.objects.get(id=pk)
     if request.method == 'POST':
-        usuario.delete()
+        usuario.is_active = 0
+        usuario.save()
         return redirect('usuarios')
         
     context = {'item':usuario}
