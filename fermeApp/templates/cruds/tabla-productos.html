@@ -90,8 +90,7 @@
                         <table class="">
                             <thead class="wishlist__head">
                                 <tr class="wishlist__row">
-                                    <th class="wishlist__column wishlist__column--product">Código</th>
-                                    <th class="wishlist__column wishlist__column--product">Nombre</th>
+                                    <th class="wishlist__column wishlist__column--product">Producto</th>
                                     <th class="wishlist__column wishlist__column--product">Subcategoria</th>
                                     <th class="wishlist__column wishlist__column--product">Marca</th>
                                     <th class="wishlist__column wishlist__column--product">Proveedor</th>
@@ -102,8 +101,7 @@
                             <tbody class="wishlist__body">
                                 {% for i in productos %}
                                 <tr class="wishlist__row">
-                                    <td class="wishlist__column wishlist__column--product">{{i.idproducto}}</td>
-                                    <td class="wishlist__column wishlist__column--product">{{i.nombreproducto}}</td>
+                                    <td class="wishlist__column wishlist__column--product">{{i.idproducto}} {{i.nombreproducto}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.idsubcategoria}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.marca}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.idproveedor}}</td>

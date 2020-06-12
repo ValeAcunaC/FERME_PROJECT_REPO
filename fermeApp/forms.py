@@ -49,7 +49,7 @@ class ProveedorForm(ModelForm):
 class ProductoForm(ModelForm):
     idproducto = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
     nombreproducto = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg'}))
+    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
     stock = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
     stockcritico = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
     precio = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))

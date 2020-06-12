@@ -414,10 +414,15 @@ def eliminarProveedor(request, pk):
 @allowed_users(allowed_roles=['administrador','empleado'])
 def crearProducto(request):
     form = ProductoForm()
+    print("antes if")
     if request.method == 'POST':
+        print("despues if")
         form = ProductoForm(request.POST)
+        print("DESPUES FORM")
         if form.is_valid():
+            print("despues VALIDACION")
             form.save()
+            print("DESPUES save")
             return redirect('productos')
 
     context = {'form':form}

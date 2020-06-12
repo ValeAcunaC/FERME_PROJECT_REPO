@@ -26,7 +26,6 @@
             //agregar mensaje
             return;
         }
-        ano = fecha.substring(8,10);
         var proveedor = document.getElementById('id_idproveedor').value;
         var j = separar.indexOf("-")
         var cat = separar.substring( j+1, j+4);
@@ -75,6 +74,7 @@ function isValidDate(dateString)
         <form id="idForm" action="" method="POST">
             {% csrf_token %}
             <div class="form-group">
+                {{form.idproducto}}
                 <label>Nombre Producto:</label> 
                 <div>
                     {{form.nombreproducto}}
@@ -114,6 +114,9 @@ function isValidDate(dateString)
             </div>
             <button onclick="myFunction()" class="btn btn-primary">Guardar</button>
         </form>
+        <div class="form-group">
+            {{form.errors}}
+        </div>
     </div>
 </div>
 {% endblock %}
