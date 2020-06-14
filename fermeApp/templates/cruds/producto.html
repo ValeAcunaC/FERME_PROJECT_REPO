@@ -18,20 +18,25 @@
         var separar= sel.options[sel.selectedIndex].text;
 
         var fecha = document.getElementById('id_fechavencimiento').value;
-        var dia = fecha.substring(0,2);
-        var mes = fecha.substring(3,5);
-        var ano = fecha.substring(6,10);
+        var dia = '00';
+        var mes = '00';
+        var ano = '0000';
+        if (fecha != '' && fecha != null){
 
-        if (!isValidDate(mes+'/'+dia+'/'+ano)){
-            //agregar mensaje
-            return;
+            dia = fecha.substring(0,2);
+            mes = fecha.substring(3,5);
+            ano = fecha.substring(6,10);
+
+            if (!isValidDate(mes+'/'+dia+'/'+ano)){
+                //agregar mensaje
+                return;
+            }
         }
-        var proveedor = document.getElementById('id_idproveedor').value;
+        
+        var pro = document.getElementById('id_idproveedor').value;
         var j = separar.indexOf("-")
         var cat = separar.substring( j+1, j+4);
         var sub = separar.substring(0, 3);
-
-        var pro = proveedor.substring(0,3)
 
         var id = pro+cat+dia+mes+ano+sub;
         document.getElementById('id_idproducto').value=id;
@@ -71,7 +76,7 @@ function isValidDate(dateString)
 </div>
 <div class="block">
     <div class="container">
-        <form id="idForm" action="" method="POST">
+        <form id="idForm" action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 {{form.idproducto}}
@@ -110,6 +115,10 @@ function isValidDate(dateString)
                 <label>Proveedor:</label> 
                 <div>
                     {{form.idproveedor}}
+                </div>
+                <label>Foto:</label> 
+                <div>
+                    {{form.foto}}
                 </div>
             </div>
             <button onclick="myFunction()" class="btn btn-primary">Guardar</button>

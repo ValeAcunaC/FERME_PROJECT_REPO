@@ -238,7 +238,8 @@ class Ordencompra(models.Model):
     idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IdUsuario')  # Field name made lowercase.
     idestadooc = models.ForeignKey(Estadoordencompra, models.DO_NOTHING, db_column='IdEstadoOC')  # Field name made lowercase.
     idproveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='IdProveedor')  # Field name made lowercase.
-
+    comentarios = models.CharField(db_column='Comentarios', max_length=500, blank=True, null=True)  # Field name made lowercase.
+    
     def __str__(self):
         return f'{self.idordencompra} {self.fecha}'
 
@@ -265,7 +266,7 @@ class Pago(models.Model):
     idventa = models.ForeignKey('Venta', models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
     idtipopago = models.ForeignKey('Tipopago', models.DO_NOTHING, db_column='IdTipoPago')  # Field name made lowercase.
     idestadopago = models.ForeignKey(Estadopago, models.DO_NOTHING, db_column='IdEstadoPago')  # Field name made lowercase.
-
+    
     def __str__(self):
         return f'{self.idpago} {self.monto} {self.fechapago}'
 
@@ -285,6 +286,7 @@ class Producto(models.Model):
     fechavencimiento = models.DateTimeField(db_column='FechaVencimiento', blank=True, null=True)  # Field name made lowercase.
     idsubcategoria = models.ForeignKey('Subcategoria', models.DO_NOTHING, db_column='IdSubCategoria')  # Field name made lowercase.
     idproveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='IdProveedor')  # Field name made lowercase.
+    foto = models.ImageField(db_column='Foto', max_length=500, blank=True, null=True, default='product-1.jpg')  # Field name made lowercase.
 
     def __str__(self):
         return f'Codigo:{self.idproducto} {self.nombreproducto}'
@@ -354,11 +356,11 @@ class Usuario(models.Model):
     apellido = models.CharField(db_column='Apellido', max_length=50, blank=True, null=True)  # Field name made lowercase.
     telefono = models.IntegerField(db_column='Telefono', blank=True, null=True)  # Field name made lowercase.
     direccion = models.CharField(db_column='Direccion', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    user = models.ForeignKey(AuthUser, models.CASCADE, db_column='User', blank=True, null=True)  # Field name made lowercase.
-    
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='User', blank=True, null=True)  # Field name made lowercase.
+
     def __str__(self):
         return f'{self.correo} {self.nombre} {self.apellido}'
-    
+
     class Meta:
         managed = False
         db_table = 'usuario'

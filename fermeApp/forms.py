@@ -54,13 +54,28 @@ class ProductoForm(ModelForm):
     stockcritico = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
     precio = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
     marca = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    fechavencimiento = forms.DateField(widget=forms.DateInput(attrs={'class':'form-control'}))
+    fechavencimiento = forms.DateField(required=False, widget=forms.DateInput(attrs={'class':'form-control'}))
     idsubcategoria = forms.ModelChoiceField(queryset=Subcategoria.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
     idproveedor = forms.ModelChoiceField(queryset=Proveedor.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    foto = forms.ImageField(required = False)
     
     class Meta:
         model = Producto
-        fields = ['idproducto', 'nombreproducto', 'descripcion', 'stock', 'stockcritico', 'precio', 'marca', 'fechavencimiento', 'idsubcategoria', 'idproveedor']
+        fields = ['idproducto', 'nombreproducto', 'descripcion', 'stock', 'stockcritico', 'precio', 'marca', 'fechavencimiento', 'idsubcategoria', 'idproveedor','foto']
+
+class ModificarProductoForm(ModelForm):
+    
+    nombreproducto = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    stock = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    stockcritico = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    precio = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    marca = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    foto = forms.ImageField(required = False)
+    
+    class Meta:
+        model = Producto
+        fields = ['nombreproducto', 'descripcion', 'stock', 'stockcritico', 'precio', 'marca','foto']
 
 class StaffForm(ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))

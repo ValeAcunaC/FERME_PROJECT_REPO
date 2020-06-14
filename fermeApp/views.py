@@ -414,35 +414,45 @@ def eliminarProveedor(request, pk):
 @allowed_users(allowed_roles=['administrador','empleado'])
 def crearProducto(request):
     form = ProductoForm()
-    print("antes if")
     if request.method == 'POST':
-        print("despues if")
-        form = ProductoForm(request.POST)
-        print("DESPUES FORM")
+        form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
-            print("despues VALIDACION")
             form.save()
-            print("DESPUES save")
             return redirect('productos')
 
     context = {'form':form}
     return render(request,'cruds/producto.html',context)
+
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['administrador','empleado'])
+# def modificarProducto(request, pk):
+#     producto = Producto.objects.get(idproducto=pk)
+#     form = ProductoForm(instance=producto)
+
+#     if request.method == 'POST':
+#         form = ProductoForm(request.POST, request.FILES, instance=producto)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('productos')
+
+#     context = {'form':form}
+#     return render(request,'cruds/producto.html',context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','empleado'])
 def modificarProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
-    form = ProductoForm(instance=producto)
+    form = ModificarProductoForm(instance=producto)
 
     if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
+        form = ModificarProductoForm(request.POST, request.FILES, instance=producto)
         if form.is_valid():
             form.save()
             return redirect('productos')
 
     context = {'form':form}
-    return render(request,'cruds/producto.html',context)
-
+    return render(request,'cruds/modificar-producto.html',context)
+    
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','empleado'])
 def eliminarProducto(request, pk):

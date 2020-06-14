@@ -32,7 +32,7 @@ class ProductoFilter(django_filters.FilterSet):
     class Meta:
         model = Producto
         fields = '__all__'
-        exclude = ['descripcion','stock','stockcritico']
+        exclude = ['descripcion','stock','stockcritico','foto']
 
 class ProveedorFilter(django_filters.FilterSet):
     nombreproveedor = CharFilter(label='Nombre proveedor' ,field_name='nombreproveedor', lookup_expr='icontains', widget=forms.TextInput(attrs={'class':'form-control'}))
