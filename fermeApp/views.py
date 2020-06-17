@@ -17,7 +17,12 @@ from .filters import *
 def index(request):
     productos = Producto.objects.all()
     subcategorias = Subcategoria.objects.all()
-    return render(request,'index.html', {'productos': productos, 'subcategorias': subcategorias})
+    categorias = Categoria.objects.all()
+    global num_visits
+    num_visits = request.session.get('num_visits',0)
+    num_visits=request.session['num_visits']=num_visits+1
+    context={'productos': productos, 'subcategorias': subcategorias, 'categorias': categorias, 'num_visits':num_visits, }
+    return render(request,'index.html',context)
 
 def detalleProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
@@ -478,7 +483,11 @@ def ventas(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador'])
 def dashboard(request):
-    num_visits=request.session.get('num_visits',0)
-    num_visits=request.session['num_visits']=num_visits+1
-    context={'num_visits':num_visits,}
+    #num_visits=request.session.get('num_visits',0)
+    #num_visits=request.session['num_visits']=num_visits+1
+    personas = User.objects.filter(groups__name='persona')
+    total_personas = personas.count()
+    empresas = User.objects.filter(groups__name='empresa')
+    total_empresas = empresas.count()
+    context={'total_personas': total_personas,'total_empresas': total_empresas,'num_visits':num_visits,}
     return render(request, 'dashboard.html', context)

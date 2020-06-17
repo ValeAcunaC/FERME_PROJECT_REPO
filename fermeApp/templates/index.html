@@ -116,16 +116,20 @@
                                         <div class="filter__container">
                                             <div class="filter-categories">
                                                 <ul class="filter-categories__list">
-                                                    {% for subcategoria in subcategorias %}
-                                                    <li class="filter-categories__item filter-categories__item--current">
-                                                        <a href="#"> {{ subcategoria.idcategoria }} </a>
-                                                        <div class="filter-categories__counter">254</div>
-                                                    </li>
-                                                    <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">{{ subcategoria.nombresubcategoria }}</a>
-                                                        <div class="filter-categories__counter">7</div>
-                                                    </li>
-                                                {% endfor %}
+                                                    {% for categoria in categorias %}
+                                                        <li class="filter-categories__item filter-categories__item--current">
+                                                            <a href="#">{{categoria.nombrecategoria}} </a>
+                                                            <div class="filter-categories__counter">254</div>
+                                                        </li>
+                                                        {% for subcategoria in subcategorias %}
+                                                            {% if subcategoria.idcategoria.idcategoria == categoria.idcategoria %}
+                                                                <li class="filter-categories__item filter-categories__item--child">
+                                                                    <a href="#">{{subcategoria.nombresubcategoria}} </a>
+                                                                    <div class="filter-categories__counter">254</div>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endfor %}
                                                 </ul>
                                             </div>
                                         </div>
@@ -301,7 +305,7 @@
                                 <div class="product-card">
                                     <div class="product-card__image">
                                         <a href="{% url 'detalle_producto' i.idproducto %}">
-                                            <img src="{% static 'images/products/product-1.jpg' %}" alt="">
+                                            <img src="{{i.foto.url}}" alt="">
                                         </a>
                                     </div>
                                     <div class="product-card__info">
@@ -310,7 +314,8 @@
                                         </div>
                                         <ul class="product-card__features-list">
                                             <li>Marca: {{i.marca}} </li>
-                                            <li>Categoria: {{i.idsubcategoria}} </li>
+                                            <li>Categoria: {{i.idsubcategoria.idcategoria.nombrecategoria}} </li>
+                                            <li>Subcategoria: {{i.idsubcategoria.nombresubcategoria}} </li>
                                         </ul>
                                     </div>
                                     <div class="product-card__actions">

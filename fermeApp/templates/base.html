@@ -242,6 +242,9 @@
                                 <div class="topbar__item topbar__item--link">
                                     <a class="topbar-link" href="{% url 'perfil' user.id %}">{{user.username}}</a>
                                 </div>
+                                <div class="topbar__item topbar__item--link">
+                                    <a class="topbar-link" href="{% url 'logout' %}">Cerrar Sesión</a>
+                                </div>
                             {% else %}
                                 <div class="topbar__item topbar__item--link">
                                     <a class="topbar-link" href="{% url 'login' %}">Iniciar Sesión</a>
