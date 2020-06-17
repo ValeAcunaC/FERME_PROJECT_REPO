@@ -79,53 +79,13 @@ function isValidDate(dateString)
         <form id="idForm" action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
-                {{form.idproducto}}
-                <label>Nombre Producto:</label> 
-                <div>
-                    {{form.nombreproducto}}
-                </div>
-                <label>Descripción:</label> 
-                <div>
-                    {{form.descripcion}}
-                </div>
-                <label>Stock:</label> 
-                <div>
-                    {{form.stock}}
-                </div>
-                <label>Stock Crítico:</label> 
-                <div>
-                    {{form.stockcritico}}
-                </div>
-                <label>Precio:</label> 
-                <div>
-                    {{form.precio}}
-                </div>
-                <label>Marca:</label> 
-                <div>
-                    {{form.marca}}
-                </div>
-                <label>Fecha de Vencimiento:</label> 
-                <div>
-                    {{form.fechavencimiento}}
-                </div>
-                <label>Subcategoría:</label> 
-                <div>
-                    {{form.idsubcategoria}}
-                </div>
-                <label>Proveedor:</label> 
-                <div>
-                    {{form.idproveedor}}
-                </div>
-                <label>Foto:</label> 
-                <div>
-                    {{form.foto}}
-                </div>
+                {{form}}
+            </div>
+            <div class="form-group">
+                {{form.errors}}
             </div>
             <button onclick="myFunction()" class="btn btn-primary">Guardar</button>
         </form>
-        <div class="form-group">
-            {{form.errors}}
-        </div>
     </div>
 </div>
 {% endblock %}

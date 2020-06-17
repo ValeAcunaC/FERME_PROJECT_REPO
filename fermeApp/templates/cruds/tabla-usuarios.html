@@ -66,10 +66,7 @@
                         <h3 class="card-title">Filtrar</h3>
                             <form method="get">
                                 <div class="form-group">
-                                    <label>Email: </label>
-                                    <div>{{myFilter.form.username}}</div>
-                                    <label>Nombre: </label>
-                                    <div>{{myFilter.form.first_name}}</div>
+                                    {{myFilter.form}}
                                 </div>
                                 <button class="btn btn-info btn-sm" type="submit">Filtrar</button>
                             </form>
@@ -86,8 +83,7 @@
                                     <th class="wishlist__column wishlist__column--product">Nombre</th>
                                     <th class="wishlist__column wishlist__column--product">Email</th>
                                     <th class="wishlist__column wishlist__column--product">Rol</th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
+                                    <th class="wishlist__column wishlist__column--product">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="wishlist__body">
@@ -104,8 +100,8 @@
                                     </td>
                                     <td class="wishlist__column wishlist__column--product">
                                         <a class="btn btn-info btn-sm" href="{% url 'modificar_usuario' i.id %}">Modificar</a>
-                                    </td>
-                                    <td class="wishlist__column wishlist__column--product">
+                                        <br>
+                                        <br>
                                         <a class="btn btn-danger btn-sm" href="{% url 'eliminar_usuario' i.id %}">Eliminar</a>
                                     </td>
                                 </tr>

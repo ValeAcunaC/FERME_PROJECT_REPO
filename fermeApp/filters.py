@@ -56,3 +56,4 @@ class UserFilter(django_filters.FilterSet):
         #fields = ['username', 'first_name', 'last_name']#usamos solo nombre en el display, quizas podemos cambiar a ambos por separado o concatenados
         #fields = '__all__'
         #exclude = ['password','is_superuser','is_staff','email', 'groups']
+

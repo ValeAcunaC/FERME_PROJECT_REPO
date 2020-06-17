@@ -64,10 +64,7 @@
                         <h3 class="card-title">Filtrar</h3>
                         <form method="get">
                             <div class="form-group">
-                                <label>Nombre: </label>
-                                <div>{{myFilter.form.nombresubcategoria}}</div>
-                                <label>Categoría: </label>
-                                <div>{{myFilter.form.idcategoria}}</div>
+                                {{myFilter.form}}
                             </div>
                             <button class="btn btn-info btn-sm" type="submit">Filtrar</button>
                         </form>
@@ -84,8 +81,7 @@
                                     <th class="wishlist__column wishlist__column--product">N°</th>
                                     <th class="wishlist__column wishlist__column--product">Nombre</th>
                                     <th class="wishlist__column wishlist__column--product">Categoría</th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
+                                    <th class="wishlist__column wishlist__column--product">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="wishlist__body">
@@ -99,10 +95,10 @@
                                     </td>
                                     <td class="wishlist__column wishlist__column--product">{{i.idcategoria}}</td>
                                     <td class="wishlist__column wishlist__column--product">
-                                        <a class="btn btn-info btn-sm" href="{% url 'modificar_subcategoria' i.idsubcategoria %}">Modificar</a>
-                                    </td>
-                                    <td class="wishlist__column wishlist__column--product">
-                                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_subcategoria' i.idsubcategoria %}">Eliminar</a>
+                                        <button class="btn btn-info btn-sm" href="{% url 'modificar_subcategoria' i.idsubcategoria %}">Modificar</button>
+                                        <br>
+                                        <br>
+                                        <button class="btn btn-danger btn-sm" href="{% url 'eliminar_subcategoria' i.idsubcategoria %}">Eliminar</button>
                                     </td>
                                 </tr>
                             {% endfor %}

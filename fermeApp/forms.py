@@ -6,58 +6,58 @@ from .models import *
 from django.db.models.query import QuerySet
 
 class CreateUserForm(UserCreationForm):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'autocomplete':'new-password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    username = forms.EmailField(label='Correo', widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'class':'form-control', 'autocomplete':'new-password'}))
+    password2 = forms.CharField(label='Confirme Contraseña',widget=forms.PasswordInput(attrs={'class':'form-control'}))
     class Meta:
         model = User
         fields = ['username','password1','password2']
 
 class UsuarioForm(ModelForm):
-    nombre = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    apellido = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    rut = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    direccion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    telefono = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    nombre = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'class':'form-control'}))
+    apellido = forms.CharField(label='Apellido', widget=forms.TextInput(attrs={'class':'form-control'}))
+    rut = forms.CharField(label='Rut', widget=forms.TextInput(attrs={'class':'form-control'}))
+    direccion = forms.CharField(label='Dirección', widget=forms.TextInput(attrs={'class':'form-control'}))
+    telefono = forms.CharField(label='Teléfono', widget=forms.TextInput(attrs={'class':'form-control'}))
     class Meta:
         model = Usuario
         fields = ['nombre', 'apellido', 'rut', 'telefono', 'direccion']
 
 class CategoriaForm(ModelForm):
-    nombrecategoria = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    nombrecategoria = forms.CharField(label='Nombre Categoría', widget=forms.TextInput(attrs={'class':'form-control'}))
     class Meta:
         model = Categoria
         fields = ['nombrecategoria']
 
 class SubcategoriaForm(ModelForm):
-    nombresubcategoria = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    idcategoria = forms.ModelChoiceField(queryset=Categoria.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    nombresubcategoria = forms.CharField(label='Nombre Subcategoría', widget=forms.TextInput(attrs={'class':'form-control'}))
+    idcategoria = forms.ModelChoiceField(label='Categoría', queryset=Categoria.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = Subcategoria
         fields = ['nombresubcategoria', 'idcategoria']
     
 class ProveedorForm(ModelForm):
-    rutproveedor = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    nombreproveedor = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    telefono = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    correo = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    idrubro = forms.ModelChoiceField(queryset=Rubro.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    rutproveedor = forms.CharField(label='Rut', widget=forms.TextInput(attrs={'class':'form-control'}))
+    nombreproveedor = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'class':'form-control'}))
+    telefono = forms.IntegerField(label='teléfono', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    correo = forms.CharField(label='Correo', widget=forms.TextInput(attrs={'class':'form-control'}))
+    idrubro = forms.ModelChoiceField(label='Rubro', queryset=Rubro.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = Proveedor
         fields = ['rutproveedor', 'nombreproveedor', 'telefono', 'correo', 'idrubro']
 
 class ProductoForm(ModelForm):
     idproducto = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
-    nombreproducto = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    stock = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    stockcritico = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    precio = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    marca = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    fechavencimiento = forms.DateField(required=False, widget=forms.DateInput(attrs={'class':'form-control'}))
-    idsubcategoria = forms.ModelChoiceField(queryset=Subcategoria.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
-    idproveedor = forms.ModelChoiceField(queryset=Proveedor.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
-    foto = forms.ImageField(required = False)
+    nombreproducto = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'class':'form-control'}))
+    descripcion = forms.CharField(label='Descripción', widget=forms.TextInput(attrs={'class':'form-control'}))
+    stock = forms.IntegerField(label='Stock',widget=forms.NumberInput(attrs={'class':'form-control'}))
+    stockcritico = forms.IntegerField(label='Stock Critico', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    precio = forms.IntegerField(label='Precio',widget=forms.NumberInput(attrs={'class':'form-control'}))
+    marca = forms.CharField(label='Marca', widget=forms.TextInput(attrs={'class':'form-control'}))
+    fechavencimiento = forms.DateField(label='Fecha de Vencimiento', required=False, widget=forms.DateInput(attrs={'class':'form-control'}))
+    idsubcategoria = forms.ModelChoiceField(label='Subcategoría', queryset=Subcategoria.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
+    idproveedor = forms.ModelChoiceField(label='Proveedor', queryset=Proveedor.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    foto = forms.ImageField(label='Foto', required = False)
     
     class Meta:
         model = Producto
@@ -65,25 +65,25 @@ class ProductoForm(ModelForm):
 
 class ModificarProductoForm(ModelForm):
     
-    nombreproducto = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    stock = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    stockcritico = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    precio = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
-    marca = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    foto = forms.ImageField(required = False)
+    nombreproducto = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'class':'form-control'}))
+    descripcion = forms.CharField(label='Descripción', widget=forms.TextInput(attrs={'class':'form-control'}))
+    stock = forms.IntegerField(label='Stock', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    stockcritico = forms.IntegerField(label='Stock Critico', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    precio = forms.IntegerField(label='Precio', widget=forms.NumberInput(attrs={'class':'form-control'}))
+    marca = forms.CharField(label='Marca', widget=forms.TextInput(attrs={'class':'form-control'}))
+    foto = forms.ImageField(label='Foto', required = False)
     
     class Meta:
         model = Producto
         fields = ['nombreproducto', 'descripcion', 'stock', 'stockcritico', 'precio', 'marca','foto']
 
 class StaffForm(ModelForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    username = forms.CharField(label='Correo', widget=forms.TextInput(attrs={'class':'form-control'}))
     #username = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
-    password = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label='Contraseña', widget=forms.TextInput(attrs={'class':'form-control'}))
     #password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
+    first_name = forms.CharField(label='Nombre', widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(label='Apellido', widget=forms.TextInput(attrs={'class':'form-control'}))
     is_staff = forms.IntegerField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
     class Meta:
         model = User

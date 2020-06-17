@@ -13,26 +13,10 @@
         <form action="" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label>Rut Proveedor:</label> 
-                <div>
-                    {{form.rutproveedor}}
-                </div>
-                <label>Nombre Proveedor:</label> 
-                <div>
-                    {{form.nombreproveedor}}
-                </div>
-                <label>Teléfono:</label> 
-                <div>
-                    {{form.telefono}}
-                </div>
-                <label>Correo:</label> 
-                <div>
-                    {{form.correo}}
-                </div>
-                <label>Rubro:</label> 
-                <div>
-                    {{form.idrubro}}
-                </div>
+                {{form}}
+            </div>
+            <div class="form-group">
+                {{form.errors}}
             </div>
             <button type="submit" name="Submit" class="btn btn-primary">Guardar</button>
         </form>

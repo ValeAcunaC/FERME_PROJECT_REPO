@@ -3,6 +3,8 @@
 {% block body %}
 
 {% load static %}
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__title"><h1>Dashboard</h1></div>
@@ -13,6 +15,7 @@
         <p>Número de Visitas: {{num_visits}}</p>
         <p>Número de Usuarios persona: {{total_personas}}</p>
         <p>Número de Usuarios empresa: {{total_empresas}}</p>
+        <p>Número de productos: {{total_productos}}</p>
         <!--
         numero de ventas totales
         ventas semanales
@@ -25,6 +28,57 @@
         vendedor con mas ventas
         vendedores y ventas totales
         -->
+        <div id="myChart"></div>
+          <script>
+            let myConfig = {
+            type: 'bar',
+            title: {
+                text: 'Cantidad de clientes registrados',
+                fontSize: 24,
+            },
+            legend: {
+                draggable: true,
+            },
+            scaleX: {
+                // Set scale label
+                label: { text: 'Usuarios' },
+                // Convert text on scale indices
+                labels: [ 'Grupos']
+            },
+            scaleY: {
+                // Scale label with unicode character
+                label: { text: 'Cantidad' }
+            },
+            plot: {
+                // Animation docs here:
+                // https://www.zingchart.com/docs/tutorials/styling/animation#effect
+                animation: {
+                effect: 'ANIMATION_EXPAND_BOTTOM',
+                method: 'ANIMATION_STRONG_EASE_OUT',
+                sequence: 'ANIMATION_BY_NODE',
+                speed: 275,
+                }
+            },
+            series: [
+                {
+                // Plot 1 values, linear data
+                values: [{{total_personas}}],
+                text: 'Persona',
+                },
+                {
+                // Plot 2 values, linear data
+                values: [{{total_empresas}}],
+                text: 'Empresa'
+                }
+            ]
+            };
+
+            // Render Method[3]
+            zingchart.render({
+            id: 'myChart',
+            data: myConfig,
+            });
+        </script>
     </div>
 </div>
 {% endblock %}

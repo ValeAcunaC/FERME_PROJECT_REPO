@@ -489,5 +489,6 @@ def dashboard(request):
     total_personas = personas.count()
     empresas = User.objects.filter(groups__name='empresa')
     total_empresas = empresas.count()
-    context={'total_personas': total_personas,'total_empresas': total_empresas,'num_visits':num_visits,}
+    total_productos = Producto.objects.count()
+    context={'total_personas': total_personas,'total_empresas': total_empresas, 'total_productos': total_productos,'num_visits':num_visits,}
     return render(request, 'dashboard.html', context)

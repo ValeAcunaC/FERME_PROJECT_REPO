@@ -3,6 +3,8 @@
 {% block body %}
 
 {% load static %}
+
+
 <!-- .block-slideshow -->
 <div class="block-slideshow block-slideshow--layout--full block">
     <div class="container">
@@ -103,7 +105,7 @@
             <div class="block block-sidebar">
                 <div class="block-sidebar__item">
                     <div class="widget-filters widget" data-collapse data-collapse-opened-class="filter--opened">
-                        <h4 class="widget__title">Filtros</h4>
+                        <h4 class="widget__title">Categorías</h4>
                         <div class="widget-filters__list">
                             <div class="widget-filters__item">
                                 <div class="filter" data-collapse-item>
@@ -124,7 +126,7 @@
                                                         {% for subcategoria in subcategorias %}
                                                             {% if subcategoria.idcategoria.idcategoria == categoria.idcategoria %}
                                                                 <li class="filter-categories__item filter-categories__item--child">
-                                                                    <a href="#">{{subcategoria.nombresubcategoria}} </a>
+                                                                    <a href="#" name="{{subcategoria.nombresubcategoria}}">{{subcategoria.nombresubcategoria}} </a>
                                                                     <div class="filter-categories__counter">254</div>
                                                                 </li>
                                                             {% endif %}
@@ -198,7 +200,7 @@
                             </div>
                         </div>
                         <div class="widget-filters__actions d-flex">
-                            <button class="btn btn-primary btn-sm">Filtro</button> 
+                            <button class="btn btn-primary btn-sm">Filtrar</button> 
                             <button class="btn btn-secondary btn-sm ml-2">Limpiar</button>
                         </div>
                     </div>

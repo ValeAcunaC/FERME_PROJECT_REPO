@@ -28,24 +28,7 @@
             {% csrf_token %}
             <div class="form-group">
                 <div>
-                    <!--{{form}}-->
-                    <label>Nombre:</label> 
-                    <div>
-                        {{form.first_name}}
-                    </div>
-                    <label>Apellido:</label> 
-                    <div>
-                        {{form.last_name}}
-                    </div>
-                    <label>Email:</label> 
-                    <div>
-                        {{form.username}}
-                    </div>
-                    <label>Contraseña:</label> 
-                    <div>
-                        {{form.password}}
-                    </div>
-                    {{form.is_staff}}
+                    {{form}}
                     <div class="form-group mb-2">
                         <input onclick="staff()" type="checkbox" id="empleado" name="empleado" value="empleado">
                         <label for="empleado"> Empleado</label>

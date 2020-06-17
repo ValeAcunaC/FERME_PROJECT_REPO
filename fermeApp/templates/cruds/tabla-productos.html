@@ -67,16 +67,7 @@
                         <h3 class="card-title">Filtrar</h3>
                         <form method="get">
                             <div class="form-group">
-                                <label>Nombre: </label>
-                                <div>{{myFilter.form.nombreproducto}}</div>
-                                <label>Marca: </label>
-                                <div>{{myFilter.form.marca}}</div>
-                                <label>Fecha de Vencimiento: </label>
-                                <div>{{myFilter.form.fechavencimiento}}</div>
-                                <label>Subcategoría: </label>
-                                <div>{{myFilter.form.idsubcategoria}}</div>
-                                <label>Proveedor: </label>
-                                <div>{{myFilter.form.idproveedor}}</div>
+                                {{myFilter.form}}
                             </div>
                             <button class="btn btn-info btn-sm" type="submit">Filtrar</button>
                         </form>
@@ -94,8 +85,7 @@
                                     <th class="wishlist__column wishlist__column--product">Subcategoria</th>
                                     <th class="wishlist__column wishlist__column--product">Marca</th>
                                     <th class="wishlist__column wishlist__column--product">Proveedor</th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
-                                    <th class="wishlist__column wishlist__column--product"></th>
+                                    <th class="wishlist__column wishlist__column--product">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="wishlist__body">
@@ -106,10 +96,10 @@
                                     <td class="wishlist__column wishlist__column--product">{{i.marca}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.idproveedor}}</td>
                                     <td class="wishlist__column wishlist__column--product">
-                                        <a class="btn btn-info btn-sm" href="{% url 'modificar_producto' i.idproducto %}">Modificar</a>
-                                    </td>
-                                    <td class="wishlist__column wishlist__column--product">
-                                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_producto' i.idproducto %}">Eliminar</a>
+                                        <button class="btn btn-info btn-sm" href="{% url 'modificar_producto' i.idproducto %}">Modificar</button>
+                                        <br>
+                                        <br>
+                                        <button class="btn btn-danger btn-sm" href="{% url 'eliminar_producto' i.idproducto %}">Eliminar</button>
                                     </td>
                                 </tr>
                             {% endfor %}
