@@ -96,10 +96,10 @@
                                     <td class="wishlist__column wishlist__column--product">{{i.correo}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.telefono}}</td>
                                     <td class="wishlist__column wishlist__column--product">
-                                        <button class="btn btn-info btn-sm" href="{% url 'modificar_proveedor' i.idproveedor %}">Modificar</button>
+                                        <a class="btn btn-info btn-sm" href="{% url 'modificar_proveedor' i.idproveedor %}">Modificar</a>
                                         <br>
                                         <br>
-                                        <button class="btn btn-danger btn-sm" href="{% url 'eliminar_proveedor' i.idproveedor %}">Eliminar</button>
+                                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_proveedor' i.idproveedor %}">Eliminar</a>
                                     </td>
                                 </tr>
                             {% endfor %}

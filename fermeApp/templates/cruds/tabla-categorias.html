@@ -85,10 +85,10 @@
                                     <td class="wishlist__column wishlist__column--product">{{i.idcategoria}}</td>
                                     <td class="wishlist__column wishlist__column--product">{{i.nombrecategoria}}</td>
                                     <td class="wishlist__column wishlist__column--product">
-                                        <button class="btn btn-info btn-sm" href="{% url 'modificar_categoria' i.idcategoria %}">Modificar</button>
+                                        <a class="btn btn-info btn-sm" href="{% url 'modificar_categoria' i.idcategoria %}">Modificar</a>
                                         <br>
                                         <br>
-                                        <button class="btn btn-danger btn-sm" href="{% url 'eliminar_categoria' i.idcategoria %}">Eliminar</button>
+                                        <a class="btn btn-danger btn-sm" href="{% url 'eliminar_categoria' i.idcategoria %}">Eliminar</a>
                                     </td>
                                 </tr>
                             {% endfor %}
