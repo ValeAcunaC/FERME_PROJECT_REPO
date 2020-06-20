@@ -56,7 +56,13 @@ urlpatterns = [
     path('crear_usuario', views.crearUsuario, name='crear_usuario'),
     path('modificar_usuario/<int:pk>/', views.modificarUsuario, name='modificar_usuario'),
     path('eliminar_usuario/<int:pk>/', views.eliminarUsuario, name='eliminar_usuario'),
-    
-    
+
+    path('crear_ordencompra', views.crearOrdencompra, name='crear_ordencompra'),
+    path('modificar_ordencompra/<int:pk>/', views.modificarOrdencompra, name='modificar_ordencompra'),
+    path('eliminar_ordencompra/<int:pk>/', views.eliminarOrdencompra, name='eliminar_ordencompra'),
+
+    path('crear_ordencompraproducto/<int:pk>/', views.crearOrdencompraproducto, name='crear_ordencompraproducto'),
+    path('modificar_ordencompraproducto/<int:pk1>/<int:pk2>/', views.modificarOrdencompraproducto, name='modificar_ordencompraproducto'),    
+    path('eliminar_ordencompraproducto/<int:pk1>/<int:pk2>/', views.eliminarOrdencompraproducto, name='eliminar_ordencompraproducto'),    
     
 ] 

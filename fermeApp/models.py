@@ -234,18 +234,31 @@ class Factura(models.Model):
 
 class Ordencompra(models.Model):
     idordencompra = models.AutoField(db_column='IdOrdenCompra', primary_key=True)  # Field name made lowercase.
-    fecha = models.DateTimeField(db_column='Fecha')  # Field name made lowercase.
+    fecha = models.DateTimeField(db_column='Fecha', auto_now_add=True)  # Field name made lowercase.
     idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='IdUsuario')  # Field name made lowercase.
     idestadooc = models.ForeignKey(Estadoordencompra, models.DO_NOTHING, db_column='IdEstadoOC')  # Field name made lowercase.
     idproveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='IdProveedor')  # Field name made lowercase.
     comentarios = models.CharField(db_column='Comentarios', max_length=500, blank=True, null=True)  # Field name made lowercase.
     
     def __str__(self):
-        return f'{self.idordencompra} {self.fecha}'
+        #return f'{self.idordencompra} {self.fecha}'
+        return f'{self.idordencompra}'
 
     class Meta:
         managed = False
         db_table = 'ordencompra'
+    
+    @property
+    def get_order_total(self):
+        orderitems = self.ordencompraproducto_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+    
+    @property
+    def get_order_items(self):
+        orderitems = self.ordencompraproducto_set.all()
+        total = sum([item.cantidadoc for item in orderitems])
+        return total
 
 
 class OrdencompraProducto(models.Model):
@@ -253,10 +266,18 @@ class OrdencompraProducto(models.Model):
     idordencompra = models.ForeignKey(Ordencompra, models.DO_NOTHING, db_column='IdOrdenCompra')  # Field name made lowercase.
     cantidadoc = models.IntegerField(db_column='CantidadOC')  # Field name made lowercase.
 
+    def __str__(self):
+        return f'{self.idordencompra}'
+
     class Meta:
         managed = False
         db_table = 'ordencompra_producto'
         unique_together = (('idproducto', 'idordencompra'),)
+    
+    @property
+    def get_total(self):
+        total = self.idproducto.precio * self.cantidadoc
+        return total
 
 
 class Pago(models.Model):

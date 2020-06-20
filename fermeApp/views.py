@@ -482,3 +482,99 @@ def dashboard(request):
     num_visits=request.session['num_visits']=num_visits+1
     context={'num_visits':num_visits,}
     return render(request, 'dashboard.html', context)
+
+#crud ordencompra
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
+def crearOrdencompra(request):
+    u = request.user.id
+    usuario = Usuario.objects.get(user=u)
+    print(usuario.id)
+    estadocreado = Estadoordencompra.objects.get(nombreestadooc="Creado")
+    form = OrdencompraForm()
+    if request.method == 'POST':
+        form = OrdencompraForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            idordencompra = Ordencompra.objects.latest('idordencompra')
+            #print("id orden: ",str(idordencompra))
+            print("id orden: ",idordencompra)
+            #ordencompra = Ordencompra.objects.get(idordencompra=idordencompra)
+            #ordencompra = ordencompra.idordencompra
+            #print("id orden: ",idordencompra)
+            return redirect('crear_ordencompraproducto/'+str(idordencompra))
+
+    context = {'form':form,'usuario':usuario,'estadocreado':estadocreado}
+    return render(request,'cruds/ordencompra.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
+def modificarOrdencompra(request, pk):
+    ordencompra = Ordencompra.objects.get(idordencompra=pk)
+    form = OrdencompraForm(instance=ordencompra)
+    if request.method == 'POST':
+        form = OrdencompraForm(request.POST, instance=ordencompra)
+        if form.is_valid():
+            form.save()
+            return redirect('ordenes')
+
+    context = {'form':form}
+    return render(request,'cruds/ordencompra.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','empleado'])
+def eliminarOrdencompra(request, pk):
+    ordencompra = Ordencompra.objects.get(idordencompra=pk)
+    if request.method == 'POST':
+        ordencompra.delete()
+        return redirect('ordenes')
+        
+    context = {'item':ordencompra}
+    return render(request,'cruds/eliminar-ordencompra.html',context)
+
+#crud ordencompraproducto
+def crearOrdencompraproducto(request, pk):
+    ordencompra = Ordencompra.objects.get(idordencompra=pk)
+    form = OrdencompraproductoForm()
+    if OrdencompraProducto.objects.filter(idordencompra=pk).exists():
+        ordencompraproducto = OrdencompraProducto.objects.filter(idordencompra=pk)
+    else:
+        ordencompraproducto = False
+    
+    if request.method == 'POST':
+        form = OrdencompraproductoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            #idordencompra = form.cleaned_data.get('idordencompra')
+            #idordencompra = OrdencompraProducto.objects.latest('idordencompra')
+            #return redirect('crear_ordencompraproducto/'+str(idordencompra))
+    
+    context = {'item':ordencompra, 'ordencompraproducto':ordencompraproducto,'form':form}
+    return render(request,'cruds/ordencompraproducto.html',context)
+
+def modificarOrdencompraproducto(request, pk1, pk2):
+    ordencompra = Ordencompra.objects.get(idordencompra=pk1)
+    ordencompraproducto = OrdencompraProducto.objects.get(idordencompra=pk1, idproducto=pk2)
+    form = OrdencompraproductoForm(instance=ordencompraproducto)
+    if request.method == 'POST':
+        form = OrdencompraproductoForm(request.POST, instance=ordencompraproducto)
+        if form.is_valid():
+            form.save()
+
+    if OrdencompraProducto.objects.filter(idordencompra=pk1).exists():
+        ordencompraproducto = OrdencompraProducto.objects.filter(idordencompra=pk1)
+    else:
+        ordencompraproducto = False
+    
+    context = {'item':ordencompra, 'ordencompraproducto':ordencompraproducto,'form':form}
+    return render(request,'cruds/ordencompraproducto.html',context)
+
+def eliminarOrdencompraproducto(request, pk1, pk2):
+    ordencompraproducto = OrdencompraProducto.objects.get(idordencompra=pk1, idproducto=pk2)
+    if request.method == 'POST':
+        ordencompraproducto.delete()
+        return redirect('crear_ordencompraproducto/'+str(idordencompra))
+        
+    context = {'item':ordencompraproducto}
+    return render(request,'cruds/eliminar-ordencompra.html',context)

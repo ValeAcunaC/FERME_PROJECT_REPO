@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+
+<script>
+    function getuser() {
+    debugger;
+    document.getElementById("id_idusuario") = "{{usuario.id}}";
+    document.getElementById("id_idestadooc").value = "{{estadocreado}}";
+    document.getElementById("idForm").submit();
+    }
+</script>
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Orden de Compra</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form name="idForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{form}}
+            </div>
+            <button onclick="getuser()" class="btn btn-primary">Siguiente</button>
+        </form>
+        <div class="form-group">
+            {{form.errors}}
+        </div>
+    </div>
+</div>
+{% endblock %}

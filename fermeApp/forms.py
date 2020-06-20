@@ -89,9 +89,22 @@ class StaffForm(ModelForm):
         model = User
         fields = ['username', 'password', 'first_name','last_name', 'is_staff']
 
+class OrdencompraForm(ModelForm):
+    idusuario = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    idestadooc = forms.CharField(label='Estado', widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    idproveedor = forms.ModelChoiceField(label='Proveedor', queryset=Proveedor.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    comentarios = forms.CharField(label='Comentarios', required = False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = Ordencompra
+        fields = ['idusuario','idestadooc','idproveedor','comentarios']
 
-
-        
+class OrdencompraproductoForm(ModelForm):
+    #idordencompra = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    #idproducto = forms.ModelChoiceField(label='Producto', queryset=Producto.objects.all(), widget=forms.Select(attrs={'class':'form-control-sm'}))
+    #idcantidadoc = forms.CharField(label='Cantidad', widget=forms.TextInput(attrs={'class':'form-control-sm'}))
+    class Meta:
+        model = OrdencompraProducto
+        fields = ['idordencompra','idproducto','cantidadoc']       
 
 
 

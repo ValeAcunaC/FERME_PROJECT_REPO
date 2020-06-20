@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+
+<!--
+<script>
+    function myFunction() {
+    debugger;
+    user = document.getElementById("id_idordencompra").value = "{{item}}";
+    document.getElementById("idForm").submit();
+    }
+</script>
+-->
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Orden de Compra</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+    <table class="wishlist">
+            <tbody class="wishlist__body">
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">
+                        <a type="button" class="btn btn-light btn-sm" href="{% url 'modificar_ordencompra' item.idordencompra %}">Modificar Orden de Compra</a>
+                    </td>
+                </tr>
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">Id: {{item.idordencompra}}</td>
+                    <td class="wishlist__column wishlist__column--product">Proveedor: {{item.idproveedor.nombreproveedor}}</td>
+                    <td class="wishlist__column wishlist__column--product">Fecha: {{item.fecha}}</td>
+                    <td class="wishlist__column wishlist__column--product">Estado: {{item.idestadooc}}</td>
+                    <td class="wishlist__column wishlist__column--product">Comentarios: {{item.comentarios}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <form name="idForm" action="" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button onclick="myFunction()" class="btn btn-primary">Guardar Producto</button>
+        </form>
+        <div class="form-group">
+            {{form.errors}}
+        </div>
+        
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">Producto</th>
+                    <th class="wishlist__column wishlist__column--product">Cantidad</th>
+                    <th class="wishlist__column wishlist__column--product">Precio Unitario</th>
+                    <th class="wishlist__column wishlist__column--product">Precio</th>
+                    <th class="wishlist__column wishlist__column--product">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            {% if ordencompraproducto != False %}
+            {% for i in ordencompraproducto %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product">{{i.idproducto.nombreproducto}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.cantidadoc}}</td>
+                    <td class="wishlist__column wishlist__column--product">${{i.idproducto.precio}}</td>
+                    <td class="wishlist__column wishlist__column--product">${{i.get_total}}</td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a type="button" class="btn btn-info btn-sm" href="{% url 'modificar_ordencompraproducto' i.idordencompra.idordencompra i.idproducto.idproducto %}">Modificar</a>
+                        <br>
+                        <br>
+                        <a type="button" class="btn btn-danger btn-sm" href="{% url 'eliminar_ordencompraproducto' i.idordencompra.idordencompra i.idproducto.idproducto %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% endif %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product">Total:</td>
+                    <td class="wishlist__column wishlist__column--product">${{item.get_order_total}}</td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
