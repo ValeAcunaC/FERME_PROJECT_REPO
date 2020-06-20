@@ -489,9 +489,10 @@ def dashboard(request):
 def crearOrdencompra(request):
     u = request.user.id
     usuario = Usuario.objects.get(user=u)
-    print(usuario.id)
     estadocreado = Estadoordencompra.objects.get(nombreestadooc="Creado")
-    form = OrdencompraForm()
+    #form = OrdencompraForm(usuario = usuario.id, estadocreado = estadocreado.idestadooc)
+    ids = [usuario.id, estadocreado.idestadooc]
+    form = OrdencompraForm(usuario = usuario.id,estadocreado = estadocreado.idestadooc)
     if request.method == 'POST':
         form = OrdencompraForm(request.POST)
         
@@ -499,7 +500,6 @@ def crearOrdencompra(request):
             form.save()
             idordencompra = Ordencompra.objects.latest('idordencompra')
             #print("id orden: ",str(idordencompra))
-            print("id orden: ",idordencompra)
             #ordencompra = Ordencompra.objects.get(idordencompra=idordencompra)
             #ordencompra = ordencompra.idordencompra
             #print("id orden: ",idordencompra)

@@ -90,8 +90,13 @@ class StaffForm(ModelForm):
         fields = ['username', 'password', 'first_name','last_name', 'is_staff']
 
 class OrdencompraForm(ModelForm):
-    idusuario = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
-    idestadooc = forms.CharField(label='Estado', widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    def __init__(self,usuario,estadocreado,*args,**kwargs):
+        super(OrdencompraForm,self).__init__(*args,**kwargs)
+        self.fields['idusuario']= forms.ModelChoiceField(label='Usuario', disabled = True , initial=1 , queryset=Usuario.objects.filter(id=usuario),widget=forms.Select(attrs={'class':'form-control'}))
+        self.fields['idestadooc']= forms.ModelChoiceField(label='Estadoordencompra', disabled = True , initial=1 , queryset=Estadoordencompra.objects.filter(idestadooc=estadocreado),widget=forms.Select(attrs={'class':'form-control'}))
+    
+    #idusuario = forms.IntegerField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
+    #idestadooc = forms.CharField(label='Estado', widget=forms.HiddenInput(attrs={'class':'form-control'}))
     idproveedor = forms.ModelChoiceField(label='Proveedor', queryset=Proveedor.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
     comentarios = forms.CharField(label='Comentarios', required = False, widget=forms.TextInput(attrs={'class':'form-control'}))
     class Meta:
