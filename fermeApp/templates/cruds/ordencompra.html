@@ -4,12 +4,7 @@
 
 {% load static %}
 
-<script>
-    function getuser() {
-    debugger;
-    document.getElementById("idForm").submit();
-    }
-</script>
+
 
 <div class="page-header">
     <div class="page-header__container container">
@@ -30,4 +25,27 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+        var id = "{{usuario}}"
+        var cbx = document.getElementById("id_idusuario");
+        for (i = 0; i < cbx.options.length; i++) {
+            if(cbx[i].value == id){
+                document.getElementById("id_idusuario").selectedIndex = i;
+                $('#id_idusuario').prop('disabled', true);
+                break;
+            }
+        } 
+    });
+    function getuser(){
+        
+        getuser1();
+    };
+    function getuser1() {
+        $('#id_idusuario').prop('disabled', false);
+        $("#idForm").submit()
+        //document.getElementById("idForm").submit();
+    };
+    
+</script>
 {% endblock %}

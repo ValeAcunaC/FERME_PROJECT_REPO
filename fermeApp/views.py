@@ -491,8 +491,10 @@ def crearOrdencompra(request):
     usuario = Usuario.objects.get(user=u)
     estadocreado = Estadoordencompra.objects.get(nombreestadooc="Creado")
     #form = OrdencompraForm(usuario = usuario.id, estadocreado = estadocreado.idestadooc)
-    ids = [usuario.id, estadocreado.idestadooc]
-    form = OrdencompraForm(usuario = usuario.id,estadocreado = estadocreado.idestadooc)
+    
+    #ids = [usuario.id, estadocreado.idestadooc]
+    #form = OrdencompraForm(usuario = usuario.id,estadocreado = estadocreado.idestadooc)
+    form = OrdencompraForm()
     if request.method == 'POST':
         form = OrdencompraForm(request.POST)
         
@@ -505,7 +507,7 @@ def crearOrdencompra(request):
             #print("id orden: ",idordencompra)
             return redirect('crear_ordencompraproducto/'+str(idordencompra))
 
-    context = {'form':form,'usuario':usuario,'estadocreado':estadocreado}
+    context = {'form':form,'usuario':usuario.id,'estadocreado':estadocreado}
     return render(request,'cruds/ordencompra.html',context)
 
 @login_required(login_url='login')
