@@ -398,14 +398,15 @@ class Venta(models.Model):
         managed = False
         db_table = 'venta'
 
-
 class VentaProducto(models.Model):
     idpv = models.BigAutoField(db_column='IdPV', primary_key=True)  # Field name made lowercase.
-    idproducto = models.OneToOneField(Producto, models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
-    idventa = models.OneToOneField(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
+    idproducto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
+    idventa = models.ForeignKey(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
+    # idproducto = models.OneToOneField(Producto, models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
+    # idventa = models.OneToOneField(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
     cantidadproducto = models.IntegerField(db_column='CantidadProducto')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'venta_producto'
-        #unique_together = (('idproducto', 'idventa'),)
+        unique_together = (('idproducto', 'idventa'),)
