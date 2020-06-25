@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="{% static 'fonts/stroyka/stroyka.css' %}">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-97489509-6');</script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="https://www.zingchart.com/docs/tutorials/styling/animation#effect"></script>
+    
 </head>
 
 <body>
@@ -241,6 +244,9 @@
                             {% if user.is_authenticated %}
                                 <div class="topbar__item topbar__item--link">
                                     <a class="topbar-link" href="{% url 'perfil' user.id %}">{{user.username}}</a>
+                                </div>
+                                <div class="topbar__item topbar__item--link">
+                                    <a class="topbar-link" href="{% url 'logout' %}">Cerrar Sesión</a>
                                 </div>
                             {% else %}
                                 <div class="topbar__item topbar__item--link">
