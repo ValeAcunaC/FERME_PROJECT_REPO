@@ -66,10 +66,10 @@
                     <td class="wishlist__column wishlist__column--product">${{i.idproducto.precio}}</td>
                     <td class="wishlist__column wishlist__column--product">${{i.get_total}}</td>
                     <td class="wishlist__column wishlist__column--product">
-                        <a type="button" class="btn btn-info btn-sm" href="{% url 'modificar_ordencompraproducto' i.idordencompra.idordencompra i.idproducto.idproducto %}">Modificar</a>
+                        <a type="button" class="btn btn-info btn-sm" href="{% url 'modificar_ordencompraproducto' i.idocp %}">Modificar</a>
                         <br>
                         <br>
-                        <a type="button" class="btn btn-danger btn-sm" href="{% url 'eliminar_ordencompraproducto' i.idordencompra.idordencompra i.idproducto.idproducto %}">Eliminar</a>
+                        <a type="button" class="btn btn-danger btn-sm" href="{% url 'eliminar_ordencompraproducto' i.idocp %}">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

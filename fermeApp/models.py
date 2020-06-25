@@ -216,7 +216,7 @@ class Estadoventa(models.Model):
 
 
 class Factura(models.Model):
-    idfactura = models.AutoField(db_column='IdFactura', primary_key=True)  # Field name made lowercase.
+    idfactura = models.BigAutoField(db_column='IdFactura', primary_key=True)  # Field name made lowercase.
     fechafactura = models.DateTimeField(db_column='FechaFactura')  # Field name made lowercase.
     subtotalfactura = models.IntegerField(db_column='SubTotalFactura')  # Field name made lowercase.
     ivafactura = models.DecimalField(db_column='IVAFactura', max_digits=10, decimal_places=0)  # Field name made lowercase.
@@ -257,13 +257,14 @@ class Ordencompra(models.Model):
     @property
     def get_order_items(self):
         orderitems = self.ordencompraproducto_set.all()
-        total = sum([item.cantidadoc for item in orderitems])
+        total = sum([1 for item in orderitems])
         return total
 
 
 class OrdencompraProducto(models.Model):
-    idproducto = models.OneToOneField('Producto', models.DO_NOTHING, db_column='IdProducto', primary_key=True)  # Field name made lowercase.
-    idordencompra = models.ForeignKey(Ordencompra, models.DO_NOTHING, db_column='IdOrdenCompra')  # Field name made lowercase.
+    idocp = models.AutoField(db_column='IdOCP', primary_key=True)  # Field name made lowercase.
+    idproducto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
+    idordencompra = models.ForeignKey(Ordencompra, models.CASCADE, db_column='IdOrdenCompra')  # Field name made lowercase.
     cantidadoc = models.IntegerField(db_column='CantidadOC')  # Field name made lowercase.
 
     def __str__(self):
@@ -272,7 +273,7 @@ class OrdencompraProducto(models.Model):
     class Meta:
         managed = False
         db_table = 'ordencompra_producto'
-        unique_together = (('idproducto', 'idordencompra'),)
+        #unique_together = (('idproducto', 'idordencompra'),)
     
     @property
     def get_total(self):
@@ -399,11 +400,12 @@ class Venta(models.Model):
 
 
 class VentaProducto(models.Model):
-    idproducto = models.OneToOneField(Producto, models.DO_NOTHING, db_column='IdProducto', primary_key=True)  # Field name made lowercase.
-    idventa = models.ForeignKey(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
+    idpv = models.BigAutoField(db_column='IdPV', primary_key=True)  # Field name made lowercase.
+    idproducto = models.OneToOneField(Producto, models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
+    idventa = models.OneToOneField(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
     cantidadproducto = models.IntegerField(db_column='CantidadProducto')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'venta_producto'
-        unique_together = (('idproducto', 'idventa'),)
+        #unique_together = (('idproducto', 'idventa'),)

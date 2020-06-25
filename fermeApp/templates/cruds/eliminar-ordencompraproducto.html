@@ -11,9 +11,9 @@
 </div>
 <div class="block">
     <div class="container">
-        <form action="{% url 'eliminar_ordencompra' item.idordencompra.idordencompra item.id_producto.id_producto %}" method="POST">
+        <form action="{% url 'eliminar_ordencompraproducto' item.idocp %}" method="POST">
             {% csrf_token %}
-            <a class="btn btn-info" href="{% url 'crear_ordencompra' item.idordencompra.idordencompra %}">Cancelar</a>
+            <a class="btn btn-info" href="{% url 'crear_ordencompraproducto' item.idordencompra.idordencompra %}">Cancelar</a>
             <button type="submit" name="Submit" class="btn btn-primary">Eliminar</button>
         </form>
     </div>

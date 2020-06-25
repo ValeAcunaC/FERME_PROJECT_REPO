@@ -61,8 +61,8 @@ urlpatterns = [
     path('modificar_ordencompra/<int:pk>/', views.modificarOrdencompra, name='modificar_ordencompra'),
     path('eliminar_ordencompra/<int:pk>/', views.eliminarOrdencompra, name='eliminar_ordencompra'),
 
-    path('crear_ordencompraproducto/<int:pk>/', views.crearOrdencompraproducto, name='crear_ordencompraproducto'),
-    path('modificar_ordencompraproducto/<int:pk1>/<int:pk2>/', views.modificarOrdencompraproducto, name='modificar_ordencompraproducto'),    
-    path('eliminar_ordencompraproducto/<int:pk1>/<int:pk2>/', views.eliminarOrdencompraproducto, name='eliminar_ordencompraproducto'),    
+    path('detalle_ordencompra/<int:pk>/', views.crearOrdencompraproducto, name='crear_ordencompraproducto'),
+    path('modificar_item_ordencompra/<int:pk>/', views.modificarOrdencompraproducto, name='modificar_ordencompraproducto'),    
+    path('eliminar_item_ordencompra/<int:pk>/', views.eliminarOrdencompraproducto, name='eliminar_ordencompraproducto'),    
     
 ] 
