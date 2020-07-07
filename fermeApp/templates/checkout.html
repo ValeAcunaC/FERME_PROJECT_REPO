@@ -12,199 +12,173 @@
 </div>
 <div class="checkout block">
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-7">
-                <div class="card mb-lg-0">
-                    <div class="card-body">
-                        <h3 class="card-title">Billing details</h3>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="checkout-first-name">Nombre</label> 
-                                <input type="text" class="form-control" id="checkout-first-name" placeholder="Ingrese Nombre">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="card mb-lg-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Detalle de despacho</h3>
+                            <!-- <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-first-name">Nombre</label> 
+                                    <input type="text" class="form-control" id="checkout-first-name" placeholder="Ingrese Nombre">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-last-name">Apellido</label> 
+                                    <input type="text" class="form-control" id="checkout-last-name" placeholder="Ingrese Apellido">
+                                </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="direccion">Dirección de Despacho</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese Dirección">
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="checkout-last-name">Apellido</label> 
-                                <input type="text" class="form-control" id="checkout-last-name" placeholder="Ingrese Apellido">
-                            </div>
+                            <!-- <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-email">Email</label> 
+                                    <input type="email" class="form-control" id="checkout-email" placeholder="Ingrese Email">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-phone">Telefono</label>
+                                    <input type="text" class="form-control" id="checkout-phone" placeholder="Ingrese telefono">
+                                </div>
+                            </div> -->
                         </div>
-                        <div class="form-group">
-                            <label for="checkout-street-address">Dirección de Despacho</label>
-                            <input type="text" class="form-control" id="checkout-street-address" placeholder="Ingrese Dirección">
-                        </div>
-                        <div class="form-group">
-                            <label for="checkout-address">Apartmento, suite, etc.
-                                <span class="text-muted">(Opcional)</span>
-                            </label> 
-                            <input type="text" class="form-control" id="checkout-address">
-                        </div>
-                        <div class="form-group">
-                            <label for="checkout-postcode">Postcode / ZIP</label> 
-                            <input type="text" class="form-control" id="checkout-postcode">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="checkout-email">Email</label> 
-                                <input type="email" class="form-control" id="checkout-email" placeholder="Ingrese Email">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="checkout-phone">Telefono</label>
-                                <input type="text" class="form-control" id="checkout-phone" placeholder="Ingrese telefono">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-divider"></div>
-                    <div class="card-body">
-                        <h3 class="card-title">Detalle de Despacho</h3>
-                        <div class="form-group">
-                            <label for="checkout-comment">Comentario
-                                <span class="text-muted">(Opcional)</span>
-                            </label> 
-                            <textarea id="checkout-comment" class="form-control" rows="4"></textarea>
-                        </div>
+
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
-                <div class="card mb-0">
-                    <div class="card-body">
-                        <h3 class="card-title">Orden</h3>
-                        <table class="checkout__totals">
-                            <thead class="checkout__totals-header">
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="checkout__totals-products">
-                                <tr>
-                                    <td>Electric Planer Brandix KL370090G 300 Watts × 2</td>
-                                    <td>$1,398.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Undefined Tool IRadix DPS3000SY 2700 watts × 1</td>
-                                    <td>$849.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Brandix Router Power Tool 2017ERXPK × 3</td>
-                                    <td>$3,630.00</td>
-                                </tr>
-                            </tbody>
-                            <tbody class="checkout__totals-subtotals">
-                                <tr>
-                                    <th>Subtotal</th>
-                                    <td>$5,877.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Descuento</th>
-                                    <td>$-20.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Despacho</th>
-                                    <td>$25.00</td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="checkout__totals-footer">
-                                <tr>
-                                    <th>Total</th>
-                                    <td>$5,882.00</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="payment-methods">
-                            <ul class="payment-methods__list">
-                                <li class="payment-methods__item payment-methods__item--active">
-                                    <label class="payment-methods__item-header">
-                                        <span class="payment-methods__item-radio input-radio">
-                                            <span class="input-radio__body">
-                                                <input class="input-radio__input" name="checkout_payment_method" type="radio"
-                                                    checked="checked"> 
-                                                    <span class="input-radio__circle"></span> 
+                <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <h3 class="card-title">Orden</h3>
+                            <table class="checkout__totals">
+                                <thead class="checkout__totals-header">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="checkout__totals-products">
+                                    {% for item in items %}
+                                    <tr>
+                                        <td>{{item.idproducto.nombreproducto}}</td>
+                                        <td>${{item.get_total}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody class="checkout__totals-subtotals">
+                                    <!-- <tr>
+                                        <th>Subtotal</th>
+                                        <td>${{venta.get_venta_total}}</td>
+                                    </tr> -->
+                                    <!-- <tr>
+                                        <th>Despacho</th>
+                                        <td>$0</td>
+                                    </tr> -->
+                                </tbody>
+                                <tfoot class="checkout__totals-footer">
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>${{venta.get_venta_total}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <!-- <div class="payment-methods">
+                                <ul class="payment-methods__list">
+                                    <li class="payment-methods__item payment-methods__item--active">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio"
+                                                        checked="checked"> 
+                                                        <span class="input-radio__circle"></span> 
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        <span class="payment-methods__item-title">Direct bank transfer</span>
-                                    </label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-description text-muted">Make your
-                                            payment directly into our bank account. Please use your Order ID
-                                            as the payment reference. Your order will not be shipped until
-                                            the funds have cleared in our account.</div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item">
-                                    <label class="payment-methods__item-header">
-                                        <span class="payment-methods__item-radio input-radio">
-                                            <span class="input-radio__body">
-                                                <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
-                                                <span class="input-radio__circle"></span> 
-                                            </span>
-                                        </span>
-                                    <span class="payment-methods__item-title">Check payments</span>
-                                </label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-description text-muted">Please
-                                            send a check to Store Name, Store Street, Store Town, Store
-                                            State / County, Store Postcode.</div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item">
-                                    <label class="payment-methods__item-header">
-                                        <span class="payment-methods__item-radio input-radio">
-                                            <span class="input-radio__body">
-                                                <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
-                                                    <span class="input-radio__circle"></span> 
-                                                </span>
-                                            </span>
-                                            <span class="payment-methods__item-title">Cash on delivery</span>
+                                            <span class="payment-methods__item-title">Direct bank transfer</span>
                                         </label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-description text-muted">Pay with cash upon delivery.</div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item">
-                                    <label class="payment-methods__item-header">
-                                        <span class="payment-methods__item-radio input-radio">
-                                            <span class="input-radio__body">
-                                                <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
-                                                <span class="input-radio__circle"></span> 
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">Make your
+                                                payment directly into our bank account. Please use your Order ID
+                                                as the payment reference. Your order will not be shipped until
+                                                the funds have cleared in our account.</div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
+                                                    <span class="input-radio__circle"></span> 
+                                                </span>
                                             </span>
-                                        </span>
-                                        <span class="payment-methods__item-title">PayPal</span>
+                                        <span class="payment-methods__item-title">Check payments</span>
                                     </label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-description text-muted">Pay via
-                                            PayPal; you can pay with your credit card if you don’t have a
-                                            PayPal account.</div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="checkout__agree form-group">
-                            <div class="form-check">
-                                <span class="form-check-input input-check">
-                                    <span class="input-check__body">
-                                        <input class="input-check__input" type="checkbox" id="checkout-terms"> 
-                                        <span class="input-check__box"></span> 
-                                        <svg class="input-check__icon" width="9px" height="7px">
-                                            <use xlink:href="images/sprite.svg#check-9x7"></use>
-                                        </svg> 
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">Please
+                                                send a check to Store Name, Store Street, Store Town, Store
+                                                State / County, Store Postcode.</div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
+                                                        <span class="input-radio__circle"></span> 
+                                                    </span>
+                                                </span>
+                                                <span class="payment-methods__item-title">Cash on delivery</span>
+                                            </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">Pay with cash upon delivery.</div>
+                                        </div>
+                                    </li>
+                                    <li class="payment-methods__item">
+                                        <label class="payment-methods__item-header">
+                                            <span class="payment-methods__item-radio input-radio">
+                                                <span class="input-radio__body">
+                                                    <input class="input-radio__input" name="checkout_payment_method" type="radio"> 
+                                                    <span class="input-radio__circle"></span> 
+                                                </span>
+                                            </span>
+                                            <span class="payment-methods__item-title">PayPal</span>
+                                        </label>
+                                        <div class="payment-methods__item-container">
+                                            <div class="payment-methods__item-description text-muted">Pay via
+                                                PayPal; you can pay with your credit card if you don’t have a
+                                                PayPal account.</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div> -->
+                            <!-- <div class="checkout__agree form-group">
+                                <div class="form-check">
+                                    <span class="form-check-input input-check">
+                                        <span class="input-check__body">
+                                            <input class="input-check__input" type="checkbox" id="checkout-terms"> 
+                                            <span class="input-check__box"></span> 
+                                            <svg class="input-check__icon" width="9px" height="7px">
+                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            </svg> 
+                                        </span>
                                     </span>
-                                </span>
-                                <label class="form-check-label" for="checkout-terms">
-                                    I have read and agree to the website 
-                                    <a target="_blank" href="terms-and-conditions.html">
-                                        terms andconditions
-                                    </a>
-                                    *
-                                </label>
-                            </div>
+                                    <label class="form-check-label" for="checkout-terms">
+                                        I have read and agree to the website 
+                                        <a target="_blank" href="terms-and-conditions.html">
+                                            terms andconditions
+                                        </a>
+                                        *
+                                    </label>
+                                </div>
+                            </div> -->
+                            <button type="submit" class="btn btn-primary btn-xl btn-block">
+                                Pagar
+                            </button>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-xl btn-block">
-                            Pagar
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 {% endblock %}

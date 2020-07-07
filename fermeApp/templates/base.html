@@ -21,6 +21,7 @@
     <script src="{% static 'vendor/nouislider-12.1.0/nouislider.min.js' %}"></script>
     <script src="{% static 'js/number.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    
     <script src="{% static 'vendor/svg4everybody-2.1.9/svg4everybody.min.js' %}"></script>
     <script>svg4everybody();</script>
     <!-- font - fontawesome -->
@@ -31,6 +32,26 @@
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-97489509-6');</script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src="https://www.zingchart.com/docs/tutorials/styling/animation#effect"></script>
+
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+        function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+    </script>
     
 </head>
 
@@ -391,5 +412,5 @@
     </div>
     <!-- site / end -->
 </body>
-
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 </html>

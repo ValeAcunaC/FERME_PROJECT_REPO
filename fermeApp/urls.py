@@ -27,7 +27,8 @@ urlpatterns = [
 
     #shop
     path('carro', views.carro, name='carro'),
-    
+    path('checkout', views.checkout, name='checkout'),
+    path('update_item/', views.updateItem, name='update_item'),
 
     #mantenedores
     path('productos', views.productos, name='productos'),

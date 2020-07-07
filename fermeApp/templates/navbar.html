@@ -105,35 +105,38 @@
                             <a href="{% url 'carro' %}" class="indicator__button">
                                 <span class="indicator__area">
                                     <img width="20px" height="20px" src="{% static 'images/logos/cart.png' %}">
-                                    <span class="indicator__value">3</span>
+                                    <span class="indicator__value">{{venta.get_venta_items}}</span>
                                 </span>
                             </a>
                             <div class="indicator__dropdown">
                                 <!-- .dropcart -->
                                 <div class="dropcart">
                                     <div class="dropcart__products-list">
-                                        <div class="dropcart__product">
-                                            <div class="dropcart__product-image">
-                                                <a href="#">
-                                                    <img src="{% static 'images/products/product-1.jpg' %}" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="dropcart__product-info">
-                                                <div class="dropcart__product-name">
-                                                    <a href="#">
-                                                        Electric Planer Brandix KL370090G 300 Watts
+                                        {% for item in items %}
+                                            <div class="dropcart__product">
+                                                <div class="dropcart__product-image">
+                                                    <a href="{% url 'detalle_producto' item.idproducto.idproducto %}">
+                                                        <!-- <img src="{% static 'images/products/product-1.jpg' %}" alt=""> -->
+                                                        <img src="{{item.idproducto.foto.url}}" alt="">
                                                     </a>
                                                 </div>
-                                                <div class="dropcart__product-meta">
-                                                    <span class="dropcart__product-quantity">2</span> x 
-                                                    <span class="dropcart__product-price">$699.00</span>
+                                                <div class="dropcart__product-info">
+                                                    <div class="dropcart__product-name">
+                                                        <a href="{% url 'detalle_producto' item.idproducto.idproducto %}">
+                                                            {{item.idproducto.nombreproducto}}
+                                                        </a>
+                                                    </div>
+                                                    <div class="dropcart__product-meta">
+                                                        <span class="dropcart__product-quantity">{{item.cantidadproducto}}</span> x 
+                                                        <span class="dropcart__product-price">{{item.idproducto.precio}}</span>
+                                                    </div>
                                                 </div>
+                                                <button data-product="{{item.idproducto.idproducto}}" data-action="delete" type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon update-cart">
+                                                    <img src="{% static 'images/logos/remove.png' %}" width="10px" height="10px">
+                                                </button>
                                             </div>
-                                            <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
-                                                <img src="{% static 'images/logos/remove.png' %}" width="10px" height="10px">
-                                            </button>
-                                        </div>
-                                        <div class="dropcart__product">
+                                        {% endfor %}
+                                        <!-- <div class="dropcart__product">
                                             <div class="dropcart__product-image">
                                                 <a href="#">
                                                     <img src="{% static 'images/products/product-2.jpg' %}" alt="">
@@ -153,11 +156,11 @@
                                             <button type="button" class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon">
                                                 <img width="10px" height="10px" src="{% static 'images/logos/remove.png' %}">
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="dropcart__totals">
                                         <table>
-                                            <tr>
+                                            <!-- <tr>
                                                 <th>Subtotal</th>
                                                 <td>$5,877.00</td>
                                             </tr>
@@ -168,10 +171,10 @@
                                             <tr>
                                                 <th>IVA</th>
                                                 <td>$0.00</td>
-                                            </tr>
+                                            </tr> -->
                                             <tr>
                                                 <th>Total</th>
-                                                <td>$5,902.00</td>
+                                                <td>${{venta.get_venta_total}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -179,7 +182,7 @@
                                         <a class="btn btn-secondary" href="{% url 'carro' %}">
                                             Ver Carro
                                         </a> 
-                                        <a class="btn btn-primary" href="">
+                                        <a class="btn btn-primary" href="{% url 'checkout' %}">
                                             Checkout
                                         </a>
                                     </div>

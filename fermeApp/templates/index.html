@@ -324,10 +324,10 @@
                                         </div>
                                         <div class="product-card__prices"> $ {{i.precio}} </div>
                                         <div class="product-card__buttons">
-                                            <button class="btn btn-primary product-card__addtocart" type="button">
+                                            <button data-product="{{i.idproducto}}" data-action="add" class="btn btn-primary product-card__addtocart update-cart" type="button">
                                                 Añadir al Carrito
                                             </button> 
-                                            <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
+                                            <button data-product="{{i.idproducto}}" data-action="add" class="btn btn-secondary product-card__addtocart update-cart product-card__addtocart--list"
                                                 type="button">
                                                 Añadir al Carrito
                                             </button>

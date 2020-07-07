@@ -12,6 +12,9 @@ from .models import *
 from .decorators import *
 from .filters import *
 
+from django.http import JsonResponse
+import json
+
 visitas = 0
 def index(request):
     productos = Producto.objects.all()
@@ -19,15 +22,32 @@ def index(request):
     categorias = Categoria.objects.all()
     global visitas
     visitas = visitas + 1
+
+    #mejorar
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+    items = venta.ventaproducto_set.all()
+    #mejorar
+
+
     # global num_visits
     # num_visits = request.session.get('num_visits',0)
     # num_visits=request.session['num_visits']=num_visits+1
-    context={'productos': productos, 'subcategorias': subcategorias, 'categorias': categorias }
+    context={'productos': productos, 'subcategorias': subcategorias, 'categorias': categorias,'venta':venta, 'items':items}
     return render(request,'index.html',context)
 
 def detalleProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
-    context = {'item':producto}
+
+    #mejorar
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+    items = venta.ventaproducto_set.all()
+    #mejorar
+
+    context = {'item':producto,'categorias': categorias,'venta':venta, 'items':items}
     return render(request,'detalle-producto.html',context)
 
 #account
@@ -103,8 +123,12 @@ def perfil(request, pk):
         if form.is_valid():
             form.save()
 
-    
-    context= {'form':form}        
+    #mejorar
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+    items = venta.ventaproducto_set.all()
+    #mejorar
+
+    context= {'form':form,'categorias': categorias,'venta':venta, 'items':items}        
     return render(request, 'account/perfil.html',context)
 
 @login_required(login_url='login')
@@ -473,7 +497,57 @@ def eliminarProducto(request, pk):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
 def carro(request):
-    return render(request, 'carro.html')
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+    items = venta.ventaproducto_set.all()
+    context = {'items':items,'venta':venta}
+    return render(request, 'carro.html', context)
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+
+    print('Action:', action)
+    print('productId:',productId)
+    
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    producto = Producto.objects.get(idproducto=productId)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+
+    orderItem, created = VentaProducto.objects.get_or_create(idproducto= producto, idventa= venta)
+
+    if action == 'add':
+        orderItem.cantidadproducto = (orderItem.cantidadproducto + 1)
+    elif action == 'remove':
+        orderItem.cantidadproducto = (orderItem.cantidadproducto - 1)
+    elif action == 'delete':
+        orderItem.cantidadproducto = 0
+
+    orderItem.save()
+    if orderItem.cantidadproducto <= 0:
+        orderItem.delete()
+    return JsonResponse('Item was updated', safe=False)
+    
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
+def checkout(request):
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+    items = venta.ventaproducto_set.all()
+
+    if request.method == 'POST':
+        direccion = request.POST.get('direccion')
+        estado = Estadodespacho.objects.get(idestadodespacho=1)
+        despacho = Despacho(direcciondestino=direccion,idventa=venta,idestadodespacho=estado)
+        despacho.save()
+        return redirect('carro')
+
+    context = {'items':items,'venta':venta}
+    return render(request, 'checkout.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','vendedor'])

@@ -109,7 +109,7 @@ class Categoria(models.Model):
 
 class Despacho(models.Model):
     iddespacho = models.AutoField(db_column='IdDespacho', primary_key=True)  # Field name made lowercase.
-    fechainicio = models.DateTimeField(db_column='FechaInicio')  # Field name made lowercase.
+    fechainicio = models.DateTimeField(db_column='FechaInicio', auto_now_add=True)  # Field name made lowercase.
     fechatermino = models.DateTimeField(db_column='FechaTermino', blank=True, null=True)  # Field name made lowercase.
     direcciondestino = models.CharField(db_column='DireccionDestino', max_length=100)  # Field name made lowercase.
     idventa = models.ForeignKey('Venta', models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
@@ -397,6 +397,18 @@ class Venta(models.Model):
     class Meta:
         managed = False
         db_table = 'venta'
+            
+    @property
+    def get_venta_total(self):
+        ventaitems = self.ventaproducto_set.all()
+        total = sum([item.get_total for item in ventaitems])
+        return total
+            
+    @property
+    def get_venta_items(self):
+        ventaitems = self.ventaproducto_set.all()
+        total = sum([item.cantidadproducto for item in ventaitems])
+        return total
 
 class VentaProducto(models.Model):
     idpv = models.BigAutoField(db_column='IdPV', primary_key=True)  # Field name made lowercase.
@@ -404,9 +416,14 @@ class VentaProducto(models.Model):
     idventa = models.ForeignKey(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
     # idproducto = models.OneToOneField(Producto, models.DO_NOTHING, db_column='IdProducto')  # Field name made lowercase.
     # idventa = models.OneToOneField(Venta, models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
-    cantidadproducto = models.IntegerField(db_column='CantidadProducto')  # Field name made lowercase.
+    cantidadproducto = models.IntegerField(db_column='CantidadProducto', default=0)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'venta_producto'
         unique_together = (('idproducto', 'idventa'),)
+            
+    @property
+    def get_total(self):
+        total = self.idproducto.precio * self.cantidadproducto
+        return total
