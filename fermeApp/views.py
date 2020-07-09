@@ -671,7 +671,10 @@ def updateItem(request):
     orderItem, created = VentaProducto.objects.get_or_create(idproducto= producto, idventa= venta)
 
     if action == 'add':
-        orderItem.cantidadproducto = (orderItem.cantidadproducto + 1)
+        if (orderItem.cantidadproducto + 1)<= producto.stock:
+            orderItem.cantidadproducto = (orderItem.cantidadproducto + 1)
+        else:
+            messages.info(request, 'Stock insuficiente')
     elif action == 'remove':
         orderItem.cantidadproducto = (orderItem.cantidadproducto - 1)
     elif action == 'delete':
@@ -697,13 +700,20 @@ def checkout(request):
         items = []
     #mejorar
 
+    if request.user.groups.filter(name='persona').exists() or request.user.groups.filter(name='empresa').exists():
+        dirDespacho = usuario.direccion
+    else:
+        dirDespacho = ''
+
     if request.method == 'POST':
 
         direccion = request.POST.get('direccion')
         asd = request.POST.get('despacho')
-        if asd == 'despacho' and direccion=='':
-            context = {'items':items,'venta':venta}
+        if (asd == 'despacho' and direccion=='') or ((request.user.groups.filter(name='persona').exists() or request.user.groups.filter(name='empresa').exists()) and direccion==''):
+            messages.info(request, 'Debe ingresar la direccion de despacho')
+            context = {'items':items,'venta':venta,'dirDespacho':dirDespacho}
             return render(request, 'checkout.html', context)
+
         if direccion is not None:
             estado = Estadodespacho.objects.get(idestadodespacho=1)
             despacho = Despacho(direcciondestino=direccion,idventa=venta,idestadodespacho=estado)
@@ -711,18 +721,27 @@ def checkout(request):
 
         monto = request.POST.get('monto')
 
+        array = VentaProducto.objects.filter(idventa=venta.idventa)
+        producto = None
+
+        for i in array:
+            producto = Producto.objects.get(idproducto=i.idproducto.idproducto)
+            if 0 > (producto.stock - i.cantidadproducto):
+                messages.info(request, 'Stock de articulos insuficiente')
+                context = {'items':items,'venta':venta,'dirDespacho':dirDespacho}
+                return render(request, 'checkout.html', context)
+
         if request.user.groups.filter(name='vendedor').exists() or request.user.groups.filter(name='administrador').exists():
             estadoV = Estadoventa.objects.get(idestadoventa=3)
             venta.idestadoventa = estadoV
             venta.fechaventa = datetime.now()
             venta.save()
 
-            array = VentaProducto.objects.filter(idventa=venta.idventa)
-            producto = None
             for i in array:
                 producto = Producto.objects.get(idproducto=i.idproducto.idproducto)
                 producto.stock = producto.stock - i.cantidadproducto
                 producto.save()
+
 
             return redirect('recibo/'+str(venta.idventa)+'/'+str(monto))
         else:
@@ -732,7 +751,7 @@ def checkout(request):
 
         return redirect('tbkinit/'+str(pago.idpago))
 
-    context = {'items':items,'venta':venta}
+    context = {'items':items,'venta':venta,'dirDespacho':dirDespacho}
     return render(request, 'checkout.html', context)
 
 #TBK Section
@@ -915,4 +934,21 @@ def recibo(request,pk,monto):
 
 def ventaFin(request):
     return render(request,'venta-fin.html')
+
+def misCompras(request):
+    usuario = Usuario.objects.get(user=request.user.id)
+    ventas = Venta.objects.filter(idusuario=usuario.id)
+    array = []
+    for i in ventas:
+        despacho = Despacho.objects.get(idventa=i.idventa)
+        if despacho.idventa.idventa == i.idventa:
+            array.append(despacho)
+
+    context = {'array':array}
+    return render(request,'mis-compras.html',context)
+
+def detalleCompra(request,pk):
+    detalle = VentaProducto.objects.filter(idventa=pk)
+    context = {'detalle':detalle}
+    return render(request,'detalle-compra.html',context)
 

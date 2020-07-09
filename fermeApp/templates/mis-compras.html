@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Mis Compras</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <th class="wishlist__column wishlist__column--product">N°</th>
+                    <th class="wishlist__column wishlist__column--product">Fecha</th>
+                    <th class="wishlist__column wishlist__column--product">Estado</th>
+                    <th class="wishlist__column wishlist__column--product">Despacho</th>
+                    <th class="wishlist__column wishlist__column--product">Detalle</th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            
+            {% for i in array %}
+                <tr class="wishlist__row">
+
+                    <td class="wishlist__column wishlist__column--product">{{i.idventa.idventa}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idventa.fechaventa}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idventa.idestadoventa.nombreestadoventa}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idestadodespacho.nombreestadodespacho}}</td>
+                    <td class="wishlist__column wishlist__column--product">
+                        <a href="{% url 'detalle_compra' i.idventa.idventa %}" class="btn btn-primary wishlist__product-name">Ver Detalle</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

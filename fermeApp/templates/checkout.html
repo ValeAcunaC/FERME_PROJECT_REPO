@@ -37,6 +37,11 @@
                     <div class="card mb-lg-0">
                         <div class="card-body">
                             <h3 class="card-title">Detalle de despacho</h3>
+                            <div class="form-text text-muted">
+                                {% for message in messages %}
+                                    <p id="messages" class="alert alert-danger mb-3">{{message}}</p>
+                                {% endfor%}
+                            </div>
                             <!-- <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="checkout-first-name">Nombre</label> 
@@ -50,13 +55,13 @@
                             {% for group in request.user.groups.all %}
                                 {% if group.name == 'vendedor' or group.name == 'administrador' %}
                                     <div class="form-group mb-2">
-                                        <input onclick="des()" type="checkbox" id="despacho" name="despacho" value="despacho"/>
+                                        <input checked onclick="des()" type="checkbox" id="despacho" name="despacho" value="despacho"/>
                                         <label for="despacho">Despacho</label>
                                     </div>
                                 {% endif %}
                             {% endfor %}
                             <div class="form-group">
-                                <input hidden type="text" class="form-control" id="direccion" name="direccion"  placeholder="Ingrese la dirección de despacho">
+                                <input type="text" class="form-control" id="direccion" name="direccion" value="{{dirDespacho}}" placeholder="Ingrese la dirección de despacho">
                             </div>
                             <!-- <div class="form-row">
                                 <div class="form-group col-md-6">

@@ -34,6 +34,8 @@ urlpatterns = [
     path('comprobante/<str:pk>', views.comprobante, name='comprobante'),
     path('venta_fin', views.ventaFin, name='venta_fin'),
     path('recibo/<str:pk>/<str:monto>', views.recibo, name='recibo'),
+    path('mis_compras', views.misCompras, name='mis_compras'),
+    path('detalle_compra/<str:pk>', views.detalleCompra, name='detalle_compra'),
     path('update_item/', views.updateItem, name='update_item'),
 
     #mantenedores

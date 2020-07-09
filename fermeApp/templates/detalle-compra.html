@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Detalle Compra</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <table class="wishlist">
+            <thead class="wishlist__head">
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <th class="wishlist__column wishlist__column--product">Nombre Producto</th>
+                    <th class="wishlist__column wishlist__column--product">Cantidad</th>
+                    <th class="wishlist__column wishlist__column--product">Precio Unitario</th>
+                    <th class="wishlist__column wishlist__column--product">Precio Total</th>
+                </tr>
+            </thead>
+            <tbody class="wishlist__body">
+            
+            {% for i in detalle %}
+                <tr class="wishlist__row">
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                    <td class="wishlist__column wishlist__column--product"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
