@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from . models import Usuario, Boleta, Categoria, Despacho, Estadodespacho, Estadoordencompra, Estadopago, Estadoventa, Factura, Ordencompra, OrdencompraProducto, Pago, Producto, Proveedor, Rubro, Subcategoria, Tipopago, Venta, VentaProducto
+from . models import Usuario, Boleta, Categoria, Despacho, Estadodespacho, Estadoordencompra, Estadopago, Estadoventa, Factura, Ordencompra, OrdencompraProducto, Pago, Producto, Proveedor, Rubro, Subcategoria, Venta, VentaProducto
 
 admin.site.register(Usuario)
 admin.site.register(Boleta)
@@ -19,6 +19,5 @@ admin.site.register(Producto)
 admin.site.register(Proveedor)
 admin.site.register(Rubro)
 admin.site.register(Subcategoria)
-admin.site.register(Tipopago)
 admin.site.register(Venta)
 admin.site.register(VentaProducto)

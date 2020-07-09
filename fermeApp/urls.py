@@ -28,6 +28,12 @@ urlpatterns = [
     #shop
     path('carro', views.carro, name='carro'),
     path('checkout', views.checkout, name='checkout'),
+    path('tbkinit/<str:pk>', views.tbkinit, name='tbkinit'),
+    path('tbkresponse', views.tbkresponse, name='tbkresponse'),
+    path('tbkfinal', views.tbkfinal, name='tbkfinal'),
+    path('comprobante/<str:pk>', views.comprobante, name='comprobante'),
+    path('venta_fin', views.ventaFin, name='venta_fin'),
+    path('recibo/<str:pk>/<str:monto>', views.recibo, name='recibo'),
     path('update_item/', views.updateItem, name='update_item'),
 
     #mantenedores

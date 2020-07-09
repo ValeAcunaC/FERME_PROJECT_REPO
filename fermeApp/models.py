@@ -82,7 +82,7 @@ class AuthUserUserPermissions(models.Model):
 class Boleta(models.Model):
     idboleta = models.AutoField(db_column='IdBoleta', primary_key=True)  # Field name made lowercase.
     fechaboleta = models.DateTimeField(db_column='FechaBoleta')  # Field name made lowercase.
-    subtotalboleta = models.IntegerField(db_column='SubTotalBoleta')  # Field name made lowercase.
+    subtotalboleta = models.DecimalField(db_column='SubTotalBoleta', max_digits=10, decimal_places=0)  # Field name made lowercase.
     ivaboleta = models.DecimalField(db_column='IVABoleta', max_digits=10, decimal_places=0)  # Field name made lowercase.
     totalboleta = models.DecimalField(db_column='TotalBoleta', max_digits=10, decimal_places=0)  # Field name made lowercase.
     idventa = models.ForeignKey('Venta', models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
@@ -218,7 +218,7 @@ class Estadoventa(models.Model):
 class Factura(models.Model):
     idfactura = models.BigAutoField(db_column='IdFactura', primary_key=True)  # Field name made lowercase.
     fechafactura = models.DateTimeField(db_column='FechaFactura')  # Field name made lowercase.
-    subtotalfactura = models.IntegerField(db_column='SubTotalFactura')  # Field name made lowercase.
+    subtotalfactura = models.DecimalField(db_column='SubTotalFactura', max_digits=10, decimal_places=0)  # Field name made lowercase.
     ivafactura = models.DecimalField(db_column='IVAFactura', max_digits=10, decimal_places=0)  # Field name made lowercase.
     totalfactura = models.DecimalField(db_column='TotalFactura', max_digits=10, decimal_places=0)  # Field name made lowercase.
     rutempresa = models.CharField(db_column='RutEmpresa', max_length=12)  # Field name made lowercase.
@@ -284,18 +284,17 @@ class OrdencompraProducto(models.Model):
 class Pago(models.Model):
     idpago = models.AutoField(db_column='IdPago', primary_key=True)  # Field name made lowercase.
     monto = models.IntegerField(db_column='Monto')  # Field name made lowercase.
-    fechapago = models.DateTimeField(db_column='FechaPago')  # Field name made lowercase.
+    fechapago = models.DateTimeField(db_column='FechaPago', blank=True, null=True)  # Field name made lowercase.
     idventa = models.ForeignKey('Venta', models.DO_NOTHING, db_column='IdVenta')  # Field name made lowercase.
-    idtipopago = models.ForeignKey('Tipopago', models.DO_NOTHING, db_column='IdTipoPago')  # Field name made lowercase.
     idestadopago = models.ForeignKey(Estadopago, models.DO_NOTHING, db_column='IdEstadoPago')  # Field name made lowercase.
-    
-    def __str__(self):
-        return f'{self.idpago} {self.monto} {self.fechapago}'
+    token = models.CharField(db_column='Token', max_length=200, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'pago'
-
+    
+    def __str__(self):
+        return f'{self.idpago} {self.monto} {self.fechapago}'
 
 class Producto(models.Model):
     idproducto = models.BigIntegerField(db_column='IdProducto', primary_key=True)  # Field name made lowercase.
@@ -358,18 +357,6 @@ class Subcategoria(models.Model):
         db_table = 'subcategoria'
 
 
-class Tipopago(models.Model):
-    idtipopago = models.IntegerField(db_column='IdTipoPago', primary_key=True)  # Field name made lowercase.
-    nombretipopago = models.CharField(db_column='NombreTipoPago', max_length=50)  # Field name made lowercase.
-
-    def __str__(self):
-        return f'{self.nombretipopago}'
-
-    class Meta:
-        managed = False
-        db_table = 'tipopago'
-
-
 class Usuario(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     rut = models.CharField(db_column='Rut', max_length=12, blank=True, null=True)  # Field name made lowercase.
@@ -390,9 +377,9 @@ class Usuario(models.Model):
 
 class Venta(models.Model):
     idventa = models.AutoField(db_column='IdVenta', primary_key=True)  # Field name made lowercase.
-    fechaventa = models.DateTimeField(db_column='FechaVenta')  # Field name made lowercase.
+    fechaventa = models.DateTimeField(db_column='FechaVenta', null=True)  # Field name made lowercase.
     idusuario = models.ForeignKey(Usuario, models.DO_NOTHING, db_column='IdUsuario')  # Field name made lowercase.
-    idestadoventa = models.ForeignKey(Estadoventa, models.DO_NOTHING, db_column='IdEstadoVenta')  # Field name made lowercase.
+    idestadoventa = models.ForeignKey(Estadoventa, models.DO_NOTHING, db_column='IdEstadoVenta',default=1)  # Field name made lowercase.
 
     class Meta:
         managed = False

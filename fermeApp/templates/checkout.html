@@ -3,6 +3,24 @@
 {% block body %}
 
 {% load static %}
+<script>
+    // function sub(){
+    //     debugger;
+    //     if (document.getElementById('despacho').checked == true && document.getElementById('direccion').value == ""){
+    //         alert('no');
+    //     }
+        
+    // }
+    function des(){
+        if (document.getElementById('despacho').checked){
+            document.getElementById('direccion').hidden = false;
+        }
+        else{
+            document.getElementById('direccion').hidden = true;
+        }
+        
+    }
+</script>
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__title">
@@ -12,7 +30,7 @@
 </div>
 <div class="checkout block">
     <div class="container">
-        <form method="POST">
+        <form id="idForm" method="POST">
             {% csrf_token %}
             <div class="row">
                 <div class="col-12 col-lg-6 col-xl-7">
@@ -29,9 +47,16 @@
                                     <input type="text" class="form-control" id="checkout-last-name" placeholder="Ingrese Apellido">
                                 </div>
                             </div> -->
+                            {% for group in request.user.groups.all %}
+                                {% if group.name == 'vendedor' or group.name == 'administrador' %}
+                                    <div class="form-group mb-2">
+                                        <input onclick="des()" type="checkbox" id="despacho" name="despacho" value="despacho"/>
+                                        <label for="despacho">Despacho</label>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                             <div class="form-group">
-                                <label for="direccion">Dirección de Despacho</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese Dirección">
+                                <input hidden type="text" class="form-control" id="direccion" name="direccion"  placeholder="Ingrese la dirección de despacho">
                             </div>
                             <!-- <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -80,6 +105,7 @@
                                     <tr>
                                         <th>Total</th>
                                         <td>${{venta.get_venta_total}}</td>
+                                        <input hidden type="text" id="monto" name="monto" value="{{venta.get_venta_total}}">
                                     </tr>
                                 </tfoot>
                             </table>
@@ -171,7 +197,7 @@
                                     </label>
                                 </div>
                             </div> -->
-                            <button type="submit" class="btn btn-primary btn-xl btn-block">
+                            <button onclick="sub()" class="btn btn-primary btn-xl btn-block">
                                 Pagar
                             </button>
                         </div>

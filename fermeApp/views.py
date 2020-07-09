@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
@@ -15,6 +16,9 @@ from .filters import *
 from django.http import JsonResponse
 import json
 
+from datetime import datetime
+
+
 visitas = 0
 def index(request):
     productos = Producto.objects.all()
@@ -24,10 +28,15 @@ def index(request):
     visitas = visitas + 1
 
     #mejorar
-    id = request.user.id
-    usuario = Usuario.objects.get(user = id)
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-    items = venta.ventaproducto_set.all()
+    if request.user.is_authenticated:
+        id = request.user.id
+        usuario = Usuario.objects.get(user = id)
+        estado = Estadoventa.objects.get(idestadoventa= 1)
+        venta, created = Venta.objects.get_or_create(idusuario= usuario, idestadoventa= estado)
+        items = venta.ventaproducto_set.all()
+    else:
+        venta= []
+        items = []
     #mejorar
 
 
@@ -41,10 +50,15 @@ def detalleProducto(request, pk):
     producto = Producto.objects.get(idproducto=pk)
 
     #mejorar
-    id = request.user.id
-    usuario = Usuario.objects.get(user = id)
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-    items = venta.ventaproducto_set.all()
+    if request.user.is_authenticated:
+        id = request.user.id
+        usuario = Usuario.objects.get(user = id)
+        estado = Estadoventa.objects.get(idestadoventa= 1)
+        venta, created = Venta.objects.get_or_create(idusuario= usuario, idestadoventa= estado)
+        items = venta.ventaproducto_set.all()
+    else:
+        venta= []
+        items = []
     #mejorar
 
     context = {'item':producto,'categorias': categorias,'venta':venta, 'items':items}
@@ -124,8 +138,13 @@ def perfil(request, pk):
             form.save()
 
     #mejorar
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-    items = venta.ventaproducto_set.all()
+    if request.user.is_authenticated:
+        estado = Estadoventa.objects.get(idestadoventa= 1)
+        venta, created = Venta.objects.get_or_create(idusuario= usuario, idestadoventa= estado)
+        items = venta.ventaproducto_set.all()
+    else:
+        venta= []
+        items = []
     #mejorar
 
     context= {'form':form,'categorias': categorias,'venta':venta, 'items':items}        
@@ -323,6 +342,7 @@ def crearUsuario(request):
                 g_adm = Group.objects.get(name='administrador')
                 u.groups.add(g_adm)
 
+            u.set_password(u.password)
             u.save()
 
             au = AuthUser.objects.get(username=username)
@@ -378,7 +398,8 @@ def modificarUsuario(request, pk):
             else:
                 if administrador:
                     g_adm.user_set.remove(u)
-                
+
+            u.set_password(u.password)    
             u.save()
 
             form.save()
@@ -494,60 +515,7 @@ def eliminarProducto(request, pk):
     context = {'item':producto}
     return render(request,'cruds/eliminar-producto.html',context)
 
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
-def carro(request):
-    id = request.user.id
-    usuario = Usuario.objects.get(user = id)
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-    items = venta.ventaproducto_set.all()
-    context = {'items':items,'venta':venta}
-    return render(request, 'carro.html', context)
 
-def updateItem(request):
-    data = json.loads(request.body)
-    productId = data['productId']
-    action = data['action']
-
-    print('Action:', action)
-    print('productId:',productId)
-    
-    id = request.user.id
-    usuario = Usuario.objects.get(user = id)
-    producto = Producto.objects.get(idproducto=productId)
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-
-    orderItem, created = VentaProducto.objects.get_or_create(idproducto= producto, idventa= venta)
-
-    if action == 'add':
-        orderItem.cantidadproducto = (orderItem.cantidadproducto + 1)
-    elif action == 'remove':
-        orderItem.cantidadproducto = (orderItem.cantidadproducto - 1)
-    elif action == 'delete':
-        orderItem.cantidadproducto = 0
-
-    orderItem.save()
-    if orderItem.cantidadproducto <= 0:
-        orderItem.delete()
-    return JsonResponse('Item was updated', safe=False)
-    
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
-def checkout(request):
-    id = request.user.id
-    usuario = Usuario.objects.get(user = id)
-    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
-    items = venta.ventaproducto_set.all()
-
-    if request.method == 'POST':
-        direccion = request.POST.get('direccion')
-        estado = Estadodespacho.objects.get(idestadodespacho=1)
-        despacho = Despacho(direcciondestino=direccion,idventa=venta,idestadodespacho=estado)
-        despacho.save()
-        return redirect('carro')
-
-    context = {'items':items,'venta':venta}
-    return render(request, 'checkout.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','vendedor'])
@@ -669,3 +637,282 @@ def eliminarOrdencompraproducto(request, pk):
         
     context = {'item':ordencompraproducto}
     return render(request,'cruds/eliminar-ordencompraproducto.html',context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
+def carro(request):
+    #mejorar
+    if request.user.is_authenticated:
+        id = request.user.id
+        usuario = Usuario.objects.get(user = id)
+        estado = Estadoventa.objects.get(idestadoventa= 1)
+        venta, created = Venta.objects.get_or_create(idusuario= usuario, idestadoventa= estado)
+        items = venta.ventaproducto_set.all()
+    else:
+        venta= []
+        items = []
+    #mejorar
+    context = {'items':items,'venta':venta}
+    return render(request, 'carro.html', context)
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+
+    print('Action:', action)
+    print('productId:',productId)
+    
+    id = request.user.id
+    usuario = Usuario.objects.get(user = id)
+    producto = Producto.objects.get(idproducto=productId)
+    venta, created = Venta.objects.get_or_create(idusuario= usuario.id, idestadoventa= 1)
+
+    orderItem, created = VentaProducto.objects.get_or_create(idproducto= producto, idventa= venta)
+
+    if action == 'add':
+        orderItem.cantidadproducto = (orderItem.cantidadproducto + 1)
+    elif action == 'remove':
+        orderItem.cantidadproducto = (orderItem.cantidadproducto - 1)
+    elif action == 'delete':
+        orderItem.cantidadproducto = 0
+
+    orderItem.save()
+    if orderItem.cantidadproducto <= 0:
+        orderItem.delete()
+    return JsonResponse('Item was updated', safe=False)
+    
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor','persona','empresa'])
+def checkout(request):
+    #mejorar
+    if request.user.is_authenticated:
+        id = request.user.id
+        usuario = Usuario.objects.get(user = id)
+        estado = Estadoventa.objects.get(idestadoventa= 1)
+        venta, created = Venta.objects.get_or_create(idusuario= usuario, idestadoventa= estado)
+        items = venta.ventaproducto_set.all()
+    else:
+        venta= []
+        items = []
+    #mejorar
+
+    if request.method == 'POST':
+
+        direccion = request.POST.get('direccion')
+        asd = request.POST.get('despacho')
+        if asd == 'despacho' and direccion=='':
+            context = {'items':items,'venta':venta}
+            return render(request, 'checkout.html', context)
+        if direccion is not None:
+            estado = Estadodespacho.objects.get(idestadodespacho=1)
+            despacho = Despacho(direcciondestino=direccion,idventa=venta,idestadodespacho=estado)
+            despacho.save()
+
+        monto = request.POST.get('monto')
+
+        if request.user.groups.filter(name='vendedor').exists() or request.user.groups.filter(name='administrador').exists():
+            estadoV = Estadoventa.objects.get(idestadoventa=3)
+            venta.idestadoventa = estadoV
+            venta.fechaventa = datetime.now()
+            venta.save()
+
+            array = VentaProducto.objects.filter(idventa=venta.idventa)
+            producto = None
+            for i in array:
+                producto = Producto.objects.get(idproducto=i.idproducto.idproducto)
+                producto.stock = producto.stock - i.cantidadproducto
+                producto.save()
+
+            return redirect('recibo/'+str(venta.idventa)+'/'+str(monto))
+        else:
+            estadoPago = Estadopago.objects.get(idestadopago=1)
+            pago = Pago(monto=monto, idventa=venta, idestadopago=estadoPago)
+            pago.save()
+
+        return redirect('tbkinit/'+str(pago.idpago))
+
+    context = {'items':items,'venta':venta}
+    return render(request, 'checkout.html', context)
+
+#TBK Section
+from django.views.decorators.csrf import csrf_exempt
+
+from .tbk import tbk
+from .tbk.tbk.services import WebpayService
+from .tbk.tbk.commerce import Commerce
+from .tbk.tbk import INTEGRACION
+import flask
+import logging
+import random
+
+CERTIFICATES_DIR = os.path.join(os.path.dirname(__file__), "commerces")
+
+def load_commerce_data(commerce_code):
+    with open(
+        os.path.join(CERTIFICATES_DIR, commerce_code, commerce_code + ".key"), "r"
+    ) as file:
+        key_data = file.read()
+    with open(
+        os.path.join(CERTIFICATES_DIR, commerce_code, commerce_code + ".crt"), "r"
+    ) as file:
+        cert_data = file.read()
+    with open(os.path.join(CERTIFICATES_DIR, "tbk.pem"), "r") as file:
+        tbk_cert_data = file.read()
+
+    return {
+        "key_data": key_data,
+        "cert_data": cert_data,
+        "tbk_cert_data": tbk_cert_data,
+    }
+
+app = flask.Flask(__name__)
+app.secret_key = "TBKSESSION"
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+logging.getLogger("tbk").setLevel(logging.DEBUG)
+
+HOST = os.getenv("HOST", "http://localhost")
+PORT = os.getenv("PORT", 5000)
+BASE_URL = "{host}:{port}".format(host=HOST, port=PORT)
+
+NORMAL_COMMERCE_CODE = "597020000541"
+ONECLICK_COMMERCE_CODE = "597020000593"
+
+normal_commerce_data = load_commerce_data(NORMAL_COMMERCE_CODE)
+normal_commerce = tbk.commerce.Commerce(
+    commerce_code=NORMAL_COMMERCE_CODE,
+    key_data=normal_commerce_data["key_data"],
+    cert_data=normal_commerce_data["cert_data"],
+    tbk_cert_data=normal_commerce_data["tbk_cert_data"],
+    environment=tbk.environments.DEVELOPMENT,
+)
+webpay_service = tbk.services.WebpayService(normal_commerce)
+
+oneclick_commerce_data = load_commerce_data(ONECLICK_COMMERCE_CODE)
+oneclick_commerce = tbk.commerce.Commerce(
+    commerce_code=ONECLICK_COMMERCE_CODE,
+    key_data=oneclick_commerce_data["key_data"],
+    cert_data=oneclick_commerce_data["cert_data"],
+    tbk_cert_data=oneclick_commerce_data["tbk_cert_data"],
+    environment=tbk.environments.DEVELOPMENT,
+)
+
+oneclick_service = tbk.services.OneClickPaymentService(oneclick_commerce)
+oneclick_commerce_service = tbk.services.CommerceIntegrationService(oneclick_commerce)
+
+@csrf_exempt
+def tbkinit(request, pk):
+
+    pago = Pago.objects.get(idpago=pk)
+
+    transaction = webpay_service.init_transaction(
+    amount=pago.monto,
+    buy_order=pk,
+    return_url="http://127.0.0.1:8000/tbkresponse",
+    final_url="http://127.0.0.1:8000/tbkfinal",
+    session_id=request.user.id)
+    # print('token:'+ transaction['token'])
+    # print('url:'+ transaction['url'])
+    
+    token = transaction['token']
+    pago.token = token
+    pago.save()
+
+    context = {'token_ws':token, 'action':transaction['url']}
+    return render(request,'tbkinit.html',context)
+
+@csrf_exempt
+def tbkresponse(request):
+    token_ws = request.POST.get('token_ws')
+
+    transaction = webpay_service.get_transaction_result(token_ws)
+    transaction_detail = transaction["detailOutput"][0]
+    url = transaction['urlRedirection']
+    print('detail:',transaction_detail)
+
+    estado = 3
+    if transaction_detail["responseCode"] == 0:
+        estado = 2
+
+    estadoPago = Estadopago.objects.get(idestadopago=estado)
+    estadoVenta = Estadoventa.objects.get(idestadoventa=estado)
+
+    fechaHora = datetime.now()
+
+    pago = Pago.objects.get(token=token_ws)
+    pago.idestadopago = estadoPago
+    pago.fechapago = fechaHora
+    pago.save()
+    venta = Venta.objects.get(idventa= pago.idventa.idventa)
+    venta.idestadoventa = estadoVenta
+    venta.fechaventa = fechaHora
+    venta.save()
+
+    subtotal = pago.monto * 0.81
+    iva = pago.monto * 0.19
+
+    u = User.objects.get(id=venta.idusuario.user.id)
+
+    if u.groups.filter(name='empresa').exists():
+        factura = Factura(fechafactura=fechaHora, subtotalfactura=subtotal, ivafactura=iva, totalfactura= pago.monto, rutempresa=pago.idusuario.rut, idventa=venta)
+        factura.save()
+    else:
+        boleta = Boleta(fechaboleta=fechaHora, subtotalboleta=subtotal, ivaboleta=iva, totalboleta= pago.monto, idventa=venta)
+        boleta.save()
+
+    array = VentaProducto.objects.filter(idventa=venta.idventa)
+    producto = None
+    for i in array:
+        producto = Producto.objects.get(idproducto=i.idproducto.idproducto)
+        producto.stock = producto.stock - i.cantidadproducto
+        producto.save()
+
+    webpay_service.acknowledge_transaction(token_ws)
+
+    context = {'token_ws':token_ws, 'url':url}
+    return render(request,'tbkresponse.html',context)
+
+@csrf_exempt
+def tbkfinal(request):
+    token_ws = request.POST.get('token_ws')
+    pago = Pago.objects.get(token=token_ws)
+
+    return redirect('comprobante/'+str(pago.idpago))
+
+def comprobante(request,pk):
+    pago = Pago.objects.get(idpago=pk)
+
+    context = {'pago':pago.idpago}
+    return render(request,'comprobante.html',context)
+
+def recibo(request,pk,monto):
+    fecha = datetime.now()
+    subtotal = round(float(monto) *0.81)
+    iva = round(float(monto)*0.19)
+    venta = Venta.objects.get(idventa=pk)
+
+    if request.method == 'POST':
+        
+        rut = request.POST.get('rutempresa')
+        asd = request.POST.get('factura')
+        if asd == 'factura' and rut == '':
+            context = {'monto':monto,'iva':iva,'subtotal':subtotal,'fecha':fecha}
+            return render(request,'recibo.html',context)
+        if rut is None or rut == "":
+            boleta = Boleta(fechaboleta=fecha, subtotalboleta=subtotal, ivaboleta=iva, totalboleta=monto, idventa=venta)
+            boleta.save()
+        else:
+            factura = Factura(fechafactura=fecha, subtotalfactura=subtotal, ivafactura=iva, totalfactura=monto, rutempresa=venta.idusuario.rut, idventa=venta)
+            factura.save()
+
+        return redirect('venta_fin')
+
+
+    context = {'monto':monto,'iva':iva,'subtotal':subtotal,'fecha':fecha}
+    return render(request,'recibo.html',context)
+
+def ventaFin(request):
+    return render(request,'venta-fin.html')
+

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<div>
+    <form id="transbankForm" action="{{action}}" method="POST">
+        {% csrf_token %}
+        <input id="token_ws" name="token_ws" type="hidden" value="{{token_ws}}" />
+        <!-- <button type="submit">Pagar</button> -->
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#transbankForm").submit();
+    });
+</script>
+{% endblock %}

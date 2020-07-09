@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+<script>
+    function myFunction() {
+        if(document.getElementById('factura').checked == true && document.getElementById('rutempresa').value == ""){
+            // alert('no');
+            return;
+        }
+        document.getElementById("idForm").submit();
+    }
+    function fac(){
+        document.getElementById('boleta').checked = false;
+        document.getElementById('factura').checked = true;
+        document.getElementById('rutempresa').disabled = false;
+    }
+    function bol(){
+        document.getElementById('factura').checked = false;
+        document.getElementById('boleta').checked = true;
+        document.getElementById('rutempresa').disabled = true;
+        document.getElementById('rutempresa').value = '';
+    }
+</script>
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Recibo</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form id="idForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group mb-2">
+                    <input checked onclick="bol()" type="checkbox" id="boleta" name="boleta" value="boleta"/>
+                    <label for="boleta">Boleta</label>
+                <div>
+                <div class="form-group mb-2">
+                    <input onclick="fac()" type="checkbox" id="factura" name="factura" value="factura"/>
+                    <label for="factura">Factura</label>
+                <div>
+                <div class="form-group">
+                    <label for="rutempresa">Rut Empresa</label>
+                    <input disabled type="text" class="form-control" id="rutempresa" name="rutempresa" placeholder="Ingrese Rut de empresa para crear una factura"/>
+                </div>
+                <div class="form-group">
+                    <label for="fechafactura">Fecha</label>
+                    <input disabled type="text" class="form-control" id="fechafactura" name="fechafactura" value="{{fecha}}"/>
+                </div>
+                <div class="form-group">
+                    <label for="subtotalfactura">Sub Total</label>
+                    <input disabled type="text" class="form-control" id="subtotalfactura" name="subtotalfactura" value="{{subtotal}}"/>
+                </div>
+                <div class="form-group">
+                    <label for="ivafactura">IVA</label>
+                    <input disabled type="text" class="form-control" id="ivafactura" name="ivafactura" value="{{iva}}"/>
+                </div>
+                <div class="form-group">
+                    <label for="totalfactura">Total</label>
+                    <input disabled type="text" class="form-control" id="totalfactura" name="totalfactura"value="{{monto}}"/>
+                </div>
+
+            </div>
+            <button onclick="myFunction()" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

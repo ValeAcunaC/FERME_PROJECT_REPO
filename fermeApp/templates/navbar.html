@@ -68,7 +68,7 @@
                                             <a href="#">
                                                 <span> Mantenedores </span>
                                             </a>
-                                            submenu
+                                            <!-- submenu -->
                                             <div class="nav-links__menu">
                                                 <ul class="menu menu--layout--classic">
                                                     <li><a href="{% url 'proveedores' %}">Proveedores</a></li>
@@ -105,7 +105,13 @@
                             <a href="{% url 'carro' %}" class="indicator__button">
                                 <span class="indicator__area">
                                     <img width="20px" height="20px" src="{% static 'images/logos/cart.png' %}">
-                                    <span class="indicator__value">{{venta.get_venta_items}}</span>
+                                    <span class="indicator__value">
+                                        {% if venta.get_venta_items is None %}
+                                            0
+                                        {% else %}
+                                            {{venta.get_venta_items}}
+                                        {% endif %}
+                                    </span>
                                 </span>
                             </a>
                             <div class="indicator__dropdown">
