@@ -902,8 +902,21 @@ def tbkfinal(request):
 
 def comprobante(request,pk):
     pago = Pago.objects.get(idpago=pk)
-
-    context = {'pago':pago.idpago}
+    productos = VentaProducto.objects.filter(idventa=pago.idventa.idventa)
+    despacho = Despacho.objects.get(idventa=pago.idventa.idventa)
+    if request.user.groups.filter(name='persona').exists():
+        comprobante = Boleta.objects.get(idventa=pago.idventa.idventa)
+        fecha = comprobante.fechaboleta
+        subtotal = comprobante.subtotalboleta
+        iva = comprobante.ivaboleta
+        total = comprobante.totalboleta
+    if request.user.groups.filter(name='empresa').exists():
+        comprobante = Factura.objects.get(idventa=pago.idventa.idventa)
+        fecha = comprobante.fechafactura
+        subtotal = comprobante.subtotalfactura
+        iva = comprobante.ivafactura
+        total = comprobante.totalfactura
+    context = {'pago':pago, 'productos':productos, 'fecha': fecha, 'subtotal': subtotal, 'iva': iva, 'total': total, 'despacho': despacho}
     return render(request,'comprobante.html',context)
 
 def recibo(request,pk,monto):
@@ -937,7 +950,7 @@ def ventaFin(request):
 
 def misCompras(request):
     usuario = Usuario.objects.get(user=request.user.id)
-    ventas = Venta.objects.filter(idusuario=usuario.id)
+    ventas = Venta.objects.filter(idusuario=usuario.id).exclude(idestadoventa=1)
     array = []
     for i in ventas:
         despacho = Despacho.objects.get(idventa=i.idventa)

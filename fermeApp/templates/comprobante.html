@@ -6,16 +6,86 @@
 <div class="page-header">
     <div class="page-header__container container">
         <div class="page-header__title"><h1>Comprobante</h1></div>
+        <p>{{fecha}}</p>
     </div>
 </div>
-<div class="block">
+
+<div class="checkout block">
     <div class="container">
-        <form action="" method="POST">
-            <div class="form-group">
-                <label>{{pago}}</label> 
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="card mb-lg-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Despacho</h3>
+                        <table class="checkout__totals">
+                            <tbody class="">
+                                <tr>
+                                    <th>Dirección</th>
+                                    <th>{{despacho.direcciondestino}}</th>
+                                </tr>
+                                <tr>
+                                    <td>Estado</td>
+                                    <td>{{despacho.idestadodespacho}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <button type="submit" name="Submit" class="btn btn-primary">Guardar</button>
-        </form>
+            <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Pago</h3>
+                        <table class="checkout__totals">
+                            <tbody class="checkout__totals-products">
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>{{subtotal}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Iva</td>
+                                    <td>{{iva}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="checkout__totals-footer">
+                                <tr>
+                                    <th>Total</th>
+                                    <td>${{total}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h4>Detalle de Compra</h4>
+        <table class="cart__table cart-table">
+            <thead class="cart-table__head">
+                <tr class="cart-table__row">
+                    <th class="cart-table__column cart-table__column--product">Producto</th>
+                    <th class="cart-table__column cart-table__column--product"></th>
+                    <th class="cart-table__column cart-table__column--product">Cantidad</th>
+                    <th class="cart-table__column cart-table__column--product">Precio</th>
+                    <th class="cart-table__column cart-table__column--product">Total</th>
+                </tr>
+            </thead>
+            <tbody class="cart-table__body">
+                {% for item in productos %}
+                    <tr class="cart-table__row">
+                        <td class="cart-table__column cart-table__column--image">
+                            <img src="{{item.idproducto.foto.url}}" alt="">
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">{{item.idproducto.nombreproducto}}</td>
+                        <td class="cart-table__column cart-table__column--product">{{item.cantidadproducto}}</td>
+                        <td class="cart-table__column cart-table__column--product">${{item.idproducto.precio}}</td>
+                        <td class="cart-table__column cart-table__column--product">${{item.get_total}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
+
 {% endblock %}
