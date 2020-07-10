@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [ 
     path('', views.index, name='index'),
     path('detalle_producto/<int:pk>/', views.detalleProducto, name='detalle_producto'),
-    path('ventas', views.ventas, name='ventas'),
+    
     path('dashboard', views.dashboard, name='dashboard'),
 
     #page info
@@ -36,6 +36,11 @@ urlpatterns = [
     path('recibo/<str:pk>/<str:monto>', views.recibo, name='recibo'),
     path('mis_compras', views.misCompras, name='mis_compras'),
     path('detalle_compra/<str:pk>', views.detalleCompra, name='detalle_compra'),
+    path('ventas', views.ventas, name='ventas'),
+    path('detalle_venta/<str:pk>', views.detalleVenta, name='detalle_venta'),
+    path('detalle_despacho/<str:pk>', views.detalleDespacho, name='detalle_despacho'),
+    path('modificar_venta/<str:pk>', views.modificarVenta, name='modificar_venta'),
+    path('modificar_despacho/<str:pk>', views.modificarDespacho, name='modificar_despacho'),
     path('update_item/', views.updateItem, name='update_item'),
 
     #mantenedores

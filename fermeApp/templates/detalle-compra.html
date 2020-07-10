@@ -13,23 +13,29 @@
         <table class="wishlist">
             <thead class="wishlist__head">
                 <tr class="wishlist__row">
-                    <td class="wishlist__column wishlist__column--product"></td>
-                    <th class="wishlist__column wishlist__column--product">Nombre Producto</th>
-                    <th class="wishlist__column wishlist__column--product">Cantidad</th>
-                    <th class="wishlist__column wishlist__column--product">Precio Unitario</th>
-                    <th class="wishlist__column wishlist__column--product">Precio Total</th>
+                    <th class="cart-table__column cart-table__column--image">Imagen</th>
+                    <th class="cart-table__column cart-table__column--product">Producto</th>
+                    <th class="cart-table__column cart-table__column--product">Precio</th>
+                    <th class="cart-table__column cart-table__column--product">Cantidad</th>
+                    <th class="cart-table__column cart-table__column--product">Total</th>
                 </tr>
             </thead>
             <tbody class="wishlist__body">
             
             {% for i in detalle %}
-                <tr class="wishlist__row">
-                    <td class="wishlist__column wishlist__column--product"></td>
-                    <td class="wishlist__column wishlist__column--product"></td>
-                    <td class="wishlist__column wishlist__column--product"></td>
-                    <td class="wishlist__column wishlist__column--product"></td>
-                    <td class="wishlist__column wishlist__column--product"></td>
-                </tr>
+                    <tr class="cart-table__row">
+                        <td class="cart-table__column cart-table__column--image">
+                            <a href="{% url 'detalle_producto' i.idproducto.idproducto %}">
+                                <img src="{{i.idproducto.foto.url}}" alt="">
+                            </a>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <a href="{% url 'detalle_producto' i.idproducto.idproducto %}" class="cart-table__product-name">{{i.idproducto.nombreproducto}}</a>
+                        </td>
+                        <td class="cart-table__column cart-table_column--product" data-title="Price">${{i.idproducto.precio}}</td>
+                        <td class="cart-table__column cart-table_column--product" data-title="Quantity">{{i.cantidadproducto}}</td>
+                        <td class="cart-table__column cart-table_column--product" data-title="Total">${{i.get_total}}</td>
+                    </tr>
             {% endfor %}
             </tbody>
         </table>

@@ -18,7 +18,7 @@
                                 {% for group in request.user.groups.all %}
                                     {% if group.name == 'persona' or group.name == 'empresa' %}
                                         <li class="nav-links__item nav-links__item--with-submenu">
-                                            <a href="#">
+                                            <a href="{% url 'mis_compras' %}">
                                                 <span>Mis Compras</span>
                                             </a>
                                         </li>

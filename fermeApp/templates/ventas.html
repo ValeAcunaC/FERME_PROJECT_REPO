@@ -28,12 +28,19 @@
                         <a class="wishlist__product-name">{{ i.idventa }}</a>
                     </td>
                     <td class="wishlist__column wishlist__column--product">{{ i.fechaventa }}</td>
-                    <td class="wishlist__column wishlist__column--product">cant</td>
-                    <td class="wishlist__column wishlist__column--product">total</td>
-                    <td class="wishlist__column wishlist__column--product">estado</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.get_venta_items}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.get_venta_total}}</td>
+                    <td class="wishlist__column wishlist__column--product">{{i.idestadoventa.nombreestadoventa}}</td>
                     <td class="wishlist__column wishlist__column--product">
-                        <a class="btn btn-info btn-sm" href="#">Ver Detalle</a>
+                        <a class="btn btn-info btn-sm" href="{% url 'detalle_venta' i.idventa %}">Ver Detalle Venta</a>
+                        {% for j in despachos %}
+                            {% if i.idventa == j.idventa.idventa %}
+                                <br><br>
+                                <a class="btn btn-success btn-sm" href="{% url 'detalle_despacho' j.iddespacho %}">Ver Detalle Despacho</a>
+                            {% endif %}
+                        {% endfor %}
                     </td>
+
                 </tr>
             {% endfor %}
             </tbody>

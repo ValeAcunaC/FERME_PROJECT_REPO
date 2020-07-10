@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% load static %}
+
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__title"><h1>Venta</h1></div>
+    </div>
+</div>
+<div class="block">
+    <div class="container">
+        <form id="idForm" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{form.as_p}}
+            </div>
+            <button onclick="submit" class="btn btn-primary">Guardar</button>
+        </form>
+        <div class="form-group">
+            {{form.errors}}
+        </div>
+    </div>
+</div>
+{% endblock %}

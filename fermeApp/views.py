@@ -520,8 +520,11 @@ def eliminarProducto(request, pk):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador','vendedor'])
 def ventas(request):
-    ventas = Venta.objects.all()
-    return render(request, 'ventas.html', {'ventas': ventas})
+    ventas = Venta.objects.all().exclude(idestadoventa=1)
+    despachos = Despacho.objects.all()
+
+    context = {'ventas':ventas,'despachos':despachos}
+    return render(request, 'ventas.html', context)
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['administrador'])
@@ -569,9 +572,9 @@ def crearOrdencompra(request):
 @allowed_users(allowed_roles=['administrador','empleado'])
 def modificarOrdencompra(request, pk):
     ordencompra = Ordencompra.objects.get(idordencompra=pk)
-    form = OrdencompraForm(instance=ordencompra)
+    form = ModificarOrdencompraForm(instance=ordencompra)
     if request.method == 'POST':
-        form = OrdencompraForm(request.POST, instance=ordencompra)
+        form = ModificarOrdencompraForm(request.POST, instance=ordencompra)
         if form.is_valid():
             form.save()
             return redirect('ordenes')
@@ -937,7 +940,7 @@ def ventaFin(request):
 
 def misCompras(request):
     usuario = Usuario.objects.get(user=request.user.id)
-    ventas = Venta.objects.filter(idusuario=usuario.id)
+    ventas = Venta.objects.filter(idusuario=usuario.id).exclude(idestadoventa=1)
     array = []
     for i in ventas:
         despacho = Despacho.objects.get(idventa=i.idventa)
@@ -951,4 +954,44 @@ def detalleCompra(request,pk):
     detalle = VentaProducto.objects.filter(idventa=pk)
     context = {'detalle':detalle}
     return render(request,'detalle-compra.html',context)
+
+def detalleVenta(request,pk):
+    detalle = VentaProducto.objects.filter(idventa=pk)
+    context = {'detalle':detalle,'id':pk}
+    return render(request,'detalle-venta.html',context)
+
+def detalleDespacho(request,pk):
+    detalle = Despacho.objects.get(iddespacho=pk)
+    context = {'detalle':detalle,'id':pk}
+    return render(request,'detalle-despacho.html',context)
+
+def modificarVenta(request,pk):
+    venta = Venta.objects.get(idventa=pk)
+    form = ModificarVentaForm(instance=venta)
+
+    if request.method == 'POST':
+        form = ModificarVentaForm(request.POST, instance=venta)
+        if form.is_valid():
+            form.save()
+            return redirect('/detalle_venta/'+str(pk))
+
+    context = {'form':form}
+    return render(request,'modificar-venta.html',context)
+
+def modificarDespacho(request,pk):
+    despacho = Despacho.objects.get(iddespacho=pk)
+    form = ModificarDespachoForm(instance=despacho)
+
+    if request.method == 'POST':
+        form = ModificarDespachoForm(request.POST, instance=despacho)
+        if form.is_valid():
+            form.save()
+            if despacho.idestadodespacho.idestadodespacho == 3:
+                despacho.fechatermino = datetime.now()
+                despacho.save()
+            return redirect('/detalle_despacho/'+str(pk))
+
+    context = {'form':form}
+    return render(request,'modificar-despacho.html',context)
+
 

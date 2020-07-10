@@ -105,6 +105,26 @@ class OrdencompraForm(ModelForm):
         model = Ordencompra
         fields = ['idusuario','idestadooc','idproveedor','comentarios']
 
+class ModificarOrdencompraForm(ModelForm):
+    idestadooc = forms.ModelChoiceField(label='Estadoordencompra', queryset=Estadoordencompra.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    comentarios = forms.CharField(label='Comentarios', required = False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta:
+        model = Ordencompra
+        fields = ['idestadooc','comentarios']
+
+class ModificarVentaForm(ModelForm):
+    idestadoventa = forms.ModelChoiceField(label='Estadoventa', queryset=Estadoventa.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    class Meta:
+        model = Venta
+        fields = ['idestadoventa']
+
+class ModificarDespachoForm(ModelForm):
+    direcciondestino = forms.CharField(label='Direccion', required = False, widget=forms.TextInput(attrs={'class':'form-control'}))
+    idestadodespacho = forms.ModelChoiceField(label='Estadodespacho', queryset=Estadodespacho.objects.all(),widget=forms.Select(attrs={'class':'form-control'}))
+    class Meta:
+        model = Despacho
+        fields = ['direcciondestino','idestadodespacho']
+
 class OrdencompraproductoForm(ModelForm):
     #idordencompra = forms.CharField(widget=forms.HiddenInput(attrs={'class':'form-control'}))
     #idproducto = forms.ModelChoiceField(label='Producto', queryset=Producto.objects.all(), widget=forms.Select(attrs={'class':'form-control-sm'}))
