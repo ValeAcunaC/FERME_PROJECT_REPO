@@ -279,24 +279,22 @@
                             {% endif %}
 
                             <!-- .monedas -->
-                            <div class="topbar__item">
+                            <!-- <div class="topbar__item">
                                 <div class="topbar-dropdown">
                                     <button class="topbar-dropdown__btn" type="button">Moneda: 
                                         <span class="topbar__item-value">USD</span> 
                                         <img src="{% static 'images/logos/downarrow.png' %}" class="mobile-links__item-arrow" width="12px" height="7px">
                                     </button>
                                     <div class="topbar-dropdown__body">
-                                        <!-- .menu monedas -->
                                         <ul class="menu menu--layout--topbar">
                                             <li><a href="#">€ Euro</a></li>
                                             <li><a href="#">£ Pound Sterling</a></li>
                                             <li><a href="#">$ US Dollar</a></li>
                                             <li><a href="#">₽ Russian Ruble</a></li>
                                         </ul>
-                                        <!-- .menu monedas / end -->
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -344,25 +342,31 @@
                                         <li class="footer-links__item">
                                             <a href="{% url 'faq' %}" class="footer-links__link">Preguntas Frecuentes</a>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-6 col-md-3 col-lg-2">
-                                <div class="site-footer__widget footer-links">
-                                    <h5 class="footer-links__title">Mi Cuenta</h5>
-                                    <ul class="footer-links__list">
                                         <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Datos Personales</a>
-                                        </li>
-                                        <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Mis Compras</a>
-                                        </li>
-                                        <li class="footer-links__item">
-                                            <a href="#" class="footer-links__link">Lista de Deseos</a>
+                                            <a href="{% url 'manual' %}" class="footer-links__link">Manual de Usuario</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+                            {% if user.is_authenticated %}
+                                <div class="col-6 col-md-3 col-lg-2">
+                                    <div class="site-footer__widget footer-links">
+                                        <h5 class="footer-links__title">Mi Cuenta</h5>
+                                        <ul class="footer-links__list">
+                                            <li class="footer-links__item">
+                                                <a href="{% url 'perfil' user.id %}" class="footer-links__link">Mi Perfil</a>
+                                            </li>
+                                            {% for group in request.user.groups.all %}
+                                                {% if group.name == 'persona' or group.name == 'empresa' %}
+                                                    <li class="footer-links__item">
+                                                        <a href="{% url 'mis_compras' %}" class="footer-links__link">Mis Compras</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
                             <div class="col-12 col-md-12 col-lg-4">
                                 <div class="site-footer__widget footer-newsletter">
                                     <div class="footer-newsletter__text footer-newsletter__text--social">

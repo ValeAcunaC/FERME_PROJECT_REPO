@@ -18,6 +18,9 @@ import json
 
 from datetime import datetime
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 visitas = 0
 def index(request):
@@ -128,14 +131,15 @@ def perfil(request, pk):
     if u != pk:
         return redirect('index')
 
-    usuario = Usuario.objects.get(user_id=u)
+    usuario = Usuario.objects.get(user=u)
 
-    form = UsuarioForm(instance=user)
+    form = UsuarioForm(instance=usuario)
     #context= {'form':form}
     if request.method == 'POST':
         form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
+            print('save')
 
     #mejorar
     if request.user.is_authenticated:
@@ -157,6 +161,22 @@ def miscompras(request):
 
 #pageinfo
 def contacto(request):
+
+    if request.method == 'POST':
+        mensaje = request.POST.get('form-message')
+        correo = []
+        correo.append(request.POST.get('form-email'))
+        asunto= request.POST.get('form-subject')
+        nombre = request.POST.get('form-name')
+
+        body = nombre+' se puso en contacto:\n'+mensaje
+
+        send_mail(asunto,
+        body,
+        settings.EMAIL_HOST_USER,
+        correo,
+        fail_silently=False)
+
     return render(request,'pageinfo/contacto.html')
 
 def faq(request):
@@ -951,6 +971,8 @@ def recibo(request,pk,monto):
 def ventaFin(request):
     return render(request,'venta-fin.html')
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['persona','empresa'])
 def misCompras(request):
     usuario = Usuario.objects.get(user=request.user.id)
     ventas = Venta.objects.filter(idusuario=usuario.id).exclude(idestadoventa=1)
@@ -963,21 +985,29 @@ def misCompras(request):
     context = {'array':array}
     return render(request,'mis-compras.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['persona','empresa'])
 def detalleCompra(request,pk):
     detalle = VentaProducto.objects.filter(idventa=pk)
     context = {'detalle':detalle}
     return render(request,'detalle-compra.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor'])
 def detalleVenta(request,pk):
     detalle = VentaProducto.objects.filter(idventa=pk)
     context = {'detalle':detalle,'id':pk}
     return render(request,'detalle-venta.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor'])
 def detalleDespacho(request,pk):
     detalle = Despacho.objects.get(iddespacho=pk)
     context = {'detalle':detalle,'id':pk}
     return render(request,'detalle-despacho.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor'])
 def modificarVenta(request,pk):
     venta = Venta.objects.get(idventa=pk)
     form = ModificarVentaForm(instance=venta)
@@ -991,6 +1021,8 @@ def modificarVenta(request,pk):
     context = {'form':form}
     return render(request,'modificar-venta.html',context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['administrador','vendedor'])
 def modificarDespacho(request,pk):
     despacho = Despacho.objects.get(iddespacho=pk)
     form = ModificarDespachoForm(instance=despacho)
@@ -1006,5 +1038,8 @@ def modificarDespacho(request,pk):
 
     context = {'form':form}
     return render(request,'modificar-despacho.html',context)
+
+def manual(request):
+    return render(request,'manual.html')
 
 

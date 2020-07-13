@@ -301,7 +301,7 @@
                                 <div class="product-card">
                                     <div class="product-card__image">
                                         <a href="{% url 'detalle_producto' i.idproducto %}">
-                                            <img src="{% static 'images/products/product-1.jpg' %}" alt="">
+                                            <img src="{{i.foto.url}}" alt="">
                                         </a>
                                     </div>
                                     <div class="product-card__info">
